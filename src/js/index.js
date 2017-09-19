@@ -1,6 +1,7 @@
 import '../style/grid24.css'
 import '../style/index.scss'
 import $ from 'jquery'
+import { TwoColumn } from './components/widget_list'
 
 class FormDesigner {
   constructor(containerId) {
@@ -42,3 +43,6 @@ class FormDesigner {
 
 const form = new FormDesigner('container-id')
 form.init()
+
+const column = new TwoColumn()
+console.log(column)
