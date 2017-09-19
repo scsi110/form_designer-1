@@ -16,14 +16,12 @@ var webpackConfig = {
     rules: [
       {
         test: /\.(scss|sass|css)$/,
-        // loader: 'style-loader!css-loader'
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
           use: [
             {
               loader: 'css-loader',
               options: {
-                // // 0 => no loaders (default); 1 => postcss-loader; 2 => postcss-loader, sass-loader
                 importLoaders: 2
               }
             },
