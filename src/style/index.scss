@@ -1,1 +1,34 @@
+body {
+  background-color: #272c35;
 
+  #form-designer-logo {
+    text-align: center;
+    color: #cbcc02;
+    font-family: 'Satisfy', cursive;
+  }
+
+  .fd-wrapper {
+    .fd-panel {
+      border-radius: 6px;
+      background-color: #ebeaec;
+    }
+
+    #fd-widget-panel {
+      height: 450px;
+    }
+    .canvas-container {
+      background: none;
+      padding-left: -10px;
+      padding-right: -10px;
+      // margin-left: 10px;
+      #fd-canvas {
+        background-color: #ebeaec;
+        height: 800px;
+        border-radius: 6px;
+      }
+    }
+    #fd-edit-panel {
+      height: 450px;
+    }
+  }
+}
