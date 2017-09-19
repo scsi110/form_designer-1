@@ -20,13 +20,13 @@ class FormDesigner {
     )
     const wrapperRow = $('<div class="row fd-wrapper"></div>')
     const widgetPanel = $(
-      '<div class="col-md-4 fd-panel" id="fd-widget-panel"></div>'
+      '<div class="col-xs-4 fd-panel" id="fd-widget-panel"></div>'
     )
     const editPanel = $(
-      '<div class="col-md-7 fd-panel" id="fd-edit-panel"></div>'
+      '<div class="col-xs-7 fd-panel" id="fd-edit-panel"></div>'
     )
     const canvas = $(
-      `<div class="col-md-13 fd-panel canvas-container">
+      `<div class="col-xs-13 fd-panel canvas-container">
         <div id="fd-canvas"></div>
       </div>`
     )
