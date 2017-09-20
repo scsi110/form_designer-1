@@ -1,8 +1,11 @@
 import WidgetBase from '../widget_base'
 
 class TwoColumn extends WidgetBase {
-  constructor(...props) {
-    super(...props)
+  constructor() {
+    super()
+    this.type = 'layout'
+    this.name = 'twoColumn'
+    this.attrs = {}
   }
 }
 
