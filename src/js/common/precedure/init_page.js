@@ -13,13 +13,26 @@ const initPage = containerId => {
   )
   const wrapperRow = $('<div class="row fd-wrapper"></div>')
   const widgetPanel = $(
-    '<div class="col-xs-4 fd-panel" id="fd-widget-panel"></div>'
+    `<div class="col-xs-4 fd-panel" id="fd-widget-panel">
+      <h2>布局</h2>
+      <ul class="widget-panel-menu">
+        <li id="single-column" class="fd-widget" draggable=true data-object="Input">单列布局</li>
+        <li id="two-collumn" class="fd-widget" draggable=true>双列布局</li>
+        <li id="three-column" class="fd-widget" draggable=true>三列布局</li>
+      </ul>
+      <h2>组件</h2>
+      <ul class="widget-panel-menu">
+        <li id="fd-button" class="fd-widget" draggable=true>按钮</li>
+        <li id="fd-text" class="fd-widget" draggable=true>输入框</li>
+        <li id="fd-textarea" class="fd-widget" draggable=true>文本框</li>
+      </ul>     
+    </div>`
   )
   const editPanel = $(
-    '<div class="col-xs-7 fd-panel" id="fd-edit-panel"></div>'
+    '<div class="col-xs-6 fd-panel" id="fd-edit-panel"></div>'
   )
   const canvas = $(
-    `<div class="col-xs-13 fd-panel canvas-container">
+    `<div class="col-xs-14 fd-panel canvas-container">
         <div id="fd-canvas"></div>
       </div>`
   )

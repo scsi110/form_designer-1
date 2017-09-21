@@ -1,3 +1,3 @@
-import TwoColumn from './layout/two_column'
+import Text from './text/text'
 
-export { TwoColumn }
+export { Text }

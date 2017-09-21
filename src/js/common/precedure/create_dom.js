@@ -4,13 +4,13 @@ const createDOM = obj => {
   if (obj.type === 'layout') {
     switch (obj.name) {
       case 'oneColumn':
-        createDOM(1)
+        return createDOM(1)
         break
       case 'twoColumn':
-        createGrid(2)
+        return createGrid(2)
         break
       case 'threeColumn':
-        createGrid(3)
+        return createGrid(3)
         break
       default:
         break

@@ -15,6 +15,22 @@ body {
 
     #fd-widget-panel {
       height: 450px;
+
+      .widget-panel-menu {
+        padding: 0;
+        margin: 0;
+        .fd-widget {
+          list-style: none;
+          border-top: 1px solid dashed;
+          border-color: #ddd;
+          margin: 0;
+          padding: 10px 10px 10px 10px;
+          cursor: move;
+          &:hover {
+            background-color: #ddd;
+          }
+        }
+      }
     }
     .canvas-container {
       background: none;
