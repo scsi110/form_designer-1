@@ -1,4 +1,5 @@
 import { RowBase, ColumnBase } from '../base'
+import DATA from '../../common/data'
 
 class Row extends RowBase {}
 class Column extends ColumnBase {}
@@ -6,13 +7,15 @@ class Column extends ColumnBase {}
 class AddRow {
   constructor(cols) {
     this.row = new Row()
-    this.rowData = row.transData()
+    this.rowData = this.row.transData()
 
     for (var i = 0; i < cols; i++) {
       let col = new Column()
       let colData = col.transData()
-      this.rowData[columns].push(colData)
+      this.rowData['columns'].push(colData)
     }
+
+    console.log(DATA)
   }
 
   transData() {
@@ -35,4 +38,4 @@ class AddRow {
 
 // const addRow = createLayoutData
 
-export default addRow
+export default AddRow
