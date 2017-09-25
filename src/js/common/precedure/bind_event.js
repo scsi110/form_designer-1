@@ -36,29 +36,32 @@ const bindEvent = (widgetClass, canvasId) => {
     event.stopPropagation()
     setTimeout(function() {
       const columns = $('.fd-col')
-      $.each(columns, function(index, col) {
-        $(col).on('dragover', function(event) {
+      $.each(columns, function(index, column) {
+        let col = $(column)
+        col.on('dragover', function(event) {
           event.preventDefault()
           event.stopPropagation()
-          $(col).css('border', '1px solid gold')
+          col.css('border', '1px solid gold')
         })
-        $(col).on('dragleave', function(event) {
+        col.on('dragleave', function(event) {
           event.preventDefault()
           event.stopPropagation()
-          $(col).css('border', '1px solid rgba(128, 128, 128, 0.47)')
+          col.css('border', '1px solid rgba(128, 128, 128, 0.47)')
         })
-        $(col).on('drop', function(event) {
+        col.on('drop', function(event) {
           event.preventDefault()
           event.stopPropagation()
           const widgetType = event.originalEvent.dataTransfer.getData('type')
-          $(col).css('border', '1px solid rgba(128, 128, 128, 0.47)')
+          col.css('border', '1px solid rgba(128, 128, 128, 0.47)')
           switch (widgetType) {
             case 'text':
-              $(col).append(text)
+              col.append(text)
               break
             case 'button':
-              $(col).append(button)
+              col.append(button)
               break
+            case 'textarea':
+              col.append(textarea)
             default:
               break
           }

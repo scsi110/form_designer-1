@@ -32,4 +32,8 @@ const button = `
   <button class="fd-button">按钮</button>
 `
 
-export { column_one, column_two, column_three, text, button }
+const textatrea = `
+  <textarea class="textarea" placeholder="请输入文字"></textarea>
+`
+
+export { column_one, column_two, column_three, text, button, textatrea }
