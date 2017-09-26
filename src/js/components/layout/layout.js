@@ -1,5 +1,5 @@
 import { RowBase, ColumnBase } from '../base'
-import DATA from '../../common/data'
+import store from '../../store/store'
 
 class Row extends RowBase {}
 class Column extends ColumnBase {}
@@ -12,30 +12,13 @@ class AddRow {
     for (var i = 0; i < cols; i++) {
       let col = new Column()
       let colData = col.transData()
-      this.rowData['columns'].push(colData)
+      this.rowData['columns'].push(colData.id)
     }
-
-    console.log(DATA)
+    store.addRow(this.rowData)
   }
-
-  transData() {
-    return this.rowData
+  getRowId() {
+    return this.row.id
   }
 }
-
-// const createLayoutData = cols => {
-//   const row = new Row()
-//   const rowData = row.transData()
-
-//   for (let i = 0; i < cols; i++) {
-//     const col = new column()
-//     const colData = col.transData()
-//     rowData[columns].push(colData)
-//   }
-
-//   return rowData
-// }
-
-// const addRow = createLayoutData
 
 export default AddRow
