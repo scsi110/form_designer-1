@@ -21,6 +21,12 @@ const column_three = `
   </div>
 `
 
+const rowInfo = {
+  1: column_one,
+  2: column_two,
+  3: column_three
+}
+
 const text = `
   <div class="fd-input-container">
     <label fd-input-label>输入框</label>
@@ -36,4 +42,12 @@ const textatrea = `
   <textarea class="fd-textarea" placeholder="请输入文字"></textarea>
 `
 
-export { column_one, column_two, column_three, text, button, textatrea }
+export {
+  rowInfo,
+  column_one,
+  column_two,
+  column_three,
+  text,
+  button,
+  textatrea
+}

@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import rowHandler from './row_handler'
+import AddRow from '../../../components/layout/layout'
 
 const bindRowEvent = (widgetClass, canvasId) => {
   const widgets = $(`.${widgetClass}`)
@@ -31,13 +31,13 @@ const bindRowEvent = (widgetClass, canvasId) => {
     const widgetType = event.originalEvent.dataTransfer.getData('type')
     switch (widgetType) {
       case 'column_one':
-        rowHandler(1, canvas)
+        new AddRow(1, canvas)
         break
       case 'column_two':
-        rowHandler(2, canvas)
+        new AddRow(2, canvas)
         break
       case 'column_three':
-        rowHandler(3, canvas)
+        new AddRow(3, canvas)
       default:
         break
     }
