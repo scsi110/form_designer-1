@@ -25,19 +25,28 @@ class Store {
   @action
   addRow = ({ id, columns }) => {
     this.data.canvas.rows.push(id)
+    let columnLen = columns.length // 这个 Row 里有多少 column
     this.data.rows[id] = {
-      columns: columns
+      columns,
+      config: {
+        columnLen
+      }
     }
+
     columns.forEach(columnId => {
-      this.addColumn(columnId)
+      this.addColumn(columnId, columnLen) // 循环调用 addColumn 方法（定义在下面）
     })
   }
 
   // 添加一个 Column
   @action
-  addColumn = columnId => {
+  addColumn = (columnId, columnLen) => {
+    const colSpan = `col-xs-${24 / columnLen}`
     this.data.cols[columnId] = {
-      fields: new Array()
+      fields: new Array(),
+      config: {
+        colSpan
+      }
     }
   }
 }
@@ -48,6 +57,7 @@ autorun(() => {
   // let _store = toJS(store.data)
   // console.log(JSON.stringify(_store))
   console.log(toJS(store.data))
+  alert(1)
 })
 
 export default store

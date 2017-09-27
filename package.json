@@ -37,6 +37,7 @@
     "webpack-dev-server": "^2.7.1"
   },
   "dependencies": {
+    "deep-object-diff": "^1.0.4",
     "jquery": "^3.2.1",
     "mobx": "^3.3.0",
     "node-sass": "^4.5.3",

@@ -8,13 +8,15 @@ class WidgetBase {
     this.id = uuid()
     this.name
     this.attrs = {}
+    this.config = {}
   }
 
   transData() {
     return {
       id: this.id,
       name: this.name,
-      attrs: this.attrs
+      attrs: this.attrs,
+      config: this.config
     }
   }
 }
