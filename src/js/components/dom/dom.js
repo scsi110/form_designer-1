@@ -1,31 +1,12 @@
 import $ from 'jquery'
 
-const column_one = `
-  <div class="row fd-row">
-    <div class="col-xs-24 fd-col"></div>
-  </div>
+const Row = `
+  <div class="row fd-row"></div>
 `
 
-const column_two = `
-  <div class="row fd-row">
-    <div class="col-xs-12 fd-col"></div>
-    <div class="col-xs-12 fd-col"></div>
-  </div>
+const Column = `
+  <div class="fd-col"></div>
 `
-
-const column_three = `
-  <div class="row fd-row">
-    <div class="col-xs-8 fd-col"></div>
-    <div class="col-xs-8 fd-col"></div>
-    <div class="col-xs-8 fd-col"></div>
-  </div>
-`
-
-const rowInfo = {
-  1: column_one,
-  2: column_two,
-  3: column_three
-}
 
 const text = `
   <div class="fd-input-container">
@@ -42,12 +23,16 @@ const textatrea = `
   <textarea class="fd-textarea" placeholder="请输入文字"></textarea>
 `
 
-export {
-  rowInfo,
-  column_one,
-  column_two,
-  column_three,
-  text,
-  button,
-  textatrea
-}
+const Label = `
+  <label></label>
+`
+
+const input = `
+  <input />
+`
+
+const WidgetBox = `
+  <div class="widget-box"></div>
+`
+
+export { Text, button, textatrea, Column, Row, WidgetBox, input, Label }

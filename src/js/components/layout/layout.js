@@ -17,8 +17,8 @@ class AddRow {
       let colData = col.transData()
       this.rowData['columns'].push(colData.id)
     }
-
-    this.createDOM(cols, canvas)
+    store.addRow(this.rowData) // 更新数据
+    // this.createDOM(cols, canvas)
   }
 
   createDOM(colNum, container) {

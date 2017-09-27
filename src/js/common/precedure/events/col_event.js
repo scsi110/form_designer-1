@@ -1,9 +1,8 @@
 import $ from 'jquery'
 import { text, button, textarea } from '../../../components/dom/dom'
+import { Text } from '../../../components/widget_list'
 
-const bindColEvent = column_str => {
-  const row = $(column_str)
-  const col = row.find('.fd-col')
+const bindColEvent = col => {
   col.on('dragover', function(event) {
     event.preventDefault()
     event.stopPropagation()
@@ -23,7 +22,7 @@ const bindColEvent = column_str => {
     $(this).css('border', '1px solid rgba(128, 128, 128, 0.47)')
     switch (widgetType) {
       case 'text':
-        $(this).append(text)
+        new Text($(this).data('id'))
         break
       case 'button':
         $(this).append(button)
@@ -35,7 +34,7 @@ const bindColEvent = column_str => {
     }
   })
 
-  return row
+  return col
 }
 
 export default bindColEvent

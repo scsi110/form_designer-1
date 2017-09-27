@@ -10,6 +10,7 @@ const uuid = elem => {
   } else {
     id = uuidv4()
   }
+  id = id.replace(/-/g, '')
   return id
 }
 

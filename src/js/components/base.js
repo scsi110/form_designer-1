@@ -6,17 +6,19 @@ class WidgetBase {
       throw new Error('WidgetBase 作为基础类型，只能被继承后使用，无法实例化')
     }
     this.id = uuid()
-    this.name
+    this.tag
     this.attrs = {}
     this.config = {}
+    this.containerId
   }
 
   transData() {
     return {
       id: this.id,
-      name: this.name,
+      tag: this.tag,
       attrs: this.attrs,
-      config: this.config
+      config: this.config,
+      containerId: this.containerId
     }
   }
 }
