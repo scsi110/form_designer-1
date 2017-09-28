@@ -38,6 +38,10 @@ const bindRowEvent = (widgetClass, canvasId) => {
         break
       case 'column_three':
         new AddRow(3, canvas)
+        break
+      case 'column_four':
+        new AddRow(4, canvas)
+        break
       default:
         break
     }

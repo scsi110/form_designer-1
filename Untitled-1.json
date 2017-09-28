@@ -1,0 +1,136 @@
+{
+  "id": "534ab1b8-9133-4b30-b1fb-5f1dbec66cc1",
+  "settings": {},
+  "stages": {
+    "d0a9a4d8-8290-4c4d-991c-ff456e903126": {
+      "id": "d0a9a4d8-8290-4c4d-991c-ff456e903126",
+      "settings": {},
+      "rows": ["c633488c-c897-4067-8ddb-56eb18240bef"]
+    }
+  },
+  "rows": {
+    "c633488c-c897-4067-8ddb-56eb18240bef": {
+      "columns": [
+        "bd35381d-2d84-47fc-93af-fd5c617eae66",
+        "c5db0878-da74-42c2-b30b-02830899021d"
+      ],
+      "id": "c633488c-c897-4067-8ddb-56eb18240bef",
+      "config": {
+        "fieldset": false,
+        "legend": "",
+        "inputGroup": false
+      },
+      "attrs": {
+        "className": "f-row"
+      }
+    }
+  },
+  "columns": {
+    "bd35381d-2d84-47fc-93af-fd5c617eae66": {
+      "fields": ["29d8d075-99d2-473c-954a-95140107a5c4"],
+      "id": "bd35381d-2d84-47fc-93af-fd5c617eae66",
+      "config": {
+        "width": "50%"
+      },
+      "className": []
+    },
+    "c5db0878-da74-42c2-b30b-02830899021d": {
+      "fields": ["947366e3-de25-4ca3-982c-ce54a8eb6a39"],
+      "id": "c5db0878-da74-42c2-b30b-02830899021d",
+      "config": {
+        "width": "50%"
+      },
+      "className": []
+    }
+  },
+  "fields": {
+    "29d8d075-99d2-473c-954a-95140107a5c4": {
+      "tag": "input",
+      "attrs": {
+        "type": "text",
+        "required": false,
+        "className": ""
+      },
+      "config": {
+        "disabledAttrs": ["type"],
+        "label": "Text"
+      },
+      "meta": {
+        "group": "common",
+        "icon": "text-input",
+        "id": "text-input"
+      },
+      "fMap": "attrs.value",
+      "id": "29d8d075-99d2-473c-954a-95140107a5c4"
+    },
+    "947366e3-de25-4ca3-982c-ce54a8eb6a39": {
+      "tag": "button",
+      "attrs": {
+        "className": [
+          {
+            "label": "Grouped",
+            "value": "f-btn-group"
+          },
+          {
+            "label": "Un-Grouped",
+            "value": "f-field-group"
+          }
+        ]
+      },
+      "config": {
+        "label": "Button",
+        "hideLabel": true,
+        "disabledAttrs": ["type"]
+      },
+      "meta": {
+        "group": "common",
+        "icon": "button",
+        "id": "button"
+      },
+      "options": [
+        {
+          "label": "Button",
+          "type": [
+            {
+              "label": "Button",
+              "value": "button",
+              "selected": true
+            },
+            {
+              "label": "Reset",
+              "value": "reset"
+            },
+            {
+              "label": "submit",
+              "value": "submit"
+            }
+          ],
+          "className": [
+            {
+              "label": "default",
+              "value": "",
+              "selected": true
+            },
+            {
+              "label": "Primary",
+              "value": "primary"
+            },
+            {
+              "label": "Danger",
+              "value": "error"
+            },
+            {
+              "label": "Success",
+              "value": "success"
+            },
+            {
+              "label": "Warning",
+              "value": "warning"
+            }
+          ]
+        }
+      ],
+      "id": "947366e3-de25-4ca3-982c-ce54a8eb6a39"
+    }
+  }
+}

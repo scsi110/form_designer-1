@@ -9,7 +9,9 @@ class Text extends WidgetBase {
     this.attrs.required = true
     this.config.label = '输入框:'
     this.config.placeholder = '请输入文字'
+    this.config.defaultValue = undefined
     this.containerId = containerId
+    this.name = 'input-text'
 
     const data = this.transData()
 

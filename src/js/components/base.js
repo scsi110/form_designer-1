@@ -5,6 +5,7 @@ class WidgetBase {
     if (new.target === WidgetBase) {
       throw new Error('WidgetBase 作为基础类型，只能被继承后使用，无法实例化')
     }
+    this.name
     this.id = uuid()
     this.tag
     this.attrs = {}
@@ -14,6 +15,7 @@ class WidgetBase {
 
   transData() {
     return {
+      name: this.name,
       id: this.id,
       tag: this.tag,
       attrs: this.attrs,
@@ -28,6 +30,7 @@ class RowBase {
     if (new.target === WidgetBase) {
       throw new Error('RowBase 作为基础类型，只能被继承后使用，无法实例化')
     }
+    this.name = 'row'
     this.id = uuid()
     this.columns = []
   }
@@ -35,6 +38,7 @@ class RowBase {
   transData() {
     return {
       id: this.id,
+      name: this.name,
       columns: this.columns
     }
   }
@@ -45,6 +49,7 @@ class ColumnBase {
     if (new.target === WidgetBase) {
       throw new Error('ColumnBase 作为基础类型，只能被继承后使用，无法实例化')
     }
+    this.name = 'column'
     this.id = uuid()
     this.fields = []
   }
@@ -52,6 +57,7 @@ class ColumnBase {
   transData() {
     return {
       id: this.id,
+      name: this.name,
       fields: this.fields
     }
   }

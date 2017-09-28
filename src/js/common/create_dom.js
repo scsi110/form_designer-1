@@ -1,6 +1,7 @@
 import $ from 'jquery'
 import { Row, Column, WidgetBox, Label } from '../components/dom/dom'
 import bindColEvent from '../common/precedure/events/col_event'
+import bindModifyEvent from '../common/precedure/events/modify_event'
 
 const createDOM = data => {
   const rows = data.canvas.rows
@@ -28,6 +29,7 @@ const createDOM = data => {
             widgetBox = $(WidgetBox)
             let label = $(Label)
             let { tag, config, attrs } = data.fields[fieldId]
+
             if (tag in ['input']) {
               element = $(`<${tag} />`)
             } else {
@@ -42,13 +44,18 @@ const createDOM = data => {
             if (config.placeholder) {
               element.attr('placeholder', config.placeholder)
             }
+            if (config.defaultValue) {
+              element.val(config.defaultValue)
+            }
 
             widgetBox.append(label)
             widgetBox.append(element)
-          })
-          columnDom.append(widgetBox)
-        }
+            widgetBox.data('id', fieldId)
+            widgetBox = bindModifyEvent(widgetBox, columnId)
 
+            columnDom.append(widgetBox)
+          })
+        }
         // -----------------------------------------------------------------
         rowDom.append(columnDom) // 添加到 row 中
         rowArray.push(rowDom)

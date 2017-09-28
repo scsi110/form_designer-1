@@ -32,7 +32,16 @@ const input = `
 `
 
 const WidgetBox = `
-  <div class="widget-box"></div>
+  <div class="widget-box field ui tiny form">
+    <ul class="widget-action-bar">
+      <li class="widget-action-item">
+        <i class="write icon widget-edit"></i>
+      </li>
+      <li class="widget-action-item">
+        <i class="remove icon widget-delete"></i>
+      </li>
+    </ul>
+  </div>
 `
 
 export { Text, button, textatrea, Column, Row, WidgetBox, input, Label }

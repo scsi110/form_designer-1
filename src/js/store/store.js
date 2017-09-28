@@ -79,21 +79,35 @@ class Store {
     const containerId = data.containerId
 
     const field = {
+      name: data.name,
       tag: data.tag,
       attrs: data.attrs,
       config: data.config
     }
 
     this.data.cols[containerId].fields.push(widgetId)
-    // this.data.fields[widgetId] = field
-
     extendObservable(this.data.fields, {
       [widgetId]: field
     })
-
-    // console.log(toJS(store.data))
-
     // this.data = Object.assign({}, deepCopy, this.data)
+  }
+
+  // 修改 Field 的属性
+  @action
+  changeInputText = (attrName, value, widgetId) => {
+    this.data.fields[widgetId].config[attrName] = value
+    this.data = Object.assign({}, this.data, this.data)
+
+    // extendObservable(this.data.fields[widgetId].config, {
+    //   attrName: value
+    // })
+  }
+
+  // 移除 Field
+  @action
+  removeField = (fieldId, containerId) => {
+    this.data.cols[containerId].fields = []
+    delete this.data.fields[fieldId]
   }
 }
 

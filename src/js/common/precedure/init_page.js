@@ -19,6 +19,7 @@ const initPage = containerId => {
         <li id="single-column" class="fd-widget" draggable=true data-type='column_one'>单列布局</li>
         <li id="two-collumn" class="fd-widget" draggable=true data-type="column_two">双列布局</li>
         <li id="three-column" class="fd-widget" draggable=true data-type="column_three">三列布局</li>
+        <li id="four-column" class="fd-widget" draggable=true data-type="column_four">四列布局</li>
       </ul>
       <h2>组件</h2>
       <ul class="widget-panel-menu" id="fd-widget-list">
@@ -26,13 +27,17 @@ const initPage = containerId => {
     </div>`
   )
   const editPanel = $(
-    '<div class="col-xs-6 fd-panel" id="fd-edit-panel"></div>'
+    `<div class="col-xs-6 fd-panel" id="fd-edit-panel">
+      <h2>编辑面板</h2>
+      <div id="fd-widget-edit-container"></div>
+    </div>`
   )
   const canvas = $(
     `<div class="col-xs-14 fd-panel canvas-container">
         <div id="fd-canvas"></div>
       </div>`
   )
+
   // 组合元素
   wrapperRow.append(widgetPanel)
   wrapperRow.append(canvas)

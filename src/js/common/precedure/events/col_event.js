@@ -6,6 +6,9 @@ const bindColEvent = col => {
   col.on('dragover', function(event) {
     event.preventDefault()
     event.stopPropagation()
+    if (col.children().length > 0) {
+      return
+    }
     $(this).css('border', '1px solid gold')
   })
 
@@ -18,8 +21,11 @@ const bindColEvent = col => {
   col.on('drop', function(event) {
     event.preventDefault()
     event.stopPropagation()
+    if (col.children().length > 0) {
+      return
+    }
     const widgetType = event.originalEvent.dataTransfer.getData('type')
-    $(this).css('border', '1px solid rgba(128, 128, 128, 0.47)')
+    $(this).css('border', '1px solid rgba(128, 128, 128, 0.87)')
     switch (widgetType) {
       case 'text':
         new Text($(this).data('id'))
