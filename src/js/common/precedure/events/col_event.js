@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import { text, button, textarea } from '../../../components/dom/dom'
-import { Text } from '../../../components/widget_list'
+import { Text, Textarea } from '../../../components/widget_list'
 
 const bindColEvent = col => {
   col.on('dragover', function(event) {
@@ -15,7 +15,7 @@ const bindColEvent = col => {
   col.on('dragleave', function(event) {
     event.preventDefault()
     event.stopPropagation()
-    $(this).css('border', '1px solid rgba(128, 128, 128, 0.47)')
+    $(this).css('border', '1px dashed rgba(128, 128, 128, 0.47)')
   })
 
   col.on('drop', function(event) {
@@ -25,7 +25,7 @@ const bindColEvent = col => {
       return
     }
     const widgetType = event.originalEvent.dataTransfer.getData('type')
-    $(this).css('border', '1px solid rgba(128, 128, 128, 0.87)')
+    $(this).css('border', '1px dashed rgba(128, 128, 128, 0.47)')
     switch (widgetType) {
       case 'text':
         new Text($(this).data('id'))
@@ -34,7 +34,7 @@ const bindColEvent = col => {
         $(this).append(button)
         break
       case 'textarea':
-        $(this).append(textarea)
+        new Textarea($(this).data('id'))
       default:
         break
     }

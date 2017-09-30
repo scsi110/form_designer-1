@@ -4,6 +4,7 @@ import '../style/form.min.css'
 import '../style/button.min.css'
 import '../style/icon.min.css'
 
+import assignin from 'lodash.assignin'
 import defaultConfig from './common/config' // default config
 import { uuid } from './common/utils'
 
@@ -20,7 +21,7 @@ class FormDesigner {
 
     store.addCanvasId(this.id)
 
-    this.config = Object.assign({}, defaultConfig, config)
+    this.config = assignin({}, defaultConfig, config)
 
     this.containerId = containerId
     initPage(this.containerId)

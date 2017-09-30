@@ -1,13 +1,26 @@
 import { extendObservable, observable, action, autorun, toJS } from 'mobx'
 import createDOM from '../common/create_dom'
 import clonedeep from 'lodash.clonedeep'
+import assignin from 'lodash.assignin'
+import { detailedDiff } from 'deep-object-diff'
 
 import $ from 'jquery'
+import modifyDOM from '../common/modify_dom'
 
 class Store {
   // 定义可观察的数据结构
   @observable
   data = {
+    canvas: {
+      id: '',
+      rows: new Array()
+    },
+    rows: {},
+    cols: {},
+    fields: {}
+  }
+
+  _data = {
     canvas: {
       id: '',
       rows: new Array()
@@ -82,7 +95,8 @@ class Store {
       name: data.name,
       tag: data.tag,
       attrs: data.attrs,
-      config: data.config
+      config: data.config,
+      containerId
     }
 
     this.data.cols[containerId].fields.push(widgetId)
@@ -115,11 +129,15 @@ const store = new Store()
 
 autorun(() => {
   let data = toJS(store.data)
+  let _data = store._data
 
-  createDOM(data)
+  let diffInfo = detailedDiff(_data, data)
 
-  // $('#fd-canvas').append(dom)
-  console.log(data)
+  modifyDOM(diffInfo)
+  // createDOM(data)
+  console.log('数据', data)
+
+  store._data = clonedeep(data)
 })
 
 export default store

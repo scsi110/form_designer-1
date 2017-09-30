@@ -39,6 +39,7 @@
   "dependencies": {
     "deep-object-diff": "^1.0.4",
     "jquery": "^3.2.1",
+    "lodash.assignin": "^4.2.0",
     "lodash.clonedeep": "^4.5.0",
     "mobx": "^3.3.0",
     "node-sass": "^4.5.3",
