@@ -25,11 +25,13 @@ const bindModifyEvent = (elem, containerId) => {
 
   // 点击出现属性面板
   elem.find('.widget-edit').on('click', function() {
-    const curElem = $(this)
-    // if (curElem.hasClass('configing')) {
-    //   return
-    // }
+    const curElem = $(this).parents('.widget-box')
+    if (curElem.hasClass('configing')) {
+      return
+    }
+    $('.configing').removeClass('configing')
     curElem.addClass('configing')
+
     // 如果面板里已经有内容了，清除掉
     clearPanel()
 
