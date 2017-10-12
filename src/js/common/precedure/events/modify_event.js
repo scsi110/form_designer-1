@@ -1,8 +1,6 @@
 import $ from 'jquery'
 import store from '../../../store/store'
 import { toJS } from 'mobx'
-import { InputText } from '../../../common/configTemplate'
-import configing from './configing'
 
 const bindModifyEvent = (elem, containerId) => {
   const widgetId = elem.data('id') // 获取 widget 的 ID
@@ -18,41 +16,27 @@ const bindModifyEvent = (elem, containerId) => {
     }
   }
   elem.on('mouseenter', function(event) {
-    $(this)
-      .find('.widget-action-bar')
-      .show()
-    $(this).css(
-      'box-shadow',
-      'inset 0 1px 1px rgba(0,0,0,.1), 0 0 8px rgba(20, 122, 204, 0.73)'
-    )
+    $(this).addClass('highlight-widget')
   })
 
   elem.on('mouseleave', function(event) {
-    $(this)
-      .find('.widget-action-bar')
-      .hide()
-    $(this).css('box-shadow', 'none')
+    $(this).removeClass('highlight-widget')
   })
 
   // 点击出现属性面板
   elem.find('.widget-edit').on('click', function() {
+    const curElem = $(this)
+    // if (curElem.hasClass('configing')) {
+    //   return
+    // }
+    curElem.addClass('configing')
     // 如果面板里已经有内容了，清除掉
     clearPanel()
-    let config = toJS(store.data.fields[widgetId].config) // 获取 widget 的 config
-    let widgetName = toJS(store.data.fields[widgetId].name) // 获取 widget 的名称
-    let editPanel
-    // 加载属性面板
-    switch (widgetName) { // 根据 widget 类型选取属性面板
-      case 'input-text':
-        editPanel = InputText(config) // 生成属性面板的 DOM
-        editPanel = configing(widgetName, widgetId, editPanel) // [configing 函数]绑定属性修改时的触发事件，给全局 DATA 发送修改指令，返回 DOM
-        break
-      case 'button':
-      // let editPanel = Button()
-      default:
-        break
-    }
 
+    // 加载属性面板
+    // 生成属性面板的 DOM,绑定属性修改时的触发事件，给全局 DATA 发送修改指令，返回 DOM
+    let widgetConfigs = store.data.fields[widgetId].config
+    let editPanel = store.pluginMap[widgetId].createConfigPanel()
     editContainer.append(editPanel)
   })
 

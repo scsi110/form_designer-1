@@ -1,5 +1,6 @@
 import { WidgetBase } from '../base'
 import store from '../../store/store'
+import $ from 'jquery'
 
 class Textarea extends WidgetBase {
   constructor(containerId) {

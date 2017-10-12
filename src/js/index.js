@@ -18,14 +18,12 @@ import AddRow from './components/layout/layout'
 class FormDesigner {
   constructor(containerId = 'form-container', config = defaultConfig) {
     this.id = uuid()
-
     store.addCanvasId(this.id)
-
     this.config = assignin({}, defaultConfig, config)
 
     this.containerId = containerId
     initPage(this.containerId)
-    loadWidget(this.config)
+    loadWidget()
     bindEvent('fd-widget', 'fd-canvas')
   }
 }

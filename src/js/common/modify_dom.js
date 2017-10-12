@@ -3,6 +3,7 @@ import { Row, Column, WidgetBox, Label } from '../components/dom/dom'
 import bindColEvent from '../common/precedure/events/col_event'
 import bindModifyEvent from '../common/precedure/events/modify_event'
 import store from '../store/store'
+import { toJS } from 'mobx'
 
 const modifyDOM = ({ added, deleted, updated }) => {
   // 添加的情况
@@ -22,7 +23,7 @@ const modifyDOM = ({ added, deleted, updated }) => {
           let columnDom = $(Column) // 生成 column 的 JQ 对象
           columnDom = bindColEvent(columnDom) // 给column绑定事件
           columnDom.data('id', colId) // 给column绑定data-id
-          columnDom.attr('id', colId) // 给column绑定data-id
+          columnDom.attr('id', colId) // 给column绑定id
           columnDom.addClass(colSpan) // 添加 col-xs-xx 的class，决定 column 的大小
           rowDom.append(columnDom) // 添加到 row 中
           $('#fd-canvas').append(rowDom)
@@ -33,43 +34,15 @@ const modifyDOM = ({ added, deleted, updated }) => {
     if (isFieldAdd) {
       const fields = added.fields
       Object.keys(fields).forEach(fieldId => {
-        // 循环生成 widget
-        // const containerId = fields[fieldId].containerId
-        let element
-        let { tag, config, attrs, containerId } = fields[fieldId]
-
-        let widgetBox = $(WidgetBox)
-        let label = $(Label)
-
-        if (tag in ['input']) {
-          element = $(`<${tag} />`)
-        } else {
-          element = $(`<${tag}></${tag}>`)
-        }
-
-        Object.keys(attrs).forEach(attr => {
-          element.attr(attr, attrs[attr])
-        })
-
-        label.append(config.label)
-        if (config.placeholder) {
-          element.attr('placeholder', config.placeholder)
-        }
-        if (config.defaultValue) {
-          element.val(config.defaultValue)
-        }
-
-        if (config.row) {
-          element.attr('row', config.row)
-        }
-
-        widgetBox.append(label)
-        widgetBox.append(element)
-        widgetBox.data('id', fieldId)
-        widgetBox.attr('id', fieldId)
-        widgetBox = bindModifyEvent(widgetBox, containerId)
-
-        $(`#${containerId}`).append(widgetBox)
+        const field = fields[fieldId]
+        const containerId = field.containerId
+        setTimeout(function() {
+          let widget = store.pluginMap[fieldId].createDOM()
+          widget.data('id', fieldId)
+          widget.attr('id', fieldId)
+          widget = bindModifyEvent(widget, containerId)
+          $(`#${containerId}`).append(widget)
+        }, 0)
       })
     }
   }
@@ -87,42 +60,20 @@ const modifyDOM = ({ added, deleted, updated }) => {
 
   // 更新的情况
   if (updated) {
-    const isFieldUpdated = updated.fields
-    if (isFieldUpdated) {
-      const fields = updated.fields
+    const fields = updated.fields
+    if (fields) {
       Object.keys(fields).forEach(fieldId => {
-        let element
-        let { tag, config, attrs, containerId } = store.data.fields[fieldId]
+        const field = store.data.fields[fieldId]
+        const containerId = field.containerId
 
-        let widgetBox = $(WidgetBox)
-        let label = $(Label)
-
-        if (tag in ['input']) {
-          element = $(`<${tag} />`)
-        } else {
-          element = $(`<${tag}></${tag}>`)
-        }
-
-        Object.keys(attrs).forEach(attr => {
-          element.attr(attr, attrs[attr])
-        })
-
-        label.append(config.label)
-        if (config.placeholder) {
-          element.attr('placeholder', config.placeholder)
-        }
-        if (config.defaultValue) {
-          element.val(config.defaultValue)
-        }
-
-        widgetBox.append(label)
-        widgetBox.append(element)
-        widgetBox.data('id', fieldId)
-        widgetBox.attr('id', fieldId)
-        widgetBox = bindModifyEvent(widgetBox, containerId)
-
-        $(`#${fieldId}`).remove()
-        $(`#${containerId}`).append(widgetBox)
+        setTimeout(function() {
+          $(`#${fieldId}`).remove()
+          let widget = store.pluginMap[fieldId].createDOM(fieldId, field)
+          widget.data('id', fieldId)
+          widget.attr('id', fieldId)
+          widget = bindModifyEvent(widget, containerId)
+          $(`#${containerId}`).append(widget)
+        }, 0)
       })
     }
   }

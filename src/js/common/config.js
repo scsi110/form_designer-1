@@ -1,5 +1,5 @@
 const defaultConfig = {
-  widgets: ['text', 'textarea', 'button']
+  widgets: ['text', 'textarea']
 }
 
 export default defaultConfig

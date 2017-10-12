@@ -1,6 +1,7 @@
 import $ from 'jquery'
 import { text, button, textarea } from '../../../components/dom/dom'
-import { Text, Textarea } from '../../../components/widget_list'
+import { createComponent } from '../../../components/widget_list'
+import store from '../../../store/store'
 
 const bindColEvent = col => {
   col.on('dragover', function(event) {
@@ -26,18 +27,8 @@ const bindColEvent = col => {
     }
     const widgetType = event.originalEvent.dataTransfer.getData('type')
     $(this).css('border', '1px dashed rgba(128, 128, 128, 0.47)')
-    switch (widgetType) {
-      case 'text':
-        new Text($(this).data('id'))
-        break
-      case 'button':
-        $(this).append(button)
-        break
-      case 'textarea':
-        new Textarea($(this).data('id'))
-      default:
-        break
-    }
+    let pluginInstance = createComponent(widgetType, $(this).data('id')) // 创建 Plugin 的实例
+    store.pluginMap[pluginInstance.id] = pluginInstance // 将 plugin 的实例保存到全局状态的 map 中
   })
 
   return col
