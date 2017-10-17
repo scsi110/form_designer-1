@@ -4,7 +4,7 @@ import clonedeep from 'lodash.clonedeep'
 import assignin from 'lodash.assignin'
 import { detailedDiff } from 'deep-object-diff'
 
-import $ from 'jquery'
+// import $ from 'jquery'
 import modifyDOM from '../common/modify_dom'
 
 class Store {
@@ -110,11 +110,15 @@ class Store {
 
   // 修改 Field 的属性
   @action
-  changeConfig = (attrName, value, widgetId) => {
-    this.data.fields[widgetId].config[attrName] = value
-    this.pluginMap[widgetId]['config'][attrName] = value
-    this.data = assignin({}, this.data, this.data)
+  changeConfig = (config, widgetId) => {
+    extendObservable(this.data.fields[widgetId].config, config)
+    this.pluginMap[widgetId]['config'] = config
   }
+  // changeConfig = (attrName, value, widgetId) => {
+  //   this.data.fields[widgetId].config[attrName] = value
+  //   this.pluginMap[widgetId]['config'][attrName] = value
+  //   this.data = assignin({}, this.data, this.data)
+  // }
 
   // 移除 Field
   @action
@@ -134,7 +138,7 @@ autorun(() => {
 
   modifyDOM(diffInfo) // 将 DIFF 结果作为参数传入解析函数生成 DOM
   // createDOM(data)
-  console.log('数据', data)
+  console.log('数据', JSON.stringify(data))
 
   store._data = clonedeep(data) // 深复制当前数据后替换原 before 数据，保证每次 DIFF 对比「这一次」和「前一次」
 })

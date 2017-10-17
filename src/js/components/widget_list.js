@@ -1,9 +1,11 @@
 import Text from './text/text'
+import Select from './select'
 import AddRow from './layout/layout'
 import store from '../store/store'
 
 const PLUGINS = {
-  text: Text
+  text: Text,
+  select: Select
 }
 
 const createComponent = (type, containerId) => {

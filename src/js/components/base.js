@@ -9,8 +9,11 @@ class WidgetBase {
     this.id = uuid()
     this.tag
     this.attrs = {}
-    this.config = {}
+    this.config = {
+      name: undefined
+    }
     this.containerId
+    this.elementRef
   }
 
   transData() {

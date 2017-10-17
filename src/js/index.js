@@ -1,9 +1,6 @@
 import '../style/grid24.css'
 import '../style/index.scss'
-import '../style/form.min.css'
-import '../style/button.min.css'
 import '../style/icon.min.css'
-
 import assignin from 'lodash.assignin'
 import defaultConfig from './common/config' // default config
 import { uuid } from './common/utils'

@@ -1,10 +1,14 @@
 import { WidgetBase } from '../components/base'
-import { WidgetBox, Label } from '../components/dom/dom'
 import store from '../store/store'
-import $ from 'jquery'
+import debounce from 'lodash.debounce'
+import { toJS } from 'mobx'
 
-const changeConfig = (attrName, value, widgetId) => {
-  store.changeConfig(attrName, value, widgetId)
+const changeConfig = debounce((config, widgetId) => {
+  store.changeConfig(config, widgetId)
+}, 300)
+
+const getCurrentConfig = widgetId => {
+  return toJS(store.data.fields[widgetId].config)
 }
 
-export { changeConfig, WidgetBox, Label, WidgetBase, $ }
+export { changeConfig, WidgetBase, getCurrentConfig }

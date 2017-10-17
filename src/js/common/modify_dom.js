@@ -5,6 +5,35 @@ import bindModifyEvent from '../common/precedure/events/modify_event'
 import store from '../store/store'
 import { toJS } from 'mobx'
 
+const modify = fieldId => {
+  const field = store.data.fields[fieldId]
+  const containerId = field.containerId
+
+  setTimeout(function() {
+    $(`#${fieldId}`).remove()
+
+    let $widgetBox = $(WidgetBox)
+    let widget = store.pluginMap[fieldId].createDOM()
+    if (field.config.label) {
+      const $label = $(Label)
+      $label.append(field.config.label)
+      $widgetBox.append($label)
+    }
+
+    $widgetBox.append(widget)
+    store.pluginMap[fieldId].elementRef = widget
+
+    $widgetBox.data('id', fieldId)
+    $widgetBox.attr('id', fieldId)
+    $widgetBox = bindModifyEvent($widgetBox, containerId)
+
+    $(`#${containerId}`).append($widgetBox)
+    if (store.pluginMap[fieldId].afterCreateDOM) {
+      store.pluginMap[fieldId].afterCreateDOM()
+    }
+  }, 0)
+}
+
 const modifyDOM = ({ added, deleted, updated }) => {
   // 添加的情况
   if (added) {
@@ -34,26 +63,24 @@ const modifyDOM = ({ added, deleted, updated }) => {
     if (isFieldAdd) {
       const fields = added.fields
       Object.keys(fields).forEach(fieldId => {
-        const field = fields[fieldId]
-        const containerId = field.containerId
-        setTimeout(function() {
-          let widget = store.pluginMap[fieldId].createDOM()
-          widget.data('id', fieldId)
-          widget.attr('id', fieldId)
-          widget = bindModifyEvent(widget, containerId)
-          $(`#${containerId}`).append(widget)
-        }, 0)
+        modify.call(this, fieldId)
       })
     }
   }
 
   // 删除的情况
   if (deleted) {
-    const isFieldDeleted = deleted.fields
-    if (isFieldDeleted) {
-      const fields = deleted.fields
+    const fields = deleted.fields
+    const cols = deleted.cols
+    console.log('fields', fields)
+    if (cols && fields) {
       Object.keys(fields).forEach(fieldId => {
         $(`#${fieldId}`).remove()
+      })
+    }
+    if (fields && !cols) {
+      Object.keys(fields).forEach(fieldId => {
+        modify.call(this, fieldId)
       })
     }
   }
@@ -63,17 +90,7 @@ const modifyDOM = ({ added, deleted, updated }) => {
     const fields = updated.fields
     if (fields) {
       Object.keys(fields).forEach(fieldId => {
-        const field = store.data.fields[fieldId]
-        const containerId = field.containerId
-
-        setTimeout(function() {
-          $(`#${fieldId}`).remove()
-          let widget = store.pluginMap[fieldId].createDOM(fieldId, field)
-          widget.data('id', fieldId)
-          widget.attr('id', fieldId)
-          widget = bindModifyEvent(widget, containerId)
-          $(`#${containerId}`).append(widget)
-        }, 0)
+        modify.call(this, fieldId)
       })
     }
   }

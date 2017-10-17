@@ -4,6 +4,7 @@ var path = require('path')
 var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 var BabiliPlugin = require('babili-webpack-plugin')
+var CopyWebpackPlugin = require('copy-webpack-plugin')
 
 var webpackConfig = {
   entry: './src/js/index.js',
@@ -50,6 +51,12 @@ var webpackConfig = {
       name: 'vender'
     }),
     new ExtractTextPlugin('./css/[name].css'),
+    new CopyWebpackPlugin([
+      {
+        from: './src/assets',
+        to: './assets'
+      }
+    ]),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './index.html',

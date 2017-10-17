@@ -1,5 +1,13 @@
 body {
-  background-color: #272c35;
+  background-color: #272c35 !important;
+  ul,
+  li {
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    list-style: none;
+  }
 
   #form-designer-logo {
     text-align: center;
@@ -8,6 +16,7 @@ body {
   }
 
   .fd-wrapper {
+    min-width: 1034px;
     .fd-panel {
       border-radius: 6px;
       background-color: #ebeaec;
@@ -87,14 +96,19 @@ body {
     }
     #fd-edit-panel {
       height: 450px;
+      overflow-y: scroll;
 
       #fd-config-list {
         margin: 0;
         padding: 0;
 
+        label {
+          display: block;
+        }
+
         .fd-config-item {
           list-style: none;
-          margin: 0 0 10px 0;
+          margin: 0 0 20px 0;
           padding: 0;
         }
       }
