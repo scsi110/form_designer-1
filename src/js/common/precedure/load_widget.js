@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import { PLUGINS } from '../../components/widget_list'
 
 const loadWidget = () => {

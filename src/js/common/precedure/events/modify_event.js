@@ -40,7 +40,7 @@ const bindModifyEvent = (elem, containerId) => {
     let widgetConfigs = store.data.fields[widgetId].config
     let editPanel = store.pluginMap[widgetId].createConfigPanel()
     editContainer.append(editPanel)
-    if (store.pluginMap[widgetId].afterConfigPanelInit()) {
+    if (store.pluginMap[widgetId].afterConfigPanelInit) {
       store.pluginMap[widgetId].afterConfigPanelInit()
     }
   })

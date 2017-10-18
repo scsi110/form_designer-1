@@ -38,7 +38,8 @@ const modify = (fieldId, removePrev) => {
 
 const modifyDOM = ({ added, deleted, updated }) => {
   // 添加的情况
-  if (added) {
+  if (!$.isEmptyObject(added)) {
+    console.log('add', added)
     const isRowAdd = added.rows
     const isFieldAdd = added.fields
     if (isRowAdd) {
@@ -65,13 +66,14 @@ const modifyDOM = ({ added, deleted, updated }) => {
     if (isFieldAdd) {
       const fields = added.fields
       Object.keys(fields).forEach(fieldId => {
-        modify.call(this, fieldId)
+        modify.call(this, fieldId, true)
       })
     }
   }
 
   // 删除的情况
-  if (deleted) {
+  if (!$.isEmptyObject(deleted)) {
+    console.log('delete', deleted)
     const fields = deleted.fields
     const cols = deleted.cols
     if (cols && fields) {
@@ -81,13 +83,14 @@ const modifyDOM = ({ added, deleted, updated }) => {
     }
     if (fields && !cols) {
       Object.keys(fields).forEach(fieldId => {
-        modify.call(this, fieldId)
+        modify.call(this, fieldId, true)
       })
     }
   }
 
   // 更新的情况
-  if (updated) {
+  if (!$.isEmptyObject(updated)) {
+    console.log('update')
     const fields = updated.fields
     if (fields) {
       Object.keys(fields).forEach(fieldId => {

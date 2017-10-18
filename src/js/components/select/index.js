@@ -12,6 +12,7 @@ class Select extends WidgetBase {
     this.config.required = false
     this.config.dynamicOption = false
     this.config.allowClear = false
+    this.config.defaultValue = []
     this.name = 'select'
     this.addOption(4)
     this.type = 'select'
@@ -25,7 +26,7 @@ class Select extends WidgetBase {
       let option = {}
       option.label = `选项${optionNum}`
       option.value = `值${optionNum}`
-      option.selected = false
+      // option.selected = false
       option.id = optionNum
       optionArray.push(option)
     }
@@ -51,10 +52,8 @@ class Select extends WidgetBase {
     }
 
     options.forEach(option => {
-      const { label, value, selected } = option
-      const optionDOM = `<option value="${value}" ${selected
-        ? 'selected'
-        : ''}>${label}</option>`
+      const { label, value } = option
+      const optionDOM = `<option value="${value}">${label}</option>`
       element.append(optionDOM)
     })
 
@@ -72,6 +71,11 @@ class Select extends WidgetBase {
       tags: dynamicOption, // 允许在输入框动态添加选项
       allowClear
     })
+
+    if (this.config.defaultValue) {
+      this.elementRef.val(this.config.defaultValue)
+      this.elementRef.trigger('change')
+    }
   }
 
   createConfigPanel = () => {
@@ -172,12 +176,13 @@ class Select extends WidgetBase {
     // const curConfig = getCurrentConfig(widgetId)
     const curConfig = this.config
     const element = $(template)
+    const simpleConfigs = element.find('.simple-config')
     const simpleConfigs_text = element.find('.simple-config input:text')
     const simpleConfigs_checkbox = element.find('.simple-config input:checkbox')
     // 复杂的选项设置
     const complexConfigs = element.find('.complex-config')
     // 文本框
-    simpleConfigs_text.on('input', function() {
+    simpleConfigs.on('input', 'input:text', function() {
       const $this = $(this)
       const attrName = $this.data('type')
       let value = $this.val()
@@ -185,11 +190,17 @@ class Select extends WidgetBase {
       self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
     })
     // checkbox
-    simpleConfigs_checkbox.on('change', function() {
+    simpleConfigs.on('change', 'input:checkbox', function() {
       const $this = $(this)
       const attrName = $this.data('type')
       let value = $this.is(':checked') ? true : false
       curConfig[attrName] = value
+      if (attrName === 'multiple') {
+        const inputType = value ? 'checkbox' : 'radio'
+        const curType = inputType === 'radio' ? 'checkbox' : 'radio'
+        const complexConfigs_radio = complexConfigs.find(`input:${curType}`)
+        complexConfigs_radio.attr('type', inputType)
+      }
       self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
     })
 
@@ -215,11 +226,35 @@ class Select extends WidgetBase {
       const id = $this.data('index')
       let value = $this.is(':checked') ? true : false
       options.forEach(option => {
-        option.selected = false
         if (option.id === id) {
-          option[attrName] = value
+          curConfig.defaultValue = [] // 重置默认值数组
+          curConfig.defaultValue.push(option.value) // 修改默认值数组
+          return
         }
       })
+      console.log(curConfig.defaultValue)
+      self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
+    })
+
+    complexConfigs.on('change', 'input:checkbox', function() {
+      const $this = $(this)
+      const options = curConfig.options
+      const attrName = $this.data('type')
+      const id = $this.data('index')
+      let value = $this.is(':checked') ? true : false
+      options.forEach(option => {
+        if (option.id === id) {
+          if (value) {
+            curConfig.defaultValue.push(option.value)
+          } else {
+            let targetIndex = curConfig.defaultValue.indexOf(option.value)
+            curConfig.defaultValue.splice(targetIndex, 1)
+          }
+          // 修改默认值数组
+          return
+        }
+      })
+      console.log(curConfig.defaultValue)
       self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
     })
 
@@ -243,7 +278,9 @@ class Select extends WidgetBase {
       let { value, label, id } = option
       const newOption = `
         <div class="optionsContainer">
-          <input type="radio" name="optionsRadios" data-type="selected" data-index=${id} />
+          <input type="${curConfig.multiple
+            ? 'checkbox'
+            : 'radio'}" name="optionsRadios" data-type="selected" data-index=${id} />
           <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
             <div class="o-field">
               <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value=${label} data-index=${id} />
