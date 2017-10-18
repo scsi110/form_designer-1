@@ -3,8 +3,9 @@ import { Row, Column, WidgetBox, Label } from '../components/dom/dom'
 import bindColEvent from '../common/precedure/events/col_event'
 import bindModifyEvent from '../common/precedure/events/modify_event'
 import store from '../store/store'
-import { toJS } from 'mobx'
+import { createInstance } from '../components/widget_list'
 
+// 修改DOM的函数
 const modify = fieldId => {
   const field = store.data.fields[fieldId]
   const containerId = field.containerId
@@ -72,7 +73,6 @@ const modifyDOM = ({ added, deleted, updated }) => {
   if (deleted) {
     const fields = deleted.fields
     const cols = deleted.cols
-    console.log('fields', fields)
     if (cols && fields) {
       Object.keys(fields).forEach(fieldId => {
         $(`#${fieldId}`).remove()

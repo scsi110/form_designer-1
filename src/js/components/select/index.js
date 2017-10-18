@@ -1,4 +1,4 @@
-import { changeConfig, WidgetBase, getCurrentConfig } from '../widgetAPI'
+import { WidgetBase } from '../widgetAPI'
 
 class Select extends WidgetBase {
   constructor() {
@@ -14,6 +14,7 @@ class Select extends WidgetBase {
     this.config.allowClear = false
     this.name = 'select'
     this.addOption(4)
+    this.type = 'select'
   }
 
   addOption = (size = 1) => {
@@ -166,69 +167,99 @@ class Select extends WidgetBase {
 
   // 绑定改变属性的事件
   bingConfigEvent = template => {
+    const self = this
     const widgetId = this.id
-    const curConfig = getCurrentConfig(widgetId)
+    // const curConfig = getCurrentConfig(widgetId)
+    const curConfig = this.config
     const element = $(template)
     const simpleConfigs_text = element.find('.simple-config input:text')
     const simpleConfigs_checkbox = element.find('.simple-config input:checkbox')
-    const complexConfigs_text = element.find('.complex-config input:text')
-    const complexConfigs_radio = element.find('.complex-config input:radio')
-    const complexConfigs_icon = element.find('.complex-config i')
+    // 复杂的选项设置
+    const complexConfigs = element.find('.complex-config')
     // 文本框
     simpleConfigs_text.on('input', function() {
-      const attrName = $(this).data('type')
-      let value = $(this).val()
+      const $this = $(this)
+      const attrName = $this.data('type')
+      let value = $this.val()
       curConfig[attrName] = value
-      changeConfig(curConfig, widgetId) // 发送改变数据的指令，自动触发 DOM 修改
+      self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
     })
     // checkbox
     simpleConfigs_checkbox.on('change', function() {
-      const attrName = $(this).data('type')
-      let value = $(this).is(':checked') ? true : false
+      const $this = $(this)
+      const attrName = $this.data('type')
+      let value = $this.is(':checked') ? true : false
       curConfig[attrName] = value
-      changeConfig(curConfig, widgetId) // 发送改变数据的指令，自动触发 DOM 修改
+      self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
     })
 
-    complexConfigs_text.on('input', function() {
+    complexConfigs.on('input', 'input:text', function() {
+      const $this = $(this)
       const options = curConfig.options
-      const attrName = $(this).data('type')
-      const id = $(this).data('index')
-      let value = $(this).val()
+      const attrName = $this.data('type')
+      const id = $this.data('index')
+      let value = $this.val()
       options.forEach(option => {
         if (option.id === id) {
           option[attrName] = value
           return
         }
       })
-      changeConfig(curConfig, widgetId) // 发送改变数据的指令，自动触发 DOM 修改
+      self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
     })
 
-    complexConfigs_radio.on('change', function() {
+    complexConfigs.on('change', 'input:radio', function() {
+      const $this = $(this)
       const options = curConfig.options
-      const attrName = $(this).data('type')
-      const id = $(this).data('index')
-      let value = $(this).is(':checked') ? true : false
+      const attrName = $this.data('type')
+      const id = $this.data('index')
+      let value = $this.is(':checked') ? true : false
       options.forEach(option => {
         option.selected = false
         if (option.id === id) {
           option[attrName] = value
         }
       })
-      changeConfig(curConfig, widgetId) // 发送改变数据的指令，自动触发 DOM 修改
+      self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
     })
 
-    complexConfigs_icon.on('click', function() {
+    complexConfigs.on('click', 'i.close', function() {
+      const $this = $(this)
       let options = curConfig.options
-      const id = $(this).data('index')
+      const id = $this.data('index')
       options.forEach((option, index) => {
         if (option.id === id) {
           options.splice(index, 1)
-          $(this)
-            .parents('div.optionsContainer')
-            .remove()
+          $this.parents('div.optionsContainer').remove()
         }
       })
-      changeConfig(curConfig, widgetId) // 发送改变数据的指令，自动触发 DOM 修改
+      self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
+    })
+
+    complexConfigs.on('click', 'i.plus', function() {
+      self.addOption()
+      const $this = $(this)
+      let option = curConfig.options[curConfig.options.length - 1]
+      let { value, label, id } = option
+      const newOption = `
+        <div class="optionsContainer">
+          <input type="radio" name="optionsRadios" data-type="selected" data-index=${id} />
+          <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
+            <div class="o-field">
+              <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value=${label} data-index=${id} />
+            </div>
+            <div class="o-field">
+              <input class="c-field u-xsmall" placeholder="选项值" data-type="value" value=${value} data-index=${id} />
+            </div>
+            <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${id}></i>
+          </div>
+        </div>
+      `
+      $this
+        .parent('div')
+        .prev('fieldset')
+        .append(newOption)
+      self.emitChange()
     })
 
     return element

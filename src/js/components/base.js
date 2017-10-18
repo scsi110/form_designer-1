@@ -1,4 +1,6 @@
 import { uuid } from '../common/utils'
+import debounce from 'lodash.debounce'
+import store from '../store/store'
 
 class WidgetBase {
   constructor() {
@@ -14,6 +16,7 @@ class WidgetBase {
     }
     this.containerId
     this.elementRef
+    this.type
   }
 
   transData() {
@@ -23,8 +26,17 @@ class WidgetBase {
       tag: this.tag,
       attrs: this.attrs,
       config: this.config,
-      containerId: this.containerId
+      containerId: this.containerId,
+      elementRef: this.elementRef,
+      type: this.type
     }
+  }
+
+  emitChange() {
+    const self = this
+    debounce(() => {
+      store.changeConfig(self.config, self.id)
+    }, 300)()
   }
 }
 

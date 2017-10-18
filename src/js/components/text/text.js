@@ -1,4 +1,4 @@
-import { changeConfig, WidgetBase, getCurrentConfig } from '../widgetAPI'
+import { WidgetBase } from '../widgetAPI'
 
 class Text extends WidgetBase {
   constructor() {
@@ -11,6 +11,7 @@ class Text extends WidgetBase {
     this.config.defaultValue = undefined
     this.config.name = undefined
     this.name = 'singleLineInput'
+    this.type = 'text'
   }
 
   // 界面新增元素或元素发生更改重绘时，调用此方法生成元素的DOM（见 modify_dom.js 文件）
@@ -77,21 +78,16 @@ class Text extends WidgetBase {
 
   // 绑定改变属性的事件
   bingConfigEvent = template => {
+    const self = this
     const widgetId = this.id
     const element = $(template)
-    const curConfig = getCurrentConfig(widgetId)
+    const curConfig = this.config
     const inputs = element.find('input')
-    // inputs.on('input', function() {
-    //   const attrName = $(this).data('type')
-    //   let value = $(this).val()
-    //   changeConfig(attrName, value, widgetId) // 发送改变数据的指令，自动触发 DOM 修改
-    // })
     inputs.on('input', function() {
       const attrName = $(this).data('type')
       let value = $(this).val()
       curConfig[attrName] = value
-      changeConfig(curConfig, widgetId)
-      // changeConfig(attrName, value, widgetId) // 发送改变数据的指令，自动触发 DOM 修改
+      self.emitChange()
     })
     return element
   }

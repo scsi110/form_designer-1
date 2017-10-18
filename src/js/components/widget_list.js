@@ -15,4 +15,9 @@ const createComponent = (type, containerId) => {
   return plugin
 }
 
-export { createComponent, AddRow, PLUGINS }
+const createInstance = type => {
+  let instance = new PLUGINS[type]() // 实例化对象
+  return instance
+}
+
+export { createComponent, createInstance, AddRow, PLUGINS }

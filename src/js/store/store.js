@@ -98,7 +98,10 @@ class Store {
       tag: data.tag,
       attrs: data.attrs,
       config: data.config,
-      containerId
+      containerId,
+      id: data.id,
+      elementRef: data.elementRef,
+      type: data.type
     }
 
     this.data.cols[containerId].fields.push(widgetId)
@@ -112,13 +115,8 @@ class Store {
   @action
   changeConfig = (config, widgetId) => {
     extendObservable(this.data.fields[widgetId].config, config)
-    this.pluginMap[widgetId]['config'] = config
+    // this.pluginMap[widgetId]['config'] = config
   }
-  // changeConfig = (attrName, value, widgetId) => {
-  //   this.data.fields[widgetId].config[attrName] = value
-  //   this.pluginMap[widgetId]['config'][attrName] = value
-  //   this.data = assignin({}, this.data, this.data)
-  // }
 
   // 移除 Field
   @action
@@ -135,10 +133,9 @@ autorun(() => {
   let _data = store._data // 获取参照数据（before）
 
   let diffInfo = detailedDiff(_data, data) // 前后数据对比，生成 DIFF 结果
-
   modifyDOM(diffInfo) // 将 DIFF 结果作为参数传入解析函数生成 DOM
   // createDOM(data)
-  console.log('数据', JSON.stringify(data))
+  console.log('数据', data)
 
   store._data = clonedeep(data) // 深复制当前数据后替换原 before 数据，保证每次 DIFF 对比「这一次」和「前一次」
 })
