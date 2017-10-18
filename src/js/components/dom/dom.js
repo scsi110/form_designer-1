@@ -15,7 +15,7 @@ const input = `
 `
 
 const WidgetBox = `
-  <div class="widget-box field ui tiny form">
+  <div class="widget-box">
     <ul class="widget-action-bar">
       <li class="widget-action-item">
         <i class="write icon widget-edit"></i>

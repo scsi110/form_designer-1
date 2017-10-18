@@ -1,5 +1,4 @@
 import { extendObservable, observable, action, autorun, toJS } from 'mobx'
-import createDOM from '../common/create_dom'
 import clonedeep from 'lodash.clonedeep'
 import assignin from 'lodash.assignin'
 import { detailedDiff } from 'deep-object-diff'

@@ -1,11 +1,13 @@
 import Text from './text/text'
 import Select from './select'
+import DatePicker from './datepicker'
 import AddRow from './layout/layout'
 import store from '../store/store'
 
 const PLUGINS = {
   text: Text,
-  select: Select
+  select: Select,
+  datepicker: DatePicker
 }
 
 const createComponent = (type, containerId) => {

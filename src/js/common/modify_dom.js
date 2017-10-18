@@ -6,13 +6,14 @@ import store from '../store/store'
 import { createInstance } from '../components/widget_list'
 
 // 修改DOM的函数
-const modify = fieldId => {
+const modify = (fieldId, removePrev) => {
   const field = store.data.fields[fieldId]
   const containerId = field.containerId
 
   setTimeout(function() {
-    $(`#${fieldId}`).remove()
-
+    if (removePrev) {
+      $(`#${containerId}`).empty()
+    }
     let $widgetBox = $(WidgetBox)
     let widget = store.pluginMap[fieldId].createDOM()
     if (field.config.label) {
@@ -90,7 +91,7 @@ const modifyDOM = ({ added, deleted, updated }) => {
     const fields = updated.fields
     if (fields) {
       Object.keys(fields).forEach(fieldId => {
-        modify.call(this, fieldId)
+        modify.call(this, fieldId, true)
       })
     }
   }
