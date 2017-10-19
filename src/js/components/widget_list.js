@@ -1,11 +1,15 @@
 import Text from './text/text'
 import Select from './select'
 import DatePicker from './datepicker'
+import Textarea from './textarea'
+import CKEditor from './ckeditor'
 import AddRow from './layout/layout'
 import store from '../store/store'
 
 const PLUGINS = {
   text: Text,
+  textarea: Textarea,
+  ckeditor: CKEditor,
   select: Select,
   datepicker: DatePicker
 }

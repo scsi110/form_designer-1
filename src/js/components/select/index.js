@@ -91,10 +91,14 @@ class Select extends WidgetBase {
     // 解析选项生成配置模版
     let _options = ''
     options.forEach(option => {
-      let { label, value, selected, id } = option
+      let { label, value, id } = option
       _options = `${_options}
                 <div class="optionsContainer">
-                  <input type="radio" name="optionsRadios" data-type="selected" data-index=${id} />
+                  <input type="${this.config.multiple
+                    ? 'checkbox'
+                    : 'radio'}" ${this.config.defaultValue.indexOf(value) === -1
+        ? ''
+        : 'checked'} name="optionsRadios" data-index=${id} />
                   <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
                     <div class="o-field">
                       <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value=${label} data-index=${id} />
@@ -196,11 +200,15 @@ class Select extends WidgetBase {
       let value = $this.is(':checked') ? true : false
       curConfig[attrName] = value
       if (attrName === 'multiple') {
-        const inputType = value ? 'checkbox' : 'radio'
-        const curType = inputType === 'radio' ? 'checkbox' : 'radio'
-        const complexConfigs_radio = complexConfigs.find(`input:${curType}`)
-        complexConfigs_radio.attr('type', inputType)
+        const toChangeType = value ? 'checkbox' : 'radio' // 将要变成的type
+        const curType = toChangeType === 'radio' ? 'checkbox' : 'radio' // 现在的type
+        const curInput = complexConfigs.find(`input:${curType}`) // 选中现在的type
+        curInput.attr('type', toChangeType) // 改变并重新生成
+        // 每次切换多选/单选，清除所有默认值设置
+        curConfig.defaultValue = []
+        complexConfigs.find(`input:${toChangeType}`).prop('checked', false)
       }
+
       self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
     })
 
@@ -212,8 +220,10 @@ class Select extends WidgetBase {
       let value = $this.val()
       options.forEach(option => {
         if (option.id === id) {
+          const prveVal = option[attrName]
           option[attrName] = value
-          return
+          const index = curConfig.defaultValue.indexOf(prveVal)
+          curConfig.defaultValue[index] = value
         }
       })
       self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
@@ -222,7 +232,6 @@ class Select extends WidgetBase {
     complexConfigs.on('change', 'input:radio', function() {
       const $this = $(this)
       const options = curConfig.options
-      const attrName = $this.data('type')
       const id = $this.data('index')
       let value = $this.is(':checked') ? true : false
       options.forEach(option => {
@@ -232,29 +241,26 @@ class Select extends WidgetBase {
           return
         }
       })
-      console.log(curConfig.defaultValue)
       self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
     })
 
     complexConfigs.on('change', 'input:checkbox', function() {
       const $this = $(this)
       const options = curConfig.options
-      const attrName = $this.data('type')
       const id = $this.data('index')
       let value = $this.is(':checked') ? true : false
       options.forEach(option => {
         if (option.id === id) {
+          // 如果值是true，说明需要添加新的默认值，否则，需要把该值从默认值数组中去除
           if (value) {
             curConfig.defaultValue.push(option.value)
           } else {
             let targetIndex = curConfig.defaultValue.indexOf(option.value)
             curConfig.defaultValue.splice(targetIndex, 1)
           }
-          // 修改默认值数组
           return
         }
       })
-      console.log(curConfig.defaultValue)
       self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
     })
 
@@ -305,7 +311,7 @@ class Select extends WidgetBase {
 
 Select.info = {
   name: 'select',
-  displayName: '下拉选项'
+  displayName: '下拉选择器'
 }
 
 export default Select

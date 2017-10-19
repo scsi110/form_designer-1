@@ -134,7 +134,7 @@ class DatePicker extends WidgetBase {
 
 DatePicker.info = {
   name: 'datepicker',
-  displayName: '日期选择'
+  displayName: '日期选择器'
 }
 
 export default DatePicker

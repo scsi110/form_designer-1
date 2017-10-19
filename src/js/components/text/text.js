@@ -95,7 +95,7 @@ class Text extends WidgetBase {
 
 Text.info = {
   name: 'text',
-  displayName: '输入框'
+  displayName: '单行文本框'
 }
 
 export default Text
