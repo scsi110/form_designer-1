@@ -43,12 +43,12 @@ class Select extends WidgetBase {
       }
     })
 
-    if (name) {
-      element.attr('name', name)
-    }
-
     if (required) {
       element.attr('required', required)
+    }
+
+    if (name) {
+      element.attr('name', name)
     }
 
     options.forEach(option => {

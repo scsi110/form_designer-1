@@ -3,6 +3,7 @@ import Select from './select'
 import DatePicker from './datepicker'
 import Textarea from './textarea'
 import CKEditor from './ckeditor'
+import FileUpload from './fileupload'
 import AddRow from './layout/layout'
 import store from '../store/store'
 
@@ -11,7 +12,8 @@ const PLUGINS = {
   textarea: Textarea,
   ckeditor: CKEditor,
   select: Select,
-  datepicker: DatePicker
+  datepicker: DatePicker,
+  fileUpload: FileUpload
 }
 
 const createComponent = (type, containerId) => {
