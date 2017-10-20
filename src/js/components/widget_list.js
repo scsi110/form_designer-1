@@ -6,12 +6,14 @@ import CKEditor from './ckeditor'
 import FileUpload from './fileupload'
 import CheckboxGroup from './checkbox_group'
 import RadioGroup from './radio_group'
+import HiddenInput from './hidden_input'
 import AddRow from './layout/layout'
 import store from '../store/store'
 
 const PLUGINS = {
   chekbox: CheckboxGroup,
   radio: RadioGroup,
+  hiddenInput: HiddenInput,
   text: Text,
   textarea: Textarea,
   ckeditor: CKEditor,

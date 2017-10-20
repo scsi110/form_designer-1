@@ -21,8 +21,8 @@ class CheckboxGroup extends WidgetBase {
     let id = ++this.optionSize
     const newOption = {
       id,
-      label: undefined,
-      value: undefined
+      label: `选项${id}`,
+      value: `值${id}`
     }
     options.push(newOption)
   }
@@ -180,7 +180,9 @@ class CheckboxGroup extends WidgetBase {
           const prveVal = option[attrName]
           option[attrName] = value
           const index = curConfig.defaultValue.indexOf(prveVal)
-          curConfig.defaultValue[index] = value
+          if (index != -1) {
+            curConfig.defaultValue[index] = value
+          }
         }
       })
       self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
@@ -208,7 +210,6 @@ class CheckboxGroup extends WidgetBase {
       const $this = $(this)
       let option = curConfig.options[curConfig.options.length - 1]
       let { value, label, id } = option
-      console.log(value, label, id)
       const newOption = `
         <div class="optionsContainer">
           <input type="checkbox" name="optionscheckbox" data-type="selected" data-index=${id} />

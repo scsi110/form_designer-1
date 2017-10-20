@@ -7,13 +7,13 @@ class RadioGroup extends WidgetBase {
     this.tag = 'input'
     this.optionSize = 1
     this.config.name = undefined // 设定文件域的字段名
-    this.config.label = '多选组合:'
+    this.config.label = '单选组合:'
     this.config.required = false
     this.config.inline = false
-    this.config.defaultValue = []
+    this.config.defaultValue = ''
     this.config.options = [{ id: 1, label: '选项1', value: '值1' }]
-    this.name = 'checkboxGroup'
-    this.type = 'checkbox'
+    this.name = 'radioGroup'
+    this.type = 'radio'
   }
 
   addOption() {
@@ -21,10 +21,11 @@ class RadioGroup extends WidgetBase {
     let id = ++this.optionSize
     const newOption = {
       id,
-      label: undefined,
-      value: undefined
+      label: `选项${id}`,
+      value: `值${id}`
     }
     options.push(newOption)
+    console.log(options)
   }
 
   createDOM = () => {
@@ -36,9 +37,9 @@ class RadioGroup extends WidgetBase {
         <label class="c-field c-field--choice c-label ${this.config.inline
           ? 'c-list__item'
           : ''}">
-          <input type="checkbox" data-id=${id} value="${value
+          <input type="radio" name="optionRadio" data-id=${id} value="${value
         ? value
-        : ''}" ${defaultValue.indexOf(value) === -1 ? '' : 'checked'}>
+        : ''}" ${defaultValue === value ? 'checked' : ''}>
           ${label ? label : ''}
         </label>
         `
@@ -56,14 +57,17 @@ class RadioGroup extends WidgetBase {
 
   // 定义元素配置面板的模版，并绑定配置修改事件，在元素配置图标点击时触发（见 modify_event.js 文件）
   createConfigPanel = () => {
-    const { name, label, inline, required, options } = this.config
+    const { name, label, inline, required, options, defaultValue } = this.config
     // 解析选项生成配置模版
     let _options = ''
     options.forEach(option => {
       let { label, value, id } = option
       _options = `${_options}
                 <div class="optionsContainer">
-                  <input type="checkbox" data-index=${id} />
+                  <input type="radio" name="optionRadioControl" data-index=${id} ${defaultValue ===
+      value
+        ? 'checked'
+        : ''} />
                   <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
                     <div class="o-field">
                       <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value="${label
@@ -149,20 +153,14 @@ class RadioGroup extends WidgetBase {
       self.emitChange()
     })
 
-    optionConfigSection.on('change', 'input:checkbox', function() {
+    optionConfigSection.on('change', 'input:radio', function() {
       const $this = $(this)
       const options = curConfig.options
       const id = $this.data('index')
       let value = $this.is(':checked') ? true : false
       options.forEach(option => {
         if (option.id === id) {
-          // 如果值是true，说明需要添加新的默认值，否则，需要把该值从默认值数组中去除
-          if (value) {
-            curConfig.defaultValue.push(option.value)
-          } else {
-            let targetIndex = curConfig.defaultValue.indexOf(option.value)
-            curConfig.defaultValue.splice(targetIndex, 1)
-          }
+          curConfig.defaultValue = option.value
           return
         }
       })
@@ -179,8 +177,9 @@ class RadioGroup extends WidgetBase {
         if (option.id === id) {
           const prveVal = option[attrName]
           option[attrName] = value
-          const index = curConfig.defaultValue.indexOf(prveVal)
-          curConfig.defaultValue[index] = value
+          if (curConfig.defaultValue === prveVal) {
+            curConfig.defaultValue = value
+          }
         }
       })
       self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
@@ -193,9 +192,8 @@ class RadioGroup extends WidgetBase {
       options.forEach((option, index) => {
         if (option.id === id) {
           options.splice(index, 1)
-          let targetIndex = curConfig.defaultValue.indexOf(option.value)
-          if (targetIndex != -1) {
-            curConfig.defaultValue.splice(targetIndex, 1)
+          if (curConfig.defaultValue === option.value) {
+            curConfig.defaultValue = ''
           }
           $this.parents('div.optionsContainer').remove()
         }
@@ -211,7 +209,7 @@ class RadioGroup extends WidgetBase {
       console.log(value, label, id)
       const newOption = `
         <div class="optionsContainer">
-          <input type="checkbox" name="optionscheckbox" data-type="selected" data-index=${id} />
+          <input type="radio" name="optionRadioControl" data-index=${id} />
           <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
             <div class="o-field">
               <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value="${label
