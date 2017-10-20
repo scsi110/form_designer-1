@@ -137,7 +137,6 @@ class Select extends WidgetBase {
         <div class="row">
           <i class="plus icon pull-right" style="cursor:pointer;margin-right: 18px;"></i>
         </div>
-        </div> 
       </li>
       <li class="fd-config-item simple-config">
         <label>属性配置:</label>

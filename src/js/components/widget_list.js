@@ -4,10 +4,14 @@ import DatePicker from './datepicker'
 import Textarea from './textarea'
 import CKEditor from './ckeditor'
 import FileUpload from './fileupload'
+import CheckboxGroup from './checkbox_group'
+import RadioGroup from './radio_group'
 import AddRow from './layout/layout'
 import store from '../store/store'
 
 const PLUGINS = {
+  chekbox: CheckboxGroup,
+  radio: RadioGroup,
   text: Text,
   textarea: Textarea,
   ckeditor: CKEditor,
