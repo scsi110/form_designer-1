@@ -18,13 +18,6 @@ class FileUpload extends WidgetBase {
   }
 
   createDOM = () => {
-    // let element = $(
-    //   `<${tag} class="c-button c-button--info u-xlarge">
-    //       <i class="cloud upload icon"></i>
-    //       ${this.config.placeholder}
-    //   </${tag}>`
-    // )
-
     let element = $(
       `<div class="layui-upload-drag">
         <i class="cloud upload icon layui-icon"></i>

@@ -1,9 +1,9 @@
-import $ from 'jquery'
 import { Row, Column, WidgetBox, Label } from '../components/dom/dom'
 import bindColEvent from '../common/precedure/events/col_event'
 import bindModifyEvent from '../common/precedure/events/modify_event'
 import store from '../store/store'
-import { createInstance } from '../components/widget_list'
+import debounce from 'lodash.debounce'
+import rowControl from '../common/precedure/events/row_control'
 
 // 修改DOM的函数
 const modify = (fieldId, removePrev) => {
@@ -37,19 +37,27 @@ const modify = (fieldId, removePrev) => {
 }
 
 const modifyDOM = ({ added, deleted, updated }) => {
+  const fields = deleted.fields
+  const cols = deleted.cols
+  const canvas = deleted.canvas
+  const rows = deleted.rows
   // 添加的情况
   if (!$.isEmptyObject(added)) {
     console.log('add', added)
     const isRowAdd = added.rows
-    const isFieldAdd = added.fields
+    const isFieldAdd = added.fields && added.cols // 有 field 字段和 col 字段同时添加，说明有组件被拖拉到 col 中，属于「添加组件」的行为
+    const isFiledConfig = added.fields && !added.cols // 如果只有 filed 一个字段，说明是 field 字段发生了 「增加」的变化，这时候需要重新渲染整个 col
     if (isRowAdd) {
       const rows = added.rows
       const cols = added.cols
-      Object.keys(rows).forEach(rowId => {
+      const seqRows = added.canvas.rows
+      Object.values(seqRows).forEach(rowId => {
         const colArray = rows[rowId].columns
         let rowDom = $(Row)
         rowDom.data('id', rowId)
         rowDom.attr('id', rowId)
+        const _rowDom = rowControl(rowDom, rowId)
+        $('#fd-canvas').append(_rowDom)
         colArray.forEach(colId => {
           const { colSpan } = cols[colId].config
           let columnDom = $(Column) // 生成 column 的 JQ 对象
@@ -58,7 +66,6 @@ const modifyDOM = ({ added, deleted, updated }) => {
           columnDom.attr('id', colId) // 给column绑定id
           columnDom.addClass(colSpan) // 添加 col-xs-xx 的class，决定 column 的大小
           rowDom.append(columnDom) // 添加到 row 中
-          $('#fd-canvas').append(rowDom)
         })
       })
     }
@@ -66,31 +73,60 @@ const modifyDOM = ({ added, deleted, updated }) => {
     if (isFieldAdd) {
       const fields = added.fields
       Object.keys(fields).forEach(fieldId => {
+        modify.call(this, fieldId)
+      })
+    }
+
+    if (isFiledConfig) {
+      const fields = added.fields
+      Object.keys(fields).forEach(fieldId => {
         modify.call(this, fieldId, true)
       })
     }
+  }
+
+  const isDeleted = !$.isEmptyObject(deleted)
+  const isUpdated = !$.isEmptyObject(updated)
+
+  if (isDeleted && isUpdated) {
+    // 如果 update 和 delete 同时发生
+    if (canvas) {
+      // 有canvas说明row被删除了，要执行删除命令
+      deletedHandler()
+    } else {
+      updatedHandler()
+    }
+  } else if (isDeleted && !isUpdated) {
+    // 如果只有 delete ，执行 delete 操作
+    setTimeout(function() {
+      deletedHandler()
+    }, 0)
+  } else if (isUpdated && !isDeleted) {
+    // 如果只有 update , 执行 update 操作
+    updatedHandler()
   }
 
   // 删除的情况
-  if (!$.isEmptyObject(deleted)) {
+  function deletedHandler() {
     console.log('delete', deleted)
-    const fields = deleted.fields
-    const cols = deleted.cols
-    if (cols && fields) {
+    if (cols && fields && !canvas) {
+      // 同时出现 col 和fields，没有canvas，组件删除的情况
       Object.keys(fields).forEach(fieldId => {
         $(`#${fieldId}`).remove()
       })
-    }
-    if (fields && !cols) {
+    } else if (canvas && rows) {
+      Object.keys(rows).forEach(rowId => {
+        $(`#${rowId}`).remove()
+      })
+    } else if (fields && !cols) {
       Object.keys(fields).forEach(fieldId => {
         modify.call(this, fieldId, true)
       })
     }
   }
 
-  // 更新的情况
-  if (!$.isEmptyObject(updated)) {
-    console.log('update')
+  function updatedHandler() {
+    console.log('update', updated)
     const fields = updated.fields
     if (fields) {
       Object.keys(fields).forEach(fieldId => {
@@ -98,6 +134,34 @@ const modifyDOM = ({ added, deleted, updated }) => {
       })
     }
   }
+
+  // if (!$.isEmptyObject(deleted)) {
+  //   console.log('delete', deleted)
+  //   const fields = deleted.fields
+  //   const cols = deleted.cols
+  //   if (cols && fields) {
+  //     // 只有同时出现 col 和fields，才是整个组件删除的请看
+  //     Object.keys(fields).forEach(fieldId => {
+  //       $(`#${fieldId}`).remove()
+  //     })
+  //   }
+  //   if (fields && !cols) {
+  //     Object.keys(fields).forEach(fieldId => {
+  //       modify.call(this, fieldId, true)
+  //     })
+  //   }
+  // }
+
+  // 更新的情况
+  // if (!$.isEmptyObject(updated)) {
+  //   console.log('update', updated)
+  //   const fields = updated.fields
+  //   if (fields) {
+  //     Object.keys(fields).forEach(fieldId => {
+  //       modify.call(this, fieldId, true)
+  //     })
+  //   }
+  // }
 }
 
 export default modifyDOM

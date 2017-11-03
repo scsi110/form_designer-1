@@ -18,12 +18,12 @@ body {
   .fd-wrapper {
     .fd-panel {
       border-radius: 6px;
-      background-color: #ebeaec;
     }
 
     #fd-widget-panel {
-      min-height: 550px;
+      min-height: 650px;
       height: auto;
+      background-color: #ebeaec;
       .widget-panel-menu {
         padding: 0;
         margin: 0;
@@ -42,9 +42,6 @@ body {
     }
     .canvas-container {
       background: none;
-      padding-left: -10px;
-      padding-right: -10px;
-      // margin-left: 10px;
       #fd-canvas {
         background-color: #ebeaec;
         min-height: 800px;
@@ -52,12 +49,34 @@ body {
         border: 3px solid #ffffff;
 
         .fd-row {
-          // height: 80px;
           margin-left: 0;
           margin-right: 0;
           margin-bottom: 6px;
           padding: 4px 4px 4px 4px;
           border: 3px solid rgba(128, 128, 128, 0.47);
+          position: relative;
+          .row-control {
+            position: absolute;
+            width: 30px;
+            height: auto;
+            background-color: #fff;
+            padding: 10px 0 10px 0;
+            top: -3px;
+            left: 0;
+            text-align: center;
+            border-top-left-radius: 6px;
+            border-bottom-left-radius: 6px;
+            border: 1px solid #b8b8b9;
+            cursor: pointer;
+            opacity: 0;
+
+            i {
+              margin: 0;
+              &:hover {
+                color: #4262a8;
+              }
+            }
+          }
 
           .fd-col {
             border: 1px dashed rgba(128, 128, 128, 0.47);
@@ -95,8 +114,23 @@ body {
       }
     }
     #fd-edit-panel {
-      height: 550px;
       overflow-y: scroll;
+      padding: 0;
+
+      .edit-panel-wrapper {
+        background-color: #ebeaec;
+        border-radius: 6px;
+      }
+
+      .form-info {
+        height: 150px;
+        margin-bottom: 10px;
+      }
+
+      .widget-edit {
+        height: 550px;
+        overflow-y: scroll;
+      }
 
       #fd-config-list {
         margin: 0;

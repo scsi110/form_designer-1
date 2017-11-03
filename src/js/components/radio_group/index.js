@@ -206,7 +206,6 @@ class RadioGroup extends WidgetBase {
       const $this = $(this)
       let option = curConfig.options[curConfig.options.length - 1]
       let { value, label, id } = option
-      console.log(value, label, id)
       const newOption = `
         <div class="optionsContainer">
           <input type="radio" name="optionRadioControl" data-index=${id} />

@@ -29,7 +29,7 @@ class HiddenInput extends WidgetBase {
     }
 
     let container = $(
-      `<div style="width:100%;height:30px;background:gray;border:none;border-radius:3px;color:#fff;text-align:center;line-height:30px;">
+      `<div style="width:100%;height:30px;background:gray;border:none;border-radius:3px;color:#fff;text-align:center;line-height:30px;opacity: 0.6;">
         隐藏域
       </div>`
     )

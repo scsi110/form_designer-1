@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import store from '../../../store/store'
 import { toJS } from 'mobx'
 

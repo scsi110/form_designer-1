@@ -207,7 +207,6 @@ class Select extends WidgetBase {
         curConfig.defaultValue = []
         complexConfigs.find(`input:${toChangeType}`).prop('checked', false)
       }
-
       self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
     })
 
@@ -223,9 +222,10 @@ class Select extends WidgetBase {
           option[attrName] = value
           const index = curConfig.defaultValue.indexOf(prveVal)
           curConfig.defaultValue[index] = value
+          self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
+          return
         }
       })
-      self.emitChange() // 发送改变数据的指令，自动触发 DOM 修改
     })
 
     complexConfigs.on('change', 'input:radio', function() {

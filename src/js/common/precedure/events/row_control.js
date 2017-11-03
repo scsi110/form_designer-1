@@ -1,0 +1,26 @@
+import store from '../../../store/store'
+
+const rowControl = (row, id) => {
+  let timer
+  row.on('mouseenter', function(e) {
+    let $this = $(this)
+    timer = setTimeout(function() {
+      e.preventDefault()
+      $this.find('.row-control').animate({ opacity: 1, left: '-30px' }, 500)
+    }, 300)
+  })
+  row.on('mouseleave', function(e) {
+    clearTimeout(timer)
+    e.preventDefault()
+    let $this = $(this)
+    $this.find('.row-control').animate({ opacity: 0, left: '0' }, 400)
+  })
+
+  row.find('i').on('click', function() {
+    store.removeRow(id)
+  })
+
+  return row
+}
+
+export default rowControl

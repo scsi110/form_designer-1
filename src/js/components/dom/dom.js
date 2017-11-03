@@ -1,5 +1,9 @@
 const Row = `
-  <div class="row fd-row"></div>
+  <div class="row fd-row">
+    <div class="row-control" style="width">
+      <i class="icon remove"></i>
+    </div>
+  </div>
 `
 
 const Column = `

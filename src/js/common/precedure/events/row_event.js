@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import { AddRow } from '../../../components/widget_list'
 
 const bindRowEvent = (widgetClass, canvasId) => {

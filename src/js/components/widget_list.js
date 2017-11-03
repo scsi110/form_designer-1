@@ -11,7 +11,7 @@ import AddRow from './layout/layout'
 import store from '../store/store'
 
 const PLUGINS = {
-  chekbox: CheckboxGroup,
+  checkbox: CheckboxGroup,
   radio: RadioGroup,
   hiddenInput: HiddenInput,
   text: Text,

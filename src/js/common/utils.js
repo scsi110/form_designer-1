@@ -1,5 +1,4 @@
 import uuidv4 from 'uuid-v4'
-import $ from 'jquery'
 
 const uuid = elem => {
   let id

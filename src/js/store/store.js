@@ -2,8 +2,6 @@ import { extendObservable, observable, action, autorun, toJS } from 'mobx'
 import clonedeep from 'lodash.clonedeep'
 import assignin from 'lodash.assignin'
 import { detailedDiff } from 'deep-object-diff'
-
-// import $ from 'jquery'
 import modifyDOM from '../common/modify_dom'
 
 class Store {
@@ -12,7 +10,8 @@ class Store {
   data = {
     canvas: {
       id: '',
-      rows: new Array()
+      rows: new Array(),
+      name
     },
     rows: {},
     cols: {},
@@ -37,6 +36,11 @@ class Store {
   @action
   addCanvasId = id => {
     this.data.canvas.id = id
+  }
+
+  @action
+  addCanvasName = name => {
+    this.data.canvas.name = name
   }
 
   // 添加一个 Row
@@ -86,6 +90,20 @@ class Store {
     })
   }
 
+  @action
+  removeRow = id => {
+    const canvas_rows_idx = this.data.canvas.rows.indexOf(id)
+    this.data.canvas.rows.splice(canvas_rows_idx, 1)
+
+    this.data.rows[id].columns.forEach(colId => {
+      this.data.cols[colId].fields.forEach(fieldId => {
+        delete this.data.fields[fieldId]
+      })
+      delete this.data.cols[colId]
+    })
+    delete this.data.rows[id]
+  }
+
   // 添加一个 Field
   @action
   addField = data => {
@@ -114,7 +132,6 @@ class Store {
   @action
   changeConfig = (config, widgetId) => {
     extendObservable(this.data.fields[widgetId].config, config)
-    // this.pluginMap[widgetId]['config'] = config
   }
 
   // 移除 Field

@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import { RowBase, ColumnBase } from '../base'
 import store from '../../store/store'
 import bindColEvent from '../../common/precedure/events/col_event'
@@ -18,7 +17,6 @@ class AddRow {
       this.rowData['columns'].push(colData.id)
     }
     store.addRow(this.rowData) // 更新数据
-    // this.createDOM(cols, canvas)
   }
 
   createDOM(colNum, container) {

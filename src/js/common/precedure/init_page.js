@@ -1,19 +1,15 @@
-import $ from 'jquery'
-
 const initPage = containerId => {
   // 设置总体布局为 container-fluid
   const mainContainer = $(`#${containerId}`).addClass('container-fluid')
+  const wrapperRow = $('<div class="row fd-wrapper"></div>')
   // 生成页面的主体元素
-  const header = $(
-    `<div class="row">
+  const header = `<div class="row">
         <div class="col-xs-24">
           <h1 id="form-designer-logo">Form Designer</h1>
         </div>
       </div>`
-  )
-  const wrapperRow = $('<div class="row fd-wrapper"></div>')
-  const widgetPanel = $(
-    `<div class="col-xs-4 fd-panel" id="fd-widget-panel">
+
+  const widgetPanel = `<div class="col-xs-4 fd-panel" id="fd-widget-panel">
       <h2>布局</h2>
       <ul class="widget-panel-menu" id="fd-layout-list">
         <li id="single-column" class="fd-widget" draggable=true data-type='column_one'>单列布局</li>
@@ -25,18 +21,24 @@ const initPage = containerId => {
       <ul class="widget-panel-menu" id="fd-widget-list">
       </ul>     
     </div>`
-  )
-  const editPanel = $(
-    `<div class="col-xs-6 fd-panel" id="fd-edit-panel">
-      <h2>编辑面板</h2>
-      <div id="fd-widget-edit-container"></div>
-    </div>`
-  )
-  const canvas = $(
-    `<div class="col-xs-14 fd-panel canvas-container">
+
+  const editPanel = `<div class="col-xs-6" id="fd-edit-panel">
+      <div class="col-xs-24 edit-panel-wrapper form-info">
+        <h2>表单信息</h2>
+        <div id="fd-form-edit-container">
+          <label>表单名称：</label>
+          <input class="c-field" />
+        </div>
+        </div>
+        <div class="col-xs-24 edit-panel-wrapper widget-edit">
+          <h2>组件编辑面板</h2>
+          <div id="fd-widget-edit-container"></div>
+        </div>
+      </div>`
+
+  const canvas = `<div class="col-xs-14 fd-panel canvas-container">
         <div id="fd-canvas"></div>
       </div>`
-  )
 
   // 组合元素
   wrapperRow.append(widgetPanel)

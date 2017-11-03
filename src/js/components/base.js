@@ -1,6 +1,6 @@
 import { uuid } from '../common/utils'
-import debounce from 'lodash.debounce'
 import store from '../store/store'
+import debounce from 'lodash.debounce'
 
 class WidgetBase {
   constructor() {
@@ -32,12 +32,9 @@ class WidgetBase {
     }
   }
 
-  emitChange() {
-    const self = this
-    debounce(() => {
-      store.changeConfig(self.config, self.id)
-    }, 300)()
-  }
+  emitChange = debounce(() => {
+    store.changeConfig(this.config, this.id)
+  }, 300)
 }
 
 class RowBase {
