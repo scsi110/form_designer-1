@@ -1,5 +1,6 @@
 body {
   background-color: #272c35 !important;
+  overflow-y: hidden;
   ul,
   li {
     margin: 0;
@@ -21,11 +22,17 @@ body {
     }
 
     #fd-widget-panel {
-      min-height: 650px;
-      height: auto;
+      width: 250px;
+      height: 99%;
+      overflow: scroll;
+      position: fixed;
+      z-index: 10000;
       background-color: #ebeaec;
+      h2 {
+        padding-left: 10px;
+      }
       .widget-panel-menu {
-        padding: 0;
+        padding: 5px;
         margin: 0;
         .fd-widget {
           list-style: none;
@@ -42,9 +49,14 @@ body {
     }
     .canvas-container {
       background: none;
+      padding-left: 255px;
+      padding-right: 424px;
+      overflow-y: scroll;
+
       #fd-canvas {
         background-color: #ebeaec;
-        min-height: 800px;
+        // min-height: 2000px;
+        height: 100%;
         border-radius: 6px;
         border: 3px solid #ffffff;
 
@@ -69,6 +81,7 @@ body {
             border: 1px solid #b8b8b9;
             cursor: pointer;
             opacity: 0;
+            z-index: 20000;
 
             i {
               margin: 0;
@@ -80,7 +93,7 @@ body {
 
           .fd-col {
             border: 1px dashed rgba(128, 128, 128, 0.47);
-            min-height: 60px;
+            min-height: 68px;
 
             .widget-box {
               position: relative;
@@ -114,6 +127,11 @@ body {
       }
     }
     #fd-edit-panel {
+      width: 417px;
+      height: 99%;
+      position: fixed;
+      right: 10px;
+      z-index: 10000;
       overflow-y: scroll;
       padding: 0;
 
@@ -128,7 +146,7 @@ body {
       }
 
       .widget-edit {
-        height: 550px;
+        height: 100%;
         overflow-y: scroll;
       }
 

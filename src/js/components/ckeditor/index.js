@@ -1,4 +1,5 @@
 import { WidgetBase } from '../widgetAPI'
+import store from '../../store/store'
 
 class CKEditor extends WidgetBase {
   constructor() {
@@ -100,28 +101,37 @@ class CKEditor extends WidgetBase {
       height,
       width
     } = this.config
-    const tpl = `
-    <ul class="fd-widget-configs" id="fd-config-list">
-      <li class="row fd-config-item">
-        <div class="col-xs-24 col-sm-12">
+
+    const formSign = store.getConfig().formDescriber
+      ? `<div class="col-xs-24">
           <label>表单标识</label>
           <input type="text" class="c-field u-small" data-type="name" value="${name ===
           undefined
             ? ''
             : name}" />
-        </div>
-        <div class="col-xs-24 col-sm-12">
+        </div>`
+      : ''
+
+    const tpl = `
+    <ul class="fd-widget-configs" id="fd-config-list">
+      <li class="row fd-config-item">
+        ${formSign}
+      </li>
+      <li class="row fd-config-item">
+        <div class="col-xs-24">
           <label>标签</label>
           <input type="text" class="c-field u-small" data-type="label" value="${label}" />
         </div>
       </li>
-
       <li class="row fd-config-item">
-        <div class="col-xs-24 col-sm-12">
+        <div class="col-xs-24">
           <label>宽度</label>
           <input type="text" class="c-field u-small" data-type="width" value="${width}" />
         </div>
-        <div class="col-xs-24 col-sm-12">
+        
+      </li>
+      <li class="row fd-config-item">
+        <div class="col-xs-24">
           <label>高度</label>
           <input type="text" class="c-field u-small" data-type="height" value="${height}" />
         </div>

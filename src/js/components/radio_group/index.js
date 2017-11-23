@@ -7,7 +7,7 @@ class RadioGroup extends WidgetBase {
     this.tag = 'input'
     this.optionSize = 1
     this.config.name = undefined // 设定文件域的字段名
-    this.config.label = '单选组合:'
+    this.config.label = '单选组合'
     this.config.required = false
     this.config.inline = false
     this.config.defaultValue = ''

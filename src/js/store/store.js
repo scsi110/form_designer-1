@@ -1,8 +1,8 @@
 import { extendObservable, observable, action, autorun, toJS } from 'mobx'
 import clonedeep from 'lodash.clonedeep'
-import assignin from 'lodash.assignin'
 import { detailedDiff } from 'deep-object-diff'
 import modifyDOM from '../common/modify_dom'
+import assignin from 'lodash.assignin'
 
 class Store {
   // 定义可观察的数据结构
@@ -18,6 +18,7 @@ class Store {
     fields: {}
   }
 
+  // 临时变量，用作 DIFF 时保存变化前数据
   _data = {
     canvas: {
       id: '',
@@ -28,11 +29,28 @@ class Store {
     fields: {}
   }
 
+  // 全局组件仓库，维护组件实例化之后的map
   pluginMap = {}
+
+  // 定义表单设计器全局config参数
+  formConfig = {
+    formDescriber: false
+  }
 
   // 定义方法：
 
   // 给画布添加 ID
+
+  @action
+  setConfig = config => {
+    extendObservable(this.formConfig, config)
+  }
+
+  @action
+  getConfig = () => {
+    return toJS(this.formConfig)
+  }
+
   @action
   addCanvasId = id => {
     this.data.canvas.id = id

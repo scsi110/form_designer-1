@@ -7,7 +7,7 @@ const rowControl = (row, id) => {
     timer = setTimeout(function() {
       e.preventDefault()
       $this.find('.row-control').animate({ opacity: 1, left: '-30px' }, 500)
-    }, 300)
+    }, 380)
   })
   row.on('mouseleave', function(e) {
     clearTimeout(timer)

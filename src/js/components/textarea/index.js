@@ -4,7 +4,7 @@ class Textarea extends WidgetBase {
   constructor() {
     super()
     this.tag = 'textarea'
-    this.config.label = '多行文本框:'
+    this.config.label = '多行文本框'
     this.config.name = undefined
     this.config.required = false
     this.config.rows = '2'
@@ -72,15 +72,16 @@ class Textarea extends WidgetBase {
                 : name}" />
             </div>
             <div class="col-xs-24 col-sm-12">
-              <label>文字占位</label>
-              <input type="text" class="c-field u-small" data-type="placeholder" value='${placeholder}' />
-            </div>
-      </li>
-      <li class="row fd-config-item">
-        <div class="col-xs-24 col-sm-12">
           <label>标签</label>
           <input type="text" class="c-field u-small" data-type="label" value="${label}" />
         </div>
+            
+      </li>
+      <li class="row fd-config-item">
+        <div class="col-xs-24 col-sm-12">
+              <label>文字占位</label>
+              <input type="text" class="c-field u-small" data-type="placeholder" value='${placeholder}' />
+            </div>
         <div class="col-xs-24 col-sm-12">
           <label>默认值</label>
           <input type="text" class="c-field u-small" data-type="defaultValue" value="${defaultValue ===

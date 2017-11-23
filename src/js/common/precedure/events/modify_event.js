@@ -1,5 +1,4 @@
 import store from '../../../store/store'
-import { toJS } from 'mobx'
 
 const bindModifyEvent = (elem, containerId) => {
   const widgetId = elem.data('id') // 获取 widget 的 ID

@@ -4,11 +4,13 @@ import bindModifyEvent from '../common/precedure/events/modify_event'
 import store from '../store/store'
 import debounce from 'lodash.debounce'
 import rowControl from '../common/precedure/events/row_control'
+import { validate } from '../common/utils'
 
 // 修改DOM的函数
 const modify = (fieldId, removePrev) => {
   const field = store.data.fields[fieldId]
   const containerId = field.containerId
+  const colContainer = $(`#${containerId}`)
 
   setTimeout(function() {
     if (removePrev) {
@@ -16,20 +18,53 @@ const modify = (fieldId, removePrev) => {
     }
     let $widgetBox = $(WidgetBox)
     let widget = store.pluginMap[fieldId].createDOM()
-    if (field.config.label) {
+    let labelVal = field.config.label
+    if (labelVal) {
       const $label = $(Label)
-      $label.append(field.config.label)
+      if (labelVal.slice(-1) !== ':' || labelVal.slice(-1) !== '：') {
+        labelVal = labelVal + '：'
+      }
+      $label.append(labelVal)
       $widgetBox.append($label)
     }
-
     $widgetBox.append(widget)
+    if (
+      store.pluginMap[fieldId].config.validate &&
+      store.pluginMap[fieldId].config.validate.rule !== 'norule'
+    ) {
+      $widgetBox.append(
+        `<span style="color:red;display:none;padding-left:1px;font-size:14px;" class="validate-error-msg">${
+          store.pluginMap[fieldId].config.validate.errMsg
+        }</span>`
+      )
+    }
+
     store.pluginMap[fieldId].elementRef = widget
 
     $widgetBox.data('id', fieldId)
     $widgetBox.attr('id', fieldId)
     $widgetBox = bindModifyEvent($widgetBox, containerId)
 
-    $(`#${containerId}`).append($widgetBox)
+    colContainer.append($widgetBox)
+
+    if (
+      store.pluginMap[fieldId].config.validate &&
+      store.pluginMap[fieldId].config.validate.rule !== 'norule'
+    ) {
+      const rule = store.pluginMap[fieldId].config.validate.rule
+      widget.on('input', e => {
+        let val = e.target.value
+        let result = validate(val, rule)
+        if (!result) {
+          $widgetBox.find('.validate-error-msg').show()
+          widget.css('border-color', 'red')
+        } else {
+          $widgetBox.find('.validate-error-msg').hide()
+          widget.css('border-color', '#96a8b2')
+        }
+      })
+    }
+
     if (store.pluginMap[fieldId].afterCreateDOM) {
       store.pluginMap[fieldId].afterCreateDOM()
     }
@@ -134,34 +169,6 @@ const modifyDOM = ({ added, deleted, updated }) => {
       })
     }
   }
-
-  // if (!$.isEmptyObject(deleted)) {
-  //   console.log('delete', deleted)
-  //   const fields = deleted.fields
-  //   const cols = deleted.cols
-  //   if (cols && fields) {
-  //     // 只有同时出现 col 和fields，才是整个组件删除的请看
-  //     Object.keys(fields).forEach(fieldId => {
-  //       $(`#${fieldId}`).remove()
-  //     })
-  //   }
-  //   if (fields && !cols) {
-  //     Object.keys(fields).forEach(fieldId => {
-  //       modify.call(this, fieldId, true)
-  //     })
-  //   }
-  // }
-
-  // 更新的情况
-  // if (!$.isEmptyObject(updated)) {
-  //   console.log('update', updated)
-  //   const fields = updated.fields
-  //   if (fields) {
-  //     Object.keys(fields).forEach(fieldId => {
-  //       modify.call(this, fieldId, true)
-  //     })
-  //   }
-  // }
 }
 
 export default modifyDOM

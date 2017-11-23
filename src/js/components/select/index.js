@@ -1,11 +1,14 @@
 import { WidgetBase } from '../widgetAPI'
+import store from '../../store/store'
+import { handleCache } from '../../common/utils'
 
 class Select extends WidgetBase {
   constructor() {
     super()
     this.optionNum = 0
     this.tag = 'select'
-    this.config.label = '下拉选项:'
+    this.config.dataFetchMethod = 'customer' // 获取选项的方法：1. customer 用户手动输入 2. defaultQuery 请求默认数据字典 3. customerQuery 自定义SQL查询
+    this.config.label = '下拉选项'
     this.config.name = undefined
     this.config.options = []
     this.config.multiple = false
@@ -13,6 +16,8 @@ class Select extends WidgetBase {
     this.config.dynamicOption = false
     this.config.allowClear = false
     this.config.defaultValue = []
+    this.config.dictTypeCode
+    this.config.customerQuery
     this.name = 'select'
     this.addOption(4)
     this.type = 'select'
@@ -51,11 +56,13 @@ class Select extends WidgetBase {
       element.attr('name', name)
     }
 
-    options.forEach(option => {
-      const { label, value } = option
-      const optionDOM = `<option value="${value}">${label}</option>`
-      element.append(optionDOM)
-    })
+    if (this.config.dataFetchMethod === 'customer') {
+      options.forEach(option => {
+        const { label, value } = option
+        const optionDOM = `<option value="${value}">${label}</option>`
+        element.append(optionDOM)
+      })
+    }
 
     return element
   }
@@ -63,18 +70,59 @@ class Select extends WidgetBase {
   // 生命周期函数
   afterCreateDOM = () => {
     let { dynamicOption, multiple, allowClear } = this.config
-    this.elementRef.select2({
-      dropdownAutoWidth: true,
-      selectOnClose: false,
-      width: '100%',
-      multiple, // 是否允许多选
-      tags: dynamicOption, // 允许在输入框动态添加选项
-      allowClear
-    })
+    let { dataFetchMethod } = this.config
+    if (dataFetchMethod === 'customer') {
+      const { serverBaseUrl } = store.getConfig()
+      this.elementRef.select2({
+        dropdownAutoWidth: true,
+        selectOnClose: false,
+        width: '100%',
+        multiple, // 是否允许多选
+        tags: dynamicOption, // 允许在输入框动态添加选项
+        allowClear
+      })
 
-    if (this.config.defaultValue) {
-      this.elementRef.val(this.config.defaultValue)
-      this.elementRef.trigger('change')
+      if (this.config.defaultValue) {
+        this.elementRef.val(this.config.defaultValue)
+        this.elementRef.trigger('change')
+      }
+    } else {
+      // 请求远程数据走这里
+      const { serverBaseUrl } = store.getConfig()
+      let url =
+        dataFetchMethod === 'defaultQuery'
+          ? `${serverBaseUrl}/dynamicform/api/getDataDicts.action?dictTypeCode=${this
+              .config.dictTypeCode}`
+          : `${serverBaseUrl}/dynamicform/api/getSqlDictData.action?sql=${this
+              .config.customerQuery}`
+
+      let searchTerm = dataFetchMethod === 'defaultQuery' ? 'dictName' : 'name'
+
+      this.elementRef.select2({
+        ajax: {
+          url,
+          dataType: 'json',
+          processResults: function({ result }) {
+            let results = result.map((obj, index) => {
+              return { id: obj.dictCode, text: obj.dictName }
+            })
+            return { results }
+          },
+          delay: 300,
+          data: params => {
+            var query = {
+              [searchTerm]: params.term
+            }
+            return query
+          }
+        },
+        dropdownAutoWidth: true,
+        selectOnClose: false,
+        width: '100%',
+        multiple, // 是否允许多选
+        tags: dynamicOption, // 允许在输入框动态添加选项
+        allowClear
+      })
     }
   }
 
@@ -111,6 +159,7 @@ class Select extends WidgetBase {
                 </div>
               `
     })
+
     // 配置模版
     const tpl = `
     <ul class="fd-widget-configs" id="fd-config-list">
@@ -130,12 +179,49 @@ class Select extends WidgetBase {
         </div>
       </li>
       <li class="fd-config-item complex-config">
-      <fieldset class="o-fieldset">
-        <legend class="o-fieldset__legend">选项：</legend>
-        ${_options}
-      </fieldset>
-        <div class="row">
-          <i class="plus icon pull-right" style="cursor:pointer;margin-right: 18px;"></i>
+        <div class="layui-tab layui-tab-card" id="select-data-fetch-config" lay-filter="selectDataFetchTab">
+          <ul class="layui-tab-title">
+            ${this.config.dataFetchMethod === 'customer'
+              ? '<li class="layui-this">自定义选项</li>'
+              : '<li>自定义选项</li>'}
+            ${this.config.dataFetchMethod === 'defaultQuery'
+              ? '<li class="layui-this">远程字典</li>'
+              : '<li>远程字典</li>'}
+            ${this.config.dataFetchMethod === 'customerQuery'
+              ? '<li class="layui-this">自定义查询</li>'
+              : '<li>自定义查询</li>'}
+          </ul>
+          <div class="layui-tab-content" style="min-height: 200px;height:auto">
+             ${this.config.dataFetchMethod === 'customer'
+               ? '<div class="layui-tab-item layui-show">'
+               : '<div class="layui-tab-item">'}
+                <fieldset class="o-fieldset">
+                  ${_options}
+                </fieldset>
+                <div class="row">
+                  <i class="plus icon pull-right" style="cursor:pointer;margin-right: 18px;"></i>
+                </div>
+            </div>
+            ${this.config.dataFetchMethod === 'defaultQuery'
+              ? '<div class="layui-tab-item layui-show">'
+              : '<div class="layui-tab-item">'}
+                <fieldset class="o-fieldset">
+                  <legend class="o-fields
+                  et__legend">获取远程数据：</legend>
+                </fieldset>
+                <select class="c-field u-medium select-default-query"></select>
+            </div>
+             ${this.config.dataFetchMethod === 'customerQuery'
+               ? '<div class="layui-tab-item layui-show">'
+               : '<div class="layui-tab-item">'}
+              <div class="col-xs-24" id="select-custom-sql-fetch">
+                <textarea class="c-field" placeholder="请输入自定义 SQL 语句" rows="4"></textarea>
+                <button type="button" class="c-button c-button--info u-large" style="float:right;margin-top:10px;width:100px;">
+                  查询
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </li>
       <li class="fd-config-item simple-config">
@@ -305,6 +391,70 @@ class Select extends WidgetBase {
     })
 
     return element
+  }
+
+  afterConfigPanelInit() {
+    const self = this
+    const { serverBaseUrl } = store.getConfig()
+
+    layui.use('element', () => {
+      let element = layui.element
+      let dataFetchMethodMap = {
+        0: 'customer',
+        1: 'defaultQuery',
+        2: 'customerQuery'
+      }
+      element.on('tab(selectDataFetchTab)', function(data) {
+        // 储存前一个Tab的数据到sessionStorage
+        let { index } = data
+        let prevTab = self.config.dataFetchMethod
+        let curTab = dataFetchMethodMap[index]
+        if (prevTab === curTab) {
+          return false
+        }
+
+        handleCache(self, prevTab, curTab)
+
+        self.config.dataFetchMethod = curTab
+        self.emitChange()
+      })
+    })
+
+    $('.select-default-query')
+      .select2({
+        width: '100%',
+        ajax: {
+          url: `${serverBaseUrl}/dynamicform/api/getDataDictTypes.action`,
+          dataType: 'json',
+          processResults: function({ result }) {
+            let results = result.map((obj, index) => {
+              return { id: obj.dictTypeCode, text: obj.dictTypeName }
+            })
+            return { results }
+          },
+          delay: 400,
+          data: params => {
+            var query = {
+              name: params.term
+            }
+            return query
+          }
+        }
+      })
+      .on('select2:select', function() {
+        const $this = $(this)
+        self.config.dictTypeCode = $this.val()
+        self.config.label = $this[0].lastChild.innerText
+        self.emitChange()
+      })
+
+    $('#select-custom-sql-fetch button').on('click', function() {
+      let sql = $(this)
+        .prev('textarea')
+        .val()
+      self.config.customerQuery = sql
+      self.emitChange()
+    })
   }
 }
 

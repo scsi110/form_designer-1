@@ -6,7 +6,7 @@ class FileUpload extends WidgetBase {
     this.optionNum = 0
     this.config.name = 'file' // 设定文件域的字段名
     this.config.size = 0 // 文件大小限制,0 为不限制
-    this.config.accept = 'file'
+    this.config.accept = 'files'
     this.config.url = undefined
     this.config.placeholder = '点击上传，或将文件拖拽到此处'
     this.config.auto = true
@@ -89,11 +89,19 @@ class FileUpload extends WidgetBase {
         </div>
         <div class="col-xs-24 col-sm-12">
           <label>文件类型限制</label>
-          <select type="text" class="c-field" data-type="accept" value="${accept}" id="fileUploadAcceptTypeChoice">
-            <option value="file">所有文件</option>
-            <option value="images">图片</option>
-            <option value="audio">音频</option>
-            <option value="video">视频</option>
+          <select type="text" class="c-field" data-type="accept" id="fileUploadAcceptTypeChoice">
+            <option value="file" ${accept === 'file'
+              ? 'selected'
+              : ''}>所有文件</option>
+            <option value="images" ${accept === 'images'
+              ? 'selected'
+              : ''}>图片</option>
+            <option value="audio" ${accept === 'audio'
+              ? 'selected'
+              : ''}>音频</option>
+            <option value="video" ${accept === 'video'
+              ? 'selected'
+              : ''}>视频</option>
           </select>
         </div>
       </li>

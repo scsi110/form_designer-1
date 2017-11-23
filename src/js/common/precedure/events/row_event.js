@@ -1,5 +1,18 @@
 import { AddRow } from '../../../components/widget_list'
 
+// 自动延伸画布高度，在每次 drop 时触发
+const autoHigher = () => {
+  const canvas = $('#fd-canvas')
+  const rowNum = canvas.find('.fd-row').length
+  const singleRowHeight = 82
+  const curRowHeight = singleRowHeight * rowNum
+  const curCanvasHeight = $('#fd-canvas').height()
+  const deltaHeight = curCanvasHeight - curRowHeight
+  if (deltaHeight < singleRowHeight * 2) {
+    $('#fd-canvas').height(curCanvasHeight + singleRowHeight * 2)
+  }
+}
+
 const bindRowEvent = (widgetClass, canvasId) => {
   const widgets = $(`.${widgetClass}`)
   const canvas = $(`#${canvasId}`)
@@ -44,6 +57,8 @@ const bindRowEvent = (widgetClass, canvasId) => {
       default:
         break
     }
+
+    autoHigher()
   })
 }
 

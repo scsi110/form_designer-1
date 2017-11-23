@@ -21,8 +21,10 @@ const bindColEvent = col => {
   col.on('drop', function(event) {
     event.preventDefault()
     event.stopPropagation()
-    const colId = $(this).data('id')
-    $(this).css('border', '1px dashed rgba(128, 128, 128, 0.47)')
+    const $this = $(this)
+    const colId = $this.data('id')
+    $this.css('border', '1px dashed rgba(128, 128, 128, 0.47)')
+
     let widgetType = event.originalEvent.dataTransfer.getData('type')
     if (
       (col.children().length > 0 && widgetType != 'hiddenInput') ||

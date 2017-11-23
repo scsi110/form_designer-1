@@ -1,11 +1,12 @@
 import { WidgetBase } from '../widgetAPI'
+import store from '../../store/store'
 
 class DatePicker extends WidgetBase {
   constructor() {
     super()
     this.tag = 'input'
     this.attrs.type = 'text'
-    this.config.label = '选择日期:'
+    this.config.label = '选择日期'
     this.config.name = undefined
     this.config.required = false
     this.config.pickerType = 'date'
@@ -57,27 +58,36 @@ class DatePicker extends WidgetBase {
   // 定义元素配置面板的模版，并绑定配置修改事件，在元素配置图标点击时触发（见 modify_event.js 文件）
   createConfigPanel = () => {
     const { placeholder, label, defaultValue, name } = this.config
-    const tpl = `
-    <ul class="fd-widget-configs" id="fd-config-list">
-      <li class="row fd-config-item">
-            <div class="col-xs-24 col-sm-12">
+
+    const formSign = store.getConfig().formDescriber
+      ? `<div class="col-xs-24">
               <label>表单标识</label>
               <input type="text" class="c-field u-small" data-type="name" value="${name ===
               undefined
                 ? ''
                 : name}" />
-            </div>
-            <div class="col-xs-24 col-sm-12">
-              <label>文字占位</label>
-              <input type="text" class="c-field u-small" data-type="placeholder" value='${placeholder}' />
-            </div>
+            </div>`
+      : ''
+
+    const tpl = `
+    <ul class="fd-widget-configs" id="fd-config-list">
+      <li class="row fd-config-item">
+            ${formSign}
       </li>
       <li class="row fd-config-item">
-        <div class="col-xs-24 col-sm-12">
+        <div class="col-xs-24">
+          <label>文字占位</label>
+          <input type="text" class="c-field u-small" data-type="placeholder" value='${placeholder}' />
+        </div>
+      </li>
+      <li class="row fd-config-item">
+        <div class="col-xs-24">
           <label>标签</label>
           <input type="text" class="c-field u-small" data-type="label" value="${label}" />
         </div>
-        <div class="col-xs-24 col-sm-12">
+      </li>
+      <li class="row fd-config-item">
+        <div class="col-xs-24">
           <label>默认值</label>
           <input type="text" class="c-field u-small" placeholder="年-月-日" data-type="defaultValue" value="${defaultValue ===
           undefined
@@ -86,7 +96,7 @@ class DatePicker extends WidgetBase {
         </div>
       </li>
       <li class="row fd-config-item">
-        <div class="col-xs-24 col-sm-12">
+        <div class="col-xs-24">
           <label>选择器类型</label>
           <select type="text" class="c-field" data-type="pickerType" value="${label}" id="datePickerTypeChoice">
             <option value="date">日期选择器</option>

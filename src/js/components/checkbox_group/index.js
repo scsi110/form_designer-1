@@ -1,4 +1,5 @@
 import { WidgetBase } from '../widgetAPI'
+import store from '../../store/store'
 
 class CheckboxGroup extends WidgetBase {
   constructor() {
@@ -7,7 +8,7 @@ class CheckboxGroup extends WidgetBase {
     this.tag = 'input'
     this.optionSize = 1
     this.config.name = undefined // 设定文件域的字段名
-    this.config.label = '多选组合:'
+    this.config.label = '多选组合'
     this.config.required = false
     this.config.inline = false
     this.config.defaultValue = []
@@ -80,17 +81,22 @@ class CheckboxGroup extends WidgetBase {
                 </div>
               `
     })
-    const tpl = `
-    <ul class="fd-widget-configs" id="fd-config-list">
-      <li class="row fd-config-item prop-config-section">
-            <div class="col-xs-24 col-sm-12">
-              <label>文件标识</label>
+
+    const formSign = store.getConfig().formDescriber
+      ? `<div class="col-xs-24">
+              <label>标识</label>
               <input type="text" class="c-field u-small" data-type="name" value="${name ===
               undefined
                 ? ''
                 : name}" />
-            </div>
-            <div class="col-xs-24 col-sm-12">
+            </div>`
+      : ''
+
+    const tpl = `
+    <ul class="fd-widget-configs" id="fd-config-list">
+      <li class="row fd-config-item prop-config-section">
+            ${formSign}
+            <div class="col-xs-24">
               <label>标签</label>
                 <input type="text" class="c-field u-small" data-type="label" value="${label ===
                 0
