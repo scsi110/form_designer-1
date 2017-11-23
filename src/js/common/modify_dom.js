@@ -47,14 +47,29 @@ const modify = (fieldId, removePrev) => {
 
     colContainer.append($widgetBox)
 
+    // 判断验证规则
     if (
       store.pluginMap[fieldId].config.validate &&
       store.pluginMap[fieldId].config.validate.rule !== 'norule'
     ) {
+      // 取得当前组件的验证规则
+      let customerRule = null
+      let result = null
       const rule = store.pluginMap[fieldId].config.validate.rule
+      // 如果这个规则为自定义，则获取组件的自定义规则 customerRule
+      if (rule === 'customerRule') {
+        customerRule = store.pluginMap[fieldId].config.validate.customer
+      }
+      // 绑定预览组件的input事件
       widget.on('input', e => {
         let val = e.target.value
-        let result = validate(val, rule)
+        // 当有自定义规则，验证时传入自定义规则，若没有，则执行预定义验证
+        if (customerRule) {
+          result = validate(val, rule, customerRule)
+        } else {
+          result = validate(val, rule)
+        }
+
         if (!result) {
           $widgetBox.find('.validate-error-msg').show()
           widget.css('border-color', 'red')

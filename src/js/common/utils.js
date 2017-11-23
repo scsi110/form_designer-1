@@ -120,25 +120,27 @@ const handleCache = (widgetRef, prevTab, curTab) => {
   }
 }
 
-const validate = (value, rule) => {
+const validate = (value, rule, customerRule) => {
+  let _rule = null
   const rules = {
     email: /^[a-z0-9]+([._\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/,
     number: /^[0-9]*$/g,
     url: /[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/,
     cellphone: /^1[34578]\d{9}$/,
     IPAddress: /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/,
-    chinese: /^[\u4e00-\u9fa5]$/,
+    chinese: /^[\u4e00-\u9fa5]*$/,
     english: /^[A-Za-z]+$/,
     enAndNum: /^[A-Za-z0-9]+$/,
     IDNumber: /^[1-8](\d{14})$|^[1-8](\d{16})[0-9xX]$/
   }
-  console.log(`变量 rule 的值是 ${rule} 类型是 ${typeof rule} \n`)
-  console.log(`rules['url'] 的值是 ${rules['url']} \n`)
-  console.log('变量 rule 等于 字符串 url 吗？', rule === 'url')
-  console.log(`rules[rule] 的值是 ${rules[rule]}`)
 
-  const reg = new RegExp(rules[rule], 'g')
-  // console.log(reg)
+  if (customerRule) {
+    _rule = customerRule
+  } else {
+    _rule = rules[rule]
+  }
+
+  const reg = new RegExp(_rule, 'g')
   return reg.test(value)
 }
 

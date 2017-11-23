@@ -16,6 +16,7 @@ class WidgetBase {
     }
     this.containerId
     this.elementRef
+    this.configPanelRef
     this.type
   }
 
@@ -28,6 +29,7 @@ class WidgetBase {
       config: this.config,
       containerId: this.containerId,
       elementRef: this.elementRef,
+      configPanelRef: this.configPanelRef,
       type: this.type
     }
   }

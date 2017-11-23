@@ -13,6 +13,7 @@ class Text extends WidgetBase {
     this.config.readonly = false
     this.config.validate = {
       rule: 'norule',
+      customer: '',
       errMsg: '请输入正确的格式'
     }
     this.name = 'singleLineInput'
@@ -22,7 +23,11 @@ class Text extends WidgetBase {
   // 界面新增元素或元素发生更改重绘时，调用此方法生成元素的DOM（见 modify_dom.js 文件）
   createDOM = () => {
     let { tag, config, attrs, containerId } = this
-    let element = $(`<${tag} class="c-field u-small"></${tag}>`)
+    let element = $(
+      `<${tag} class="c-field u-small" ${
+        this.config.readonly ? 'readonly' : ''
+      }></${tag}>`
+    )
 
     Object.keys(attrs).forEach(attr => {
       element.attr(attr, attrs[attr])
@@ -55,7 +60,7 @@ class Text extends WidgetBase {
     const formSign = store.getConfig().formDescriber
       ? `<div class="ui form field">
               <label>标识</label>
-              <input type="text" class="c-field u-small" data-type="name" value="${
+              <input type="text" class="c-field u-small base-input" data-type="name" value="${
                 name === undefined ? '' : name
               }" />
             </div>`
@@ -68,7 +73,7 @@ class Text extends WidgetBase {
         <li class="fd-config-item">
           <div class="ui form field">
             <label>标签</label>
-            <input type="text" class="c-field" data-type="label" value="${
+            <input type="text" class="c-field base-input" data-type="label" value="${
               label
             }" />
           </div>
@@ -76,7 +81,7 @@ class Text extends WidgetBase {
         <li class="fd-config-item row">
           <div class="ui form field">
             <label>文字占位</label>
-            <input type="text" class="c-field" data-type="placeholder" value='${
+            <input type="text" class="c-field base-input" data-type="placeholder" value='${
               placeholder
             }' />
           </div>
@@ -85,7 +90,7 @@ class Text extends WidgetBase {
         <li class="fd-config-item">
           <div class="ui form field">
             <label>默认值</label>
-            <input type="text" class="c-field" data-type="defaultValue" value="${
+            <input type="text" class="c-field base-input" data-type="defaultValue" value="${
               defaultValue === undefined ? '' : defaultValue
             }" />
           </div>
@@ -94,8 +99,8 @@ class Text extends WidgetBase {
          <li class="fd-config-item">
           <div class="ui form field">
             <label>验证规则</label>
-            <select type="text" class="c-field" id="singleline-input-type-select">
-              <option value="" ${
+            <select type="text" class="c-field singleline-input-type-select">
+              <option value="norule" ${
                 validate.rule === 'norule' ? 'selected' : ''
               } data-type="norule">无限制</option>
 
@@ -107,7 +112,7 @@ class Text extends WidgetBase {
                 validate.rule === 'number' ? 'selected' : ''
               } data-type="number">数字</option>
 
-              <option value="url" ${
+              <option value="url" ${
                 validate.rule === 'url' ? 'selected' : ''
               } data-type="url">网址</option>
 
@@ -134,6 +139,10 @@ class Text extends WidgetBase {
               <option value="enAndNum" ${
                 validate.rule === 'enAndNum' ? 'selected' : ''
               } data-type="enAndNum">英文与数字混合</option>
+
+              <option value="customerRule" ${
+                validate.rule === 'customerRule' ? 'selected' : ''
+              } data-type="customerRule">自定义规则</option>
               
             </select>
           </div>
@@ -142,9 +151,18 @@ class Text extends WidgetBase {
         <li class="fd-config-item">
           <div class="ui form field">
             <label>自定义规则</label>
-            <input type="text" class="c-field" data-type="defaultValue" value="${
-              validate.rule === 'norule' ? '' : validate.rule
+            <input type="text" class="c-field input_customer_reg" placeholder="请输入自定义的正则表达式" ${
+              validate.rule === 'customerRule' ? '' : 'disabled=disabled'
             }" />
+          </div>
+        </li>
+
+        <li class="fd-config-item">
+          <div class="ui form field">
+            <label>错误提示</label>
+            <input type="text" class="c-field input_error-message" placeholder="请输入错误提示" value=${
+              validate.errMsg ? validate.errMsg : ''
+            } />
           </div>
         </li>
 
@@ -173,27 +191,61 @@ class Text extends WidgetBase {
     const widgetId = this.id
     const element = $(template)
     const curConfig = this.config
-    const inputs = element.find('input')
-    const input_select = element.find('select')
+    const inputs = element.find('.base-input')
+    const checkboxes = element.find('input:checkbox')
+
     inputs.on('input', function() {
       const attrName = $(this).data('type')
       let value = $(this).val()
       curConfig[attrName] = value
       self.emitChange()
     })
-    // console.log($('#singleline-input-type-select'))
-    input_select.on('change', function() {
+
+    checkboxes.on('change', function(e) {
       const $this = $(this)
-      const rule = $this.val()
-      curConfig.validate.rule = rule
+      const attrName = $this.data('type')
+      let value = $this.is(':checked') ? true : false
+      curConfig[attrName] = value
       self.emitChange()
     })
+
     return element
   }
 
   afterConfigPanelInit() {
-    $('#singleline-input-type-select').select2({
+    $('.singleline-input-type-select').select2({
       width: '100%'
+    })
+    const self = this
+    const { configPanelRef } = this
+    const curConfig = this.config
+    const input_select = configPanelRef.find('select')
+    const input_customer_reg = configPanelRef.find('.input_customer_reg')
+    const input_error_message = configPanelRef.find('.input_error-message')
+    input_select.on('change', function() {
+      const $this = $(this)
+      const rule = $this.val()
+      if (rule === 'customerRule') {
+        input_customer_reg.prop('disabled', false)
+      } else {
+        input_customer_reg.prop('disabled', 'disabled')
+      }
+      curConfig.validate.rule = rule
+      self.emitChange()
+    })
+
+    input_customer_reg.on('input', function() {
+      const $this = $(this)
+      const rule = $this.val()
+      curConfig.validate.customer = rule
+      self.emitChange()
+    })
+
+    input_error_message.on('input', function() {
+      const $this = $(this)
+      const msg = $this.val()
+      curConfig.validate.errMsg = msg
+      self.emitChange()
     })
   }
 }

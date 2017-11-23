@@ -38,6 +38,7 @@ const bindModifyEvent = (elem, containerId) => {
     let widgetConfigs = store.data.fields[widgetId].config
     let editPanel = store.pluginMap[widgetId].createConfigPanel()
     editContainer.append(editPanel)
+    store.pluginMap[widgetId].configPanelRef = editPanel // 创建配置面板的dom引用加入实例化对象的属性中
     if (store.pluginMap[widgetId].afterConfigPanelInit) {
       store.pluginMap[widgetId].afterConfigPanelInit()
     }
