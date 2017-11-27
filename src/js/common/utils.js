@@ -91,6 +91,9 @@ const handleCache = (widgetRef, prevTab, curTab) => {
     dictTypeCode: widgetRef.config.dictTypeCode
       ? widgetRef.config.dictTypeCode
       : '',
+    dictTypeName: widgetRef.config.dictTypeName
+      ? widgetRef.config.dictTypeName
+      : '',
     options: widgetRef.config.options ? widgetRef.config.options : [],
     customerQuery: widgetRef.config.customerQuery
       ? widgetRef.config.customerQuery
@@ -104,6 +107,7 @@ const handleCache = (widgetRef, prevTab, curTab) => {
   widgetRef.config.dataFetchMethod = undefined
   widgetRef.config.defaultValue = []
   widgetRef.config.dictTypeCode = undefined
+  widgetRef.config.dictTypeName = undefined
   widgetRef.config.options = []
   widgetRef.config.customerQuery = ''
 
@@ -115,6 +119,7 @@ const handleCache = (widgetRef, prevTab, curTab) => {
     widgetRef.config.dataFetchMethod = prevVal.dataFetchMethod
     widgetRef.config.defaultValue = prevVal.defaultValue
     widgetRef.config.dictTypeCode = prevVal.dictTypeCode
+    widgetRef.config.dictTypeName = prevVal.dictTypeName
     widgetRef.config.options = prevVal.options
     widgetRef.config.customerQuery = prevVal.customerQuery
   }
@@ -144,4 +149,35 @@ const validate = (value, rule, customerRule) => {
   return reg.test(value)
 }
 
-export { uuid, clone, createGrid, handleCache, validate }
+function createOptions(config) {
+  const { options, defaultValue } = config
+  let _options = ''
+  options.forEach(option => {
+    let { label, value, id } = option
+    _options = `${_options}
+                <div class="optionsContainer">
+                  <input type="radio" name="optionRadioControl" data-index=${
+                    id
+                  } ${defaultValue === value ? 'checked' : ''} />
+                  <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
+                    <div class="o-field">
+                      <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value="${
+                        label ? label : ''
+                      }" data-index=${id} />
+                    </div>
+                    <div class="o-field">
+                      <input class="c-field u-xsmall" placeholder="选项值" data-type="value" value="${
+                        value ? value : ''
+                      }" data-index=${id} />
+                    </div>
+                    <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${
+                      id
+                    }></i>
+                  </div>
+                </div>
+              `
+  })
+  return _options
+}
+
+export { uuid, clone, createGrid, handleCache, validate, createOptions }

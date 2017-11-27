@@ -91,10 +91,14 @@ class Select extends WidgetBase {
       const { serverBaseUrl } = store.getConfig()
       let url =
         dataFetchMethod === 'defaultQuery'
-          ? `${serverBaseUrl}/dynamicform/api/getDataDicts.action?dictTypeCode=${this
-              .config.dictTypeCode}`
-          : `${serverBaseUrl}/dynamicform/api/getSqlDictData.action?sql=${this
-              .config.customerQuery}`
+          ? `${
+              serverBaseUrl
+            }/dynamicform/api/getDataDicts.action?dictTypeCode=${
+              this.config.dictTypeCode
+            }`
+          : `${serverBaseUrl}/dynamicform/api/getSqlDictData.action?sql=${
+              this.config.customerQuery
+            }`
 
       let searchTerm = dataFetchMethod === 'defaultQuery' ? 'dictName' : 'name'
 
@@ -142,19 +146,25 @@ class Select extends WidgetBase {
       let { label, value, id } = option
       _options = `${_options}
                 <div class="optionsContainer">
-                  <input type="${this.config.multiple
-                    ? 'checkbox'
-                    : 'radio'}" ${this.config.defaultValue.indexOf(value) === -1
-        ? ''
-        : 'checked'} name="optionsRadios" data-index=${id} />
+                  <input type="${
+                    this.config.multiple ? 'checkbox' : 'radio'
+                  }" ${
+        this.config.defaultValue.indexOf(value) === -1 ? '' : 'checked'
+      } name="optionsRadios" data-index=${id} />
                   <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
                     <div class="o-field">
-                      <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value=${label} data-index=${id} />
+                      <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value=${
+                        label
+                      } data-index=${id} />
                     </div>
                     <div class="o-field">
-                      <input class="c-field u-xsmall" placeholder="选项值" data-type="value" value=${value} data-index=${id} />
+                      <input class="c-field u-xsmall" placeholder="选项值" data-type="value" value=${
+                        value
+                      } data-index=${id} />
                     </div>
-                    <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${id}></i>
+                    <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${
+                      id
+                    }></i>
                   </div>
                 </div>
               `
@@ -166,35 +176,44 @@ class Select extends WidgetBase {
       <li class="fd-config-item simple-config">
         <div class="row">
           <div class="col-xs-12">
-          <label>表单标识:</label>
-            <input type="text" class="c-field u-xsmall" data-type="name" value="${name ===
-            undefined
-              ? ''
-              : name}" />
+          <label>标识:</label>
+            <input type="text" class="c-field u-xsmall" data-type="name" value="${
+              name === undefined ? '' : name
+            }" />
           </div>
           <div class="col-xs-12">
             <label>标签:</label>
-            <input type="text" class="c-field u-xsmall" data-type="label" value="${formLabel}" />
+            <input type="text" class="c-field u-xsmall" data-type="label" value="${
+              formLabel
+            }" />
           </div>
         </div>
       </li>
       <li class="fd-config-item complex-config">
-        <div class="layui-tab layui-tab-card" id="select-data-fetch-config" lay-filter="selectDataFetchTab">
+        <div class="layui-tab layui-tab-card select-data-fetch-config" lay-filter="selectDataFetchTab">
           <ul class="layui-tab-title">
-            ${this.config.dataFetchMethod === 'customer'
-              ? '<li class="layui-this">自定义选项</li>'
-              : '<li>自定义选项</li>'}
-            ${this.config.dataFetchMethod === 'defaultQuery'
-              ? '<li class="layui-this">远程字典</li>'
-              : '<li>远程字典</li>'}
-            ${this.config.dataFetchMethod === 'customerQuery'
-              ? '<li class="layui-this">自定义查询</li>'
-              : '<li>自定义查询</li>'}
+            ${
+              this.config.dataFetchMethod === 'customer'
+                ? '<li class="layui-this">自定义选项</li>'
+                : '<li>自定义选项</li>'
+            }
+            ${
+              this.config.dataFetchMethod === 'defaultQuery'
+                ? '<li class="layui-this">远程字典</li>'
+                : '<li>远程字典</li>'
+            }
+            ${
+              this.config.dataFetchMethod === 'customerQuery'
+                ? '<li class="layui-this">自定义查询</li>'
+                : '<li>自定义查询</li>'
+            }
           </ul>
           <div class="layui-tab-content" style="min-height: 200px;height:auto">
-             ${this.config.dataFetchMethod === 'customer'
-               ? '<div class="layui-tab-item layui-show">'
-               : '<div class="layui-tab-item">'}
+             ${
+               this.config.dataFetchMethod === 'customer'
+                 ? '<div class="layui-tab-item layui-show">'
+                 : '<div class="layui-tab-item">'
+             }
                 <fieldset class="o-fieldset">
                   ${_options}
                 </fieldset>
@@ -202,19 +221,23 @@ class Select extends WidgetBase {
                   <i class="plus icon pull-right" style="cursor:pointer;margin-right: 18px;"></i>
                 </div>
             </div>
-            ${this.config.dataFetchMethod === 'defaultQuery'
-              ? '<div class="layui-tab-item layui-show">'
-              : '<div class="layui-tab-item">'}
+            ${
+              this.config.dataFetchMethod === 'defaultQuery'
+                ? '<div class="layui-tab-item layui-show">'
+                : '<div class="layui-tab-item">'
+            }
                 <fieldset class="o-fieldset">
                   <legend class="o-fields
                   et__legend">获取远程数据：</legend>
                 </fieldset>
                 <select class="c-field u-medium select-default-query"></select>
             </div>
-             ${this.config.dataFetchMethod === 'customerQuery'
-               ? '<div class="layui-tab-item layui-show">'
-               : '<div class="layui-tab-item">'}
-              <div class="col-xs-24" id="select-custom-sql-fetch">
+             ${
+               this.config.dataFetchMethod === 'customerQuery'
+                 ? '<div class="layui-tab-item layui-show">'
+                 : '<div class="layui-tab-item">'
+             }
+              <div class="col-xs-24 select-custom-sql-fetch">
                 <textarea class="c-field" placeholder="请输入自定义 SQL 语句" rows="4"></textarea>
                 <button type="button" class="c-button c-button--info u-large" style="float:right;margin-top:10px;width:100px;">
                   查询
@@ -229,26 +252,26 @@ class Select extends WidgetBase {
         <div class="row">
           <div class="col-xs-12">
             <label class="c-field c-field--choice">
-              <input type="checkbox" data-type="multiple" ${multiple
-                ? 'checked'
-                : ''}> 启用多选
+              <input type="checkbox" data-type="multiple" ${
+                multiple ? 'checked' : ''
+              }> 启用多选
             </label>
             <label class="c-field c-field--choice">
-              <input type="checkbox" data-type="dynamicOption" ${dynamicOption
-                ? 'checked'
-                : ''}> 启用动态添加
+              <input type="checkbox" data-type="dynamicOption" ${
+                dynamicOption ? 'checked' : ''
+              }> 启用动态添加
             </label>
           </div>
           <div class="col-xs-12">
             <label class="c-field c-field--choice">
-              <input type="checkbox" data-type="required" ${required
-                ? 'checked'
-                : ''}> 必填项
+              <input type="checkbox" data-type="required" ${
+                required ? 'checked' : ''
+              }> 必填项
             </label>
             <label class="c-field c-field--choice">
-              <input type="checkbox" data-type="allowClear" ${allowClear
-                ? 'checked'
-                : ''}> 允许清除
+              <input type="checkbox" data-type="allowClear" ${
+                allowClear ? 'checked' : ''
+              }> 允许清除
             </label>
           </div>
         </div>
@@ -369,17 +392,23 @@ class Select extends WidgetBase {
       let { value, label, id } = option
       const newOption = `
         <div class="optionsContainer">
-          <input type="${curConfig.multiple
-            ? 'checkbox'
-            : 'radio'}" name="optionsRadios" data-type="selected" data-index=${id} />
+          <input type="${
+            curConfig.multiple ? 'checkbox' : 'radio'
+          }" name="optionsRadios" data-type="selected" data-index=${id} />
           <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
             <div class="o-field">
-              <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value=${label} data-index=${id} />
+              <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value=${
+                label
+              } data-index=${id} />
             </div>
             <div class="o-field">
-              <input class="c-field u-xsmall" placeholder="选项值" data-type="value" value=${value} data-index=${id} />
+              <input class="c-field u-xsmall" placeholder="选项值" data-type="value" value=${
+                value
+              } data-index=${id} />
             </div>
-            <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${id}></i>
+            <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${
+              id
+            }></i>
           </div>
         </div>
       `
@@ -448,7 +477,7 @@ class Select extends WidgetBase {
         self.emitChange()
       })
 
-    $('#select-custom-sql-fetch button').on('click', function() {
+    $('.select-custom-sql-fetch button').on('click', function() {
       let sql = $(this)
         .prev('textarea')
         .val()

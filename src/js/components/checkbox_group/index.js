@@ -1,6 +1,6 @@
 import { WidgetBase } from '../widgetAPI'
 import store from '../../store/store'
-
+import { handleCache } from '../../common/utils'
 class CheckboxGroup extends WidgetBase {
   constructor() {
     super()
@@ -12,6 +12,7 @@ class CheckboxGroup extends WidgetBase {
     this.config.required = false
     this.config.inline = false
     this.config.defaultValue = []
+    this.config.dataFetchMethod = 'customer' // 获取选项的方法：1. customer 用户手动输入 2. defaultQuery 请求默认数据字典 3. customerQuery 自定义SQL查询
     this.config.options = [{ id: 1, label: '选项1', value: '值1' }]
     this.name = 'checkboxGroup'
     this.type = 'checkbox'
@@ -29,28 +30,71 @@ class CheckboxGroup extends WidgetBase {
   }
 
   createDOM = () => {
-    const { options, defaultValue } = this.config
+    const {
+      options,
+      defaultValue,
+      dataFetchMethod,
+      inline,
+      dictTypeCode,
+      customerQuery
+    } = this.config
     let optionsDOM = ''
-    options.forEach(option => {
-      let { id, label, value } = option
-      optionsDOM = `${optionsDOM}
-        <label class="c-field c-field--choice c-label ${this.config.inline
-          ? 'c-list__item'
-          : ''}">
-          <input type="checkbox" data-id=${id} value="${value
-        ? value
-        : ''}" ${defaultValue.indexOf(value) === -1 ? '' : 'checked'}>
+    const element = $(
+      `<fieldset class="o-fieldset ${
+        inline ? 'c-list c-list--inline c-list--unstyled' : ''
+      }"></fieldset>`
+    )
+    if (dataFetchMethod === 'customer') {
+      options.forEach(option => {
+        let { id, label, value } = option
+        optionsDOM = `${optionsDOM}
+        <label class="c-field c-field--choice c-label ${
+          inline ? 'c-list__item' : ''
+        }">
+          <input type="checkbox" data-id=${id} value="${value ? value : ''}" ${
+          defaultValue.indexOf(value) === -1 ? '' : 'checked'
+        }>
           ${label ? label : ''}
         </label>
         `
-    })
+      })
+      element.append(optionsDOM)
+    } else {
+      // 请求远程数据走这里
+      const { serverBaseUrl } = store.getConfig()
 
-    const element = $(
-      `<fieldset class="o-fieldset ${this.config.inline
-        ? 'c-list c-list--inline c-list--unstyled'
-        : ''}"></fieldset>`
-    )
-    element.append(optionsDOM)
+      let url =
+        dataFetchMethod === 'defaultQuery'
+          ? `${
+              serverBaseUrl
+            }/dynamicform/api/getDataDicts.action?dictTypeCode=${dictTypeCode}`
+          : `${serverBaseUrl}/dynamicform/api/getSqlDictData.action?sql=${
+              customerQuery
+            }`
+
+      $.ajax({
+        url,
+        cache: true,
+        success: function(data) {
+          const { result } = JSON.parse(data)
+          if (!result) {
+            return
+          }
+          result.map(option => {
+            const { dictCode: value, dictName: label } = option
+            optionsDOM = `${optionsDOM}
+              <label class="c-field c-field--choice c-label ${
+                inline ? 'c-list__item' : ''
+              }">
+                <input type="checkbox" value="${value}">
+                ${label}
+              </label>
+              `
+          })
+          element.append(optionsDOM)
+        }
+      })
+    }
 
     return element
   }
@@ -67,16 +111,18 @@ class CheckboxGroup extends WidgetBase {
                   <input type="checkbox" data-index=${id} />
                   <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
                     <div class="o-field">
-                      <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value="${label
-                        ? label
-                        : ''}" data-index=${id} />
+                      <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value="${
+                        label ? label : ''
+                      }" data-index=${id} />
                     </div>
                     <div class="o-field">
-                      <input class="c-field u-xsmall" placeholder="选项值" data-type="value" value="${value
-                        ? value
-                        : ''}" data-index=${id} />
+                      <input class="c-field u-xsmall" placeholder="选项值" data-type="value" value="${
+                        value ? value : ''
+                      }" data-index=${id} />
                     </div>
-                    <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${id}></i>
+                    <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${
+                      id
+                    }></i>
                   </div>
                 </div>
               `
@@ -85,10 +131,9 @@ class CheckboxGroup extends WidgetBase {
     const formSign = store.getConfig().formDescriber
       ? `<div class="col-xs-24">
               <label>标识</label>
-              <input type="text" class="c-field u-small" data-type="name" value="${name ===
-              undefined
-                ? ''
-                : name}" />
+              <input type="text" class="c-field u-small" data-type="name" value="${
+                name === undefined ? '' : name
+              }" />
             </div>`
       : ''
 
@@ -98,33 +143,83 @@ class CheckboxGroup extends WidgetBase {
             ${formSign}
             <div class="col-xs-24">
               <label>标签</label>
-                <input type="text" class="c-field u-small" data-type="label" value="${label ===
-                0
-                  ? ''
-                  : label}" />
+                <input type="text" class="c-field u-small" data-type="label" value="${
+                  label === 0 ? '' : label
+                }" />
             </div>
             <div class="col-xs-24 col-sm-12">
               <label class="c-field c-field--choice">
-                <input type="checkbox" data-type="inline" ${inline
-                  ? 'checked'
-                  : ''}> 单行显示
+                <input type="checkbox" data-type="inline" ${
+                  inline ? 'checked' : ''
+                }> 单行显示
               </label>
               <label class="c-field c-field--choice">
-                <input type="checkbox" data-type="required" ${required
-                  ? 'checked'
-                  : ''} > 必填项
+                <input type="checkbox" data-type="required" ${
+                  required ? 'checked' : ''
+                } > 必填项
               </label>
             </div>  
       </li>
-      <li class="row fd-config-item option-control-section">
-        <fieldset class="o-fieldset">
-          <legend class="o-fieldset__legend">选项：</legend>
-          ${_options}
-        </fieldset>
-        <div class="row">
-          <i class="plus icon pull-right" style="cursor:pointer;margin-right: 18px;"></i>
+
+      <li class="fd-config-item option-control-section">
+        <div class="layui-tab layui-tab-card checkbox-data-fetch-config" lay-filter="checkboxDataFetchTab">
+          <ul class="layui-tab-title">
+            ${
+              this.config.dataFetchMethod === 'customer'
+                ? '<li class="layui-this">自定义选项</li>'
+                : '<li>自定义选项</li>'
+            }
+            ${
+              this.config.dataFetchMethod === 'defaultQuery'
+                ? '<li class="layui-this">远程字典</li>'
+                : '<li>远程字典</li>'
+            }
+            ${
+              this.config.dataFetchMethod === 'customerQuery'
+                ? '<li class="layui-this">自定义查询</li>'
+                : '<li>自定义查询</li>'
+            }
+          </ul>
+          <div class="layui-tab-content" style="min-height: 200px;height:auto">
+             ${
+               this.config.dataFetchMethod === 'customer'
+                 ? '<div class="layui-tab-item layui-show">'
+                 : '<div class="layui-tab-item">'
+             }
+                <fieldset class="o-fieldset">
+                  ${_options}
+                </fieldset>
+                <div class="row">
+                  <i class="plus icon pull-right" style="cursor:pointer;margin-right: 18px;"></i>
+                </div>
+            </div>
+            ${
+              this.config.dataFetchMethod === 'defaultQuery'
+                ? '<div class="layui-tab-item layui-show">'
+                : '<div class="layui-tab-item">'
+            }
+                <fieldset class="o-fieldset">
+                  <legend class="o-fields
+                  et__legend">获取远程数据：</legend>
+                </fieldset>
+                <select class="c-field u-medium checkbox-default-query"></select>
+            </div>
+             ${
+               this.config.dataFetchMethod === 'customerQuery'
+                 ? '<div class="layui-tab-item layui-show">'
+                 : '<div class="layui-tab-item">'
+             }
+              <div class="col-xs-24 checkbox-custom-sql-fetch">
+                <textarea class="c-field" placeholder="请输入自定义 SQL 语句" rows="4"></textarea>
+                <button type="button" class="c-button c-button--info u-large" style="float:right;margin-top:10px;width:100px;">
+                  查询
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </li>
+
     </ul>
     `
     return this.bingConfigEvent(tpl)
@@ -218,19 +313,23 @@ class CheckboxGroup extends WidgetBase {
       let { value, label, id } = option
       const newOption = `
         <div class="optionsContainer">
-          <input type="checkbox" name="optionscheckbox" data-type="selected" data-index=${id} />
+          <input type="checkbox" name="optionscheckbox" data-type="selected" data-index=${
+            id
+          } />
           <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
             <div class="o-field">
-              <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value="${label
-                ? label
-                : ''}" data-index=${id} />
+              <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value="${
+                label ? label : ''
+              }" data-index=${id} />
             </div>
             <div class="o-field">
-              <input class="c-field u-xsmall" placeholder="选项值" data-type="value" value="${value
-                ? value
-                : ''}" data-index=${id} />
+              <input class="c-field u-xsmall" placeholder="选项值" data-type="value" value="${
+                value ? value : ''
+              }" data-index=${id} />
             </div>
-            <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${id}></i>
+            <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${
+              id
+            }></i>
           </div>
         </div>
       `
@@ -245,8 +344,66 @@ class CheckboxGroup extends WidgetBase {
   }
 
   afterConfigPanelInit() {
-    $('#fileUploadAcceptTypeChoice').select2({
-      width: '100%'
+    const self = this
+    const { serverBaseUrl } = store.getConfig()
+
+    layui.use('element', () => {
+      let element = layui.element
+      let dataFetchMethodMap = {
+        0: 'customer',
+        1: 'defaultQuery',
+        2: 'customerQuery'
+      }
+      element.on('tab(checkboxDataFetchTab)', function(data) {
+        // 储存前一个Tab的数据到sessionStorage
+        let { index } = data
+        let prevTab = self.config.dataFetchMethod
+        let curTab = dataFetchMethodMap[index]
+        if (prevTab === curTab) {
+          return false
+        }
+
+        handleCache(self, prevTab, curTab)
+
+        self.config.dataFetchMethod = curTab
+        self.emitChange()
+      })
+    })
+
+    $('.checkbox-default-query')
+      .select2({
+        width: '100%',
+        ajax: {
+          url: `${serverBaseUrl}/dynamicform/api/getDataDictTypes.action`,
+          dataType: 'json',
+          processResults: function({ result }) {
+            let results = result.map((obj, index) => {
+              return { id: obj.dictTypeCode, text: obj.dictTypeName }
+            })
+            return { results }
+          },
+          delay: 400,
+          data: params => {
+            var query = {
+              name: params.term
+            }
+            return query
+          }
+        }
+      })
+      .on('select2:select', function() {
+        const $this = $(this)
+        self.config.dictTypeCode = $this.val()
+        self.config.label = $this[0].lastChild.innerText
+        self.emitChange()
+      })
+
+    $('.checkbox-custom-sql-fetch button').on('click', function() {
+      let sql = $(this)
+        .prev('textarea')
+        .val()
+      self.config.customerQuery = sql
+      self.emitChange()
     })
   }
 }
