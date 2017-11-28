@@ -1,7 +1,6 @@
 import { WidgetBase } from '../widgetAPI'
-import { handleCache } from '../../common/utils'
+import { handleCache, createOptions, restoreOptions } from '../../common/utils'
 import store from '../../store/store'
-import { createOptions, restoreOptions } from '../../common/utils'
 
 class RadioGroup extends WidgetBase {
   constructor() {
@@ -139,7 +138,7 @@ class RadioGroup extends WidgetBase {
     <ul class="fd-widget-configs" id="fd-config-list">
       <li class="row fd-config-item prop-config-section">
             <div class="col-xs-24 col-sm-12">
-              <label>文件标识</label>
+              <label>标识</label>
               <input type="text" class="c-field u-small" data-type="name" value="${
                 name === undefined ? '' : name
               }" />

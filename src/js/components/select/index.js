@@ -1,6 +1,6 @@
 import { WidgetBase } from '../widgetAPI'
 import store from '../../store/store'
-import { handleCache } from '../../common/utils'
+import { handleCache, createOptions } from '../../common/utils'
 
 class Select extends WidgetBase {
   constructor() {
@@ -17,6 +17,7 @@ class Select extends WidgetBase {
     this.config.allowClear = false
     this.config.defaultValue = []
     this.config.dictTypeCode
+    this.config.dictTypeName
     this.config.customerQuery
     this.name = 'select'
     this.addOption(4)
@@ -141,34 +142,24 @@ class Select extends WidgetBase {
       allowClear
     } = this.config
     // 解析选项生成配置模版
-    let _options = ''
-    options.forEach(option => {
-      let { label, value, id } = option
-      _options = `${_options}
-                <div class="optionsContainer">
-                  <input type="${
-                    this.config.multiple ? 'checkbox' : 'radio'
-                  }" ${
-        this.config.defaultValue.indexOf(value) === -1 ? '' : 'checked'
-      } name="optionsRadios" data-index=${id} />
-                  <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
-                    <div class="o-field">
-                      <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value=${
-                        label
-                      } data-index=${id} />
-                    </div>
-                    <div class="o-field">
-                      <input class="c-field u-xsmall" placeholder="选项值" data-type="value" value=${
-                        value
-                      } data-index=${id} />
-                    </div>
-                    <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${
-                      id
-                    }></i>
-                  </div>
-                </div>
-              `
-    })
+
+    // 自定义选项值（第一个Tab）
+    let _options = createOptions(this.config)
+    // defaultQuery 的默认option（第二个Tab）
+    let defaultQueryOption
+    // 第三个Tab
+    let defaultSQL = ''
+
+    const { serverBaseUrl } = store.getConfig()
+    const { dictTypeCode, dictTypeName, customerQuery } = this.config
+    if (dictTypeCode && dictTypeName) {
+      defaultQueryOption = `<option value=${dictTypeCode} selected="selected">${
+        dictTypeName
+      }</option>`
+    } else if (customerQuery) {
+      defaultSQL = customerQuery
+      console.log(defaultSQL)
+    }
 
     // 配置模版
     const tpl = `
@@ -230,7 +221,9 @@ class Select extends WidgetBase {
                   <legend class="o-fields
                   et__legend">获取远程数据：</legend>
                 </fieldset>
-                <select class="c-field u-medium select-default-query"></select>
+                <select class="c-field u-medium select-default-query">
+                  ${defaultQueryOption}
+                </select>
             </div>
              ${
                this.config.dataFetchMethod === 'customerQuery'
@@ -238,7 +231,9 @@ class Select extends WidgetBase {
                  : '<div class="layui-tab-item">'
              }
               <div class="col-xs-24 select-custom-sql-fetch">
-                <textarea class="c-field" placeholder="请输入自定义 SQL 语句" rows="4"></textarea>
+                <textarea class="c-field" placeholder="请输入自定义 SQL 语句" rows="4">${
+                  defaultSQL
+                }</textarea>
                 <button type="button" class="c-button c-button--info u-large" style="float:right;margin-top:10px;width:100px;">
                   查询
                 </button>
@@ -425,6 +420,7 @@ class Select extends WidgetBase {
   afterConfigPanelInit() {
     const self = this
     const { serverBaseUrl } = store.getConfig()
+    let tabContent = ''
 
     layui.use('element', () => {
       let element = layui.element
@@ -446,6 +442,36 @@ class Select extends WidgetBase {
 
         self.config.dataFetchMethod = curTab
         self.emitChange()
+
+        switch (index) {
+          case 0:
+            tabContent = createOptions(self.config)
+            self.configPanelRef
+              .find('.layui-show fieldset')
+              .empty()
+              .append(tabContent)
+            break
+          case 1:
+            const { dictTypeCode, dictTypeName } = self.config
+            if (dictTypeCode && dictTypeName) {
+              tabContent = `<option value=${dictTypeCode} selected="selected">${
+                dictTypeName
+              }</option>`
+              self.configPanelRef
+                .find('.layui-show select')
+                .empty()
+                .append(tabContent)
+            }
+            break
+          case 2:
+            const { customerQuery } = self.config
+            if (customerQuery) {
+              self.configPanelRef
+                .find('.layui-show textarea')
+                .text(customerQuery)
+            }
+            break
+        }
       })
     })
 
@@ -473,7 +499,8 @@ class Select extends WidgetBase {
       .on('select2:select', function() {
         const $this = $(this)
         self.config.dictTypeCode = $this.val()
-        self.config.label = $this[0].lastChild.innerText
+        self.config.dictTypeName = $.trim($this[0].lastChild.innerText)
+        self.config.label = $.trim($this[0].lastChild.innerText)
         self.emitChange()
       })
 

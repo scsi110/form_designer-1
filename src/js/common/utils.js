@@ -150,15 +150,45 @@ const validate = (value, rule, customerRule) => {
 }
 
 function createOptions(config) {
-  const { options, defaultValue } = config
+  const { options, defaultValue, type } = config
   let _options = ''
+  if (type === 'select') {
+    options.forEach(option => {
+      let { label, value, id } = option
+      _options = `${_options}
+                <div class="optionsContainer">
+                  <input type="${config.multiple ? 'checkbox' : 'radio'}" ${
+        config.defaultValue.indexOf(value) === -1 ? '' : 'checked'
+      } name="optionsRadios" data-index=${id} />
+                  <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
+                    <div class="o-field">
+                      <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value=${
+                        label
+                      } data-index=${id} />
+                    </div>
+                    <div class="o-field">
+                      <input class="c-field u-xsmall" placeholder="选项值" data-type="value" value=${
+                        value
+                      } data-index=${id} />
+                    </div>
+                    <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${
+                      id
+                    }></i>
+                  </div>
+                </div>
+              `
+    })
+    return _options
+  }
   options.forEach(option => {
     let { label, value, id } = option
     _options = `${_options}
                 <div class="optionsContainer">
-                  <input type="radio" name="optionRadioControl" data-index=${
-                    id
-                  } ${defaultValue === value ? 'checked' : ''} />
+                  <input type="${
+                    type === 'radio' ? 'radio' : 'checkbox'
+                  }" name="${
+      type === 'radio' ? 'optionRadioControl' : 'checkboxRadioControl'
+    }" data-index=${id} ${defaultValue === value ? 'checked' : ''} />
                   <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
                     <div class="o-field">
                       <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value="${

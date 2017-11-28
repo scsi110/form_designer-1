@@ -1,6 +1,6 @@
 import { WidgetBase } from '../widgetAPI'
 import store from '../../store/store'
-import { handleCache } from '../../common/utils'
+import { handleCache, createOptions, restoreOptions } from '../../common/utils'
 class CheckboxGroup extends WidgetBase {
   constructor() {
     super()
@@ -14,6 +14,9 @@ class CheckboxGroup extends WidgetBase {
     this.config.defaultValue = []
     this.config.dataFetchMethod = 'customer' // 获取选项的方法：1. customer 用户手动输入 2. defaultQuery 请求默认数据字典 3. customerQuery 自定义SQL查询
     this.config.options = [{ id: 1, label: '选项1', value: '值1' }]
+    this.config.dictTypeCode
+    this.config.dictTypeName
+    this.config.customerQuery
     this.name = 'checkboxGroup'
     this.type = 'checkbox'
   }
@@ -38,12 +41,13 @@ class CheckboxGroup extends WidgetBase {
       dictTypeCode,
       customerQuery
     } = this.config
-    let optionsDOM = ''
+
     const element = $(
       `<fieldset class="o-fieldset ${
         inline ? 'c-list c-list--inline c-list--unstyled' : ''
       }"></fieldset>`
     )
+    let optionsDOM = ''
     if (dataFetchMethod === 'customer') {
       options.forEach(option => {
         let { id, label, value } = option
@@ -103,30 +107,22 @@ class CheckboxGroup extends WidgetBase {
   createConfigPanel = () => {
     const { name, label, inline, required, options } = this.config
     // 解析选项生成配置模版
-    let _options = ''
-    options.forEach(option => {
-      let { label, value, id } = option
-      _options = `${_options}
-                <div class="optionsContainer">
-                  <input type="checkbox" data-index=${id} />
-                  <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
-                    <div class="o-field">
-                      <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value="${
-                        label ? label : ''
-                      }" data-index=${id} />
-                    </div>
-                    <div class="o-field">
-                      <input class="c-field u-xsmall" placeholder="选项值" data-type="value" value="${
-                        value ? value : ''
-                      }" data-index=${id} />
-                    </div>
-                    <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${
-                      id
-                    }></i>
-                  </div>
-                </div>
-              `
-    })
+
+    // 自定义选项值（第一个Tab）
+    const _options = createOptions(this.config)
+    // defaultQuery 的默认option（第二个Tab）
+    let defaultQueryOption
+    // 第三个Tab
+    let defaultSQL = ''
+    const { serverBaseUrl } = store.getConfig()
+    const { dictTypeCode, dictTypeName, customerQuery } = this.config
+    if (dictTypeCode && dictTypeName) {
+      defaultQueryOption = `<option value=${dictTypeCode} selected="selected">${
+        dictTypeName
+      }</option>`
+    } else if (customerQuery) {
+      defaultSQL = customerQuery
+    }
 
     const formSign = store.getConfig().formDescriber
       ? `<div class="col-xs-24">
@@ -202,7 +198,9 @@ class CheckboxGroup extends WidgetBase {
                   <legend class="o-fields
                   et__legend">获取远程数据：</legend>
                 </fieldset>
-                <select class="c-field u-medium checkbox-default-query"></select>
+                <select class="c-field u-medium checkbox-default-query">
+                  ${defaultQueryOption}
+                </select>
             </div>
              ${
                this.config.dataFetchMethod === 'customerQuery'
@@ -210,7 +208,9 @@ class CheckboxGroup extends WidgetBase {
                  : '<div class="layui-tab-item">'
              }
               <div class="col-xs-24 checkbox-custom-sql-fetch">
-                <textarea class="c-field" placeholder="请输入自定义 SQL 语句" rows="4"></textarea>
+                <textarea class="c-field" placeholder="请输入自定义 SQL 语句" rows="4">${
+                  defaultSQL
+                }</textarea>
                 <button type="button" class="c-button c-button--info u-large" style="float:right;margin-top:10px;width:100px;">
                   查询
                 </button>
@@ -346,6 +346,7 @@ class CheckboxGroup extends WidgetBase {
   afterConfigPanelInit() {
     const self = this
     const { serverBaseUrl } = store.getConfig()
+    let tabContent = ''
 
     layui.use('element', () => {
       let element = layui.element
@@ -367,6 +368,36 @@ class CheckboxGroup extends WidgetBase {
 
         self.config.dataFetchMethod = curTab
         self.emitChange()
+
+        switch (index) {
+          case 0:
+            tabContent = createOptions(self.config)
+            self.configPanelRef
+              .find('.layui-show fieldset')
+              .empty()
+              .append(tabContent)
+            break
+          case 1:
+            const { dictTypeCode, dictTypeName } = self.config
+            if (dictTypeCode && dictTypeName) {
+              tabContent = `<option value=${dictTypeCode} selected="selected">${
+                dictTypeName
+              }</option>`
+              self.configPanelRef
+                .find('.layui-show select')
+                .empty()
+                .append(tabContent)
+            }
+            break
+          case 2:
+            const { customerQuery } = self.config
+            if (customerQuery) {
+              self.configPanelRef
+                .find('.layui-show textarea')
+                .text(customerQuery)
+            }
+            break
+        }
       })
     })
 
@@ -394,7 +425,8 @@ class CheckboxGroup extends WidgetBase {
       .on('select2:select', function() {
         const $this = $(this)
         self.config.dictTypeCode = $this.val()
-        self.config.label = $this[0].lastChild.innerText
+        self.config.dictTypeName = $.trim($this[0].lastChild.innerText)
+        self.config.label = $.trim($this[0].lastChild.innerText)
         self.emitChange()
       })
 
