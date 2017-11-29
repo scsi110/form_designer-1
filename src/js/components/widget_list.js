@@ -7,6 +7,7 @@ import FileUpload from './fileupload'
 import CheckboxGroup from './checkbox_group'
 import RadioGroup from './radio_group'
 import HiddenInput from './hidden_input'
+import Paragraph from './paragraph'
 import AddRow from './layout/layout'
 import store from '../store/store'
 
@@ -19,7 +20,8 @@ const PLUGINS = {
   ckeditor: CKEditor,
   select: Select,
   datepicker: DatePicker,
-  fileUpload: FileUpload
+  fileUpload: FileUpload,
+  paragraph: Paragraph
 }
 
 const createComponent = (type, containerId) => {

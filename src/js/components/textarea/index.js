@@ -65,42 +65,45 @@ class Textarea extends WidgetBase {
     <ul class="fd-widget-configs" id="fd-config-list">
       <li class="row fd-config-item">
             <div class="col-xs-24 col-sm-12">
-              <label>表单标识</label>
-              <input type="text" class="c-field u-small" data-type="name" value="${name ===
-              undefined
-                ? ''
-                : name}" />
+              <label>标识</label>
+              <input type="text" class="c-field u-small" data-type="name" value="${
+                name === undefined ? '' : name
+              }" />
             </div>
             <div class="col-xs-24 col-sm-12">
           <label>标签</label>
-          <input type="text" class="c-field u-small" data-type="label" value="${label}" />
+          <input type="text" class="c-field u-small" data-type="label" value="${
+            label
+          }" />
         </div>
             
       </li>
       <li class="row fd-config-item">
         <div class="col-xs-24 col-sm-12">
               <label>文字占位</label>
-              <input type="text" class="c-field u-small" data-type="placeholder" value='${placeholder}' />
+              <input type="text" class="c-field u-small" data-type="placeholder" value='${
+                placeholder
+              }' />
             </div>
         <div class="col-xs-24 col-sm-12">
           <label>默认值</label>
-          <input type="text" class="c-field u-small" data-type="defaultValue" value="${defaultValue ===
-          undefined
-            ? ''
-            : defaultValue}" />
+          <input type="text" class="c-field u-small" data-type="defaultValue" value="${
+            defaultValue === undefined ? '' : defaultValue
+          }" />
         </div>
       </li>
       <li class="row fd-config-item">
         <div class="col-xs-24 col-sm-12">
           <label>行数(文本宽度)</label>
-          <input type="text" class="c-field u-small" data-type="rows" value="${rows}" />
+          <input type="text" class="c-field u-small" data-type="rows" value="${
+            rows
+          }" />
         </div>
         <div class="col-xs-24 col-sm-12">
           <label>最大字数限制</label>
-          <input type="text" class="c-field u-small" data-type="maxlength" value="${maxlength ===
-          undefined
-            ? ''
-            : maxlength}" />
+          <input type="text" class="c-field u-small" data-type="maxlength" value="${
+            maxlength === undefined ? '' : maxlength
+          }" />
         </div>
       </li>
     </ul>

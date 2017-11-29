@@ -149,8 +149,9 @@ const validate = (value, rule, customerRule) => {
   return reg.test(value)
 }
 
-function createOptions(config) {
-  const { options, defaultValue, type } = config
+function createOptions({ config, type }) {
+  const { options, defaultValue } = config
+
   let _options = ''
   if (type === 'select') {
     options.forEach(option => {
@@ -187,7 +188,7 @@ function createOptions(config) {
                   <input type="${
                     type === 'radio' ? 'radio' : 'checkbox'
                   }" name="${
-      type === 'radio' ? 'optionRadioControl' : 'checkboxRadioControl'
+      type === 'radio' ? 'optionRadioControl' : 'optionCheckboxControl'
     }" data-index=${id} ${defaultValue === value ? 'checked' : ''} />
                   <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
                     <div class="o-field">

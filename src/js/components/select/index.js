@@ -144,7 +144,7 @@ class Select extends WidgetBase {
     // 解析选项生成配置模版
 
     // 自定义选项值（第一个Tab）
-    let _options = createOptions(this.config)
+    let _options = createOptions(this)
     // defaultQuery 的默认option（第二个Tab）
     let defaultQueryOption
     // 第三个Tab
@@ -445,7 +445,7 @@ class Select extends WidgetBase {
 
         switch (index) {
           case 0:
-            tabContent = createOptions(self.config)
+            tabContent = createOptions(self)
             self.configPanelRef
               .find('.layui-show fieldset')
               .empty()
