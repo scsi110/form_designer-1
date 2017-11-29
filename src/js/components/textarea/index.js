@@ -179,23 +179,20 @@ class Textarea extends WidgetBase {
               
             </select>
           </div>
-
-        <div class="col-xs-24 col-sm-12">
-            <label>自定义规则</label>
-            <input type="text" class="c-field u-small input_customer_reg" placeholder="请输入自定义的正则表达式" ${
-              validate.rule === 'customerRule' ? '' : 'disabled=disabled'
-            }" />
-        </div>
-      </li>
-
-      <li class="fd-config-item row">
-          <div class="ui form field col-xs-12">
-              <label>错误提示</label>
+      <div class="ui form field col-xs-12">
+          <label>错误提示</label>
             <input type="text" class="c-field u-small input_error-message" placeholder="请输入错误提示" value=${
               validate.errMsg ? validate.errMsg : ''
             } />
           </div>
-        </li>
+      </li>
+
+      <li class="fd-config-item row input_customer_reg" style="display:${validate.rule === 'customerRule' ? 'block' : 'none'}">
+          <div class="col-xs-24 col-sm-24">
+            <label>自定义规则</label>
+            <input type="text" class="c-field u-small" placeholder="请输入自定义的正则表达式" />
+        </div>
+      </li>
 
        <li class="fd-config-item row">
           <div class="ui form field col-xs-12">
@@ -256,15 +253,15 @@ class Textarea extends WidgetBase {
       const $this = $(this)
       const rule = $this.val()
       if (rule === 'customerRule') {
-        input_customer_reg.prop('disabled', false)
+        input_customer_reg.show()
       } else {
-        input_customer_reg.prop('disabled', 'disabled')
+        input_customer_reg.hide()
       }
       curConfig.validate.rule = rule
       self.emitChange()
     })
 
-    input_customer_reg.on('input', function() {
+    input_customer_reg.on('input','input',function() {
       const $this = $(this)
       const rule = $this.val()
       curConfig.validate.customer = rule
