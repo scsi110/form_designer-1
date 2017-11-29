@@ -6,9 +6,9 @@ class Paragraph extends WidgetBase {
     this.tag = 'p'
     this.config.content = '这是一个段落'
     this.config.css = {
-      color: 'black',
+      color: '#000000',
       'font-size': '14px',
-      'background-color': 'none',
+      background: 'none',
       display: 'inline',
       padding: '2px 0',
       'word-wrap': 'break-all',
@@ -86,7 +86,6 @@ class Paragraph extends WidgetBase {
     textarea.on('input', function() {
       const attrName = $(this).data('type')
       let value = $(this).val()
-      console.log(value)
       curConfig.content = value
       self.emitChange()
     })

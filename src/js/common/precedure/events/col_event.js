@@ -1,6 +1,7 @@
 import { text, button, textarea } from '../../../components/dom/dom'
 import { createComponent } from '../../../components/widget_list'
 import store from '../../../store/store'
+import { showConfigPanel } from '../../utils'
 
 const bindColEvent = col => {
   col.on('dragover', function(event) {
@@ -35,14 +36,7 @@ const bindColEvent = col => {
     let pluginInstance = createComponent(widgetType, colId) // 创建 Plugin 的实例
     store.pluginMap[pluginInstance.id] = pluginInstance // 将 plugin 的实例保存到全局状态的 map 中
 
-    // setTimeout(function() {
-    //   $(`#${colId}`)
-    //     .parent()
-    //     .children('.fd-col')
-    //     .each((index, elem) => {
-    //       console.log(elem.offsetHeight)
-    //     })
-    // }, 0)
+    showConfigPanel(pluginInstance.id)
   })
 
   return col

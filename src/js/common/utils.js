@@ -1,4 +1,5 @@
 import uuidv4 from 'uuid-v4'
+import store from '../store/store'
 
 const uuid = elem => {
   let id
@@ -211,4 +212,47 @@ function createOptions({ config, type }) {
   return _options
 }
 
-export { uuid, clone, createGrid, handleCache, validate, createOptions }
+const showConfigPanel = widgetId => {
+  const editContainer = $('#fd-widget-edit-container') // 获取容器
+  const clearPanel = () => {
+    // 清除 panel 的方法
+    if (editContainer.children().length > 0) {
+      editContainer
+        .children()
+        .animate({ height: '0', opacity: 0 }, 500, function() {
+          $(this).remove() // 淡出动画，并移除 DOM
+        })
+    }
+  }
+
+  // 如果面板里已经有内容了，清除掉
+  clearPanel()
+
+  // 加载属性面板
+  // 生成属性面板的 DOM,绑定属性修改时的触发事件，给全局 DATA 发送修改指令，返回 DOM
+  let widgetConfigs = store.data.fields[widgetId].config
+  let editPanel = store.pluginMap[widgetId].createConfigPanel()
+  editContainer.append(editPanel)
+  store.pluginMap[widgetId].configPanelRef = editPanel // 创建配置面板的dom引用加入实例化对象的属性中
+  if (store.pluginMap[widgetId].afterConfigPanelInit) {
+    store.pluginMap[widgetId].afterConfigPanelInit()
+  }
+
+  $('.fd-col').removeClass('configing')
+
+  setTimeout(() => {
+    $(`#${widgetId}`)
+      .parent('.fd-col')
+      .addClass('configing')
+  }, 0)
+}
+
+export {
+  uuid,
+  clone,
+  createGrid,
+  handleCache,
+  validate,
+  createOptions,
+  showConfigPanel
+}
