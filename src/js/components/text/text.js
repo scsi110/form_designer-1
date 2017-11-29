@@ -148,12 +148,12 @@ class Text extends WidgetBase {
           </div>
         </li>
 
-        <li class="fd-config-item">
+        <li class="fd-config-item input_customer_reg" style="display:${
+              validate.rule === 'customerRule' ? 'block' : 'none'
+            }">
           <div class="ui form field">
             <label>自定义规则</label>
-            <input type="text" class="c-field input_customer_reg" placeholder="请输入自定义的正则表达式" ${
-              validate.rule === 'customerRule' ? '' : 'disabled=disabled'
-            }" />
+            <input type="text" class="c-field" placeholder="请输入自定义的正则表达式" />
           </div>
         </li>
 
@@ -226,15 +226,15 @@ class Text extends WidgetBase {
       const $this = $(this)
       const rule = $this.val()
       if (rule === 'customerRule') {
-        input_customer_reg.prop('disabled', false)
+        input_customer_reg.show()
       } else {
-        input_customer_reg.prop('disabled', 'disabled')
+        input_customer_reg.hide()
       }
       curConfig.validate.rule = rule
       self.emitChange()
     })
 
-    input_customer_reg.on('input', function() {
+    input_customer_reg.on('input','input',function() {
       const $this = $(this)
       const rule = $this.val()
       curConfig.validate.customer = rule
