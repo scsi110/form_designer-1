@@ -161,24 +161,30 @@ class Select extends WidgetBase {
       console.log(defaultSQL)
     }
 
-    // 配置模版
-    const tpl = `
-    <ul class="fd-widget-configs" id="fd-config-list">
-      <li class="fd-config-item simple-config">
-        <div class="row">
-          <div class="col-xs-12">
+    const formSign = store.getConfig().formDescriber
+      ? `<div class="col-xs-24">
           <label>标识:</label>
             <input type="text" class="c-field u-xsmall" data-type="name" value="${
               name === undefined ? '' : name
             }" />
-          </div>
-          <div class="col-xs-12">
+          </div>`
+      : ''
+
+    // 配置模版
+    const tpl = `
+    <ul class="fd-widget-configs" id="fd-config-list">
+    
+      <li class="row fd-config-item simple-config">
+        ${formSign}
+      </li>
+
+      <li class="row fd-config-item simple-config">
+          <div class="col-xs-24">
             <label>标签:</label>
             <input type="text" class="c-field u-xsmall" data-type="label" value="${
               formLabel
             }" />
           </div>
-        </div>
       </li>
       <li class="fd-config-item complex-config">
         <div class="layui-tab layui-tab-card select-data-fetch-config" lay-filter="selectDataFetchTab">

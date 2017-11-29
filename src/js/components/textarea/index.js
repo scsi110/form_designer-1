@@ -1,5 +1,5 @@
 import { WidgetBase } from '../widgetAPI'
-
+import store from '../../store/store'
 class Textarea extends WidgetBase {
   constructor() {
     super()
@@ -74,22 +74,30 @@ class Textarea extends WidgetBase {
       readonly,
       required
     } = this.config
-    const tpl = `
-    <ul class="fd-widget-configs" id="fd-config-list">
-      <li class="row fd-config-item">
-            <div class="col-xs-24 col-sm-12">
+
+    const formSign = store.getConfig().formDescriber
+      ? `<div class="col-xs-24 col-sm-24">
               <label>标识</label>
               <input type="text" class="c-field u-small" data-type="name" value="${
                 name === undefined ? '' : name
               }" />
-            </div>
-            <div class="col-xs-24 col-sm-12">
+            </div>`
+      : ''
+
+    const tpl = `
+    <ul class="fd-widget-configs" id="fd-config-list">
+
+      <li class="row fd-config-item">
+          ${formSign}
+      </li>
+
+      <li class="row fd-config-item">
+        <div class="col-xs-24 col-sm-24">
           <label>标签</label>
           <input type="text" class="c-field u-small" data-type="label" value="${
             label
           }" />
         </div>
-            
       </li>
       <li class="row fd-config-item">
         <div class="col-xs-24 col-sm-12">

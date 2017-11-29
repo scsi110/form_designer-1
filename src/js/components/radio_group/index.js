@@ -134,16 +134,22 @@ class RadioGroup extends WidgetBase {
       defaultSQL = customerQuery
     }
 
-    const tpl = `
-    <ul class="fd-widget-configs" id="fd-config-list">
-      <li class="row fd-config-item prop-config-section">
-            <div class="col-xs-24 col-sm-12">
+    const formSign = store.getConfig().formDescriber
+      ? `<div class="col-xs-24">
               <label>标识</label>
               <input type="text" class="c-field u-small" data-type="name" value="${
                 name === undefined ? '' : name
               }" />
-            </div>
-            <div class="col-xs-24 col-sm-12">
+            </div>`
+      : ''
+
+    const tpl = `
+    <ul class="fd-widget-configs" id="fd-config-list">
+      <li class="row fd-config-item prop-config-section">
+          ${formSign}
+      </li>
+      <li class="row fd-config-item prop-config-section">
+            <div class="col-xs-24 col-sm-24">
               <label>标签</label>
                 <input type="text" class="c-field u-small" data-type="label" value="${
                   label === 0 ? '' : label

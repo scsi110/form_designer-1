@@ -24,10 +24,14 @@ const initPage = containerId => {
       </ul>     
     </div>`
 
-  const editPanel = `<div id="fd-edit-panel">
-      ${store.formConfig.formDescriber
+  /*
+    表单信息面板
+    ${store.formConfig.formDescriber
         ? '<div class="col-xs-24 edit-panel-wrapper form-info"><h2>表单信息</h2><div id="fd-form-edit-container"><label>表单名称：</label><input class="c-field" /></div></div>'
         : ''}
+  */
+
+  const editPanel = `<div id="fd-edit-panel">
         <div class="col-xs-24 edit-panel-wrapper widget-edit">
           <h2>组件编辑面板</h2>
           <div id="fd-widget-edit-container"></div>

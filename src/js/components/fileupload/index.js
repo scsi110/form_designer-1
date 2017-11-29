@@ -1,4 +1,5 @@
 import { WidgetBase } from '../widgetAPI'
+import store from '../../store/store'
 
 class FileUpload extends WidgetBase {
   constructor() {
@@ -64,78 +65,85 @@ class FileUpload extends WidgetBase {
       drag,
       multiple
     } = this.config
+
+    const formSign = store.getConfig().formDescriber
+      ? `<div class="col-xs-24 col-sm-24">
+              <label>文件标识</label>
+              <input type="text" class="c-field u-small" data-type="name" value="${
+                name === undefined ? '' : name
+              }" />
+            </div>`
+      : ''
+
     const tpl = `
     <ul class="fd-widget-configs" id="fd-config-list">
       <li class="row fd-config-item">
-            <div class="col-xs-24 col-sm-12">
-              <label>文件标识</label>
-              <input type="text" class="c-field u-small" data-type="name" value="${name ===
-              undefined
-                ? ''
-                : name}" />
-            </div>
-            <div class="col-xs-24 col-sm-12">
+          ${formSign}
+      </li>
+      <li class="row fd-config-item">
+            <div class="col-xs-24 col-sm-24">
               <label>文本占位</label>
-              <input type="text" class="c-field u-small" data-type="placeholder" value="${placeholder}" />
+              <input type="text" class="c-field u-small" data-type="placeholder" value="${
+                placeholder
+              }" />
             </div>
       </li>
       <li class="row fd-config-item">
         <div class="col-xs-24 col-sm-12">
           <label>文件大小限制（KB）</label>
-          <input type="text" class="c-field u-small" data-type="size" value="${size ===
-          0
-            ? ''
-            : size}" />
+          <input type="text" class="c-field u-small" data-type="size" value="${
+            size === 0 ? '' : size
+          }" />
         </div>
         <div class="col-xs-24 col-sm-12">
           <label>文件类型限制</label>
           <select type="text" class="c-field" data-type="accept" id="fileUploadAcceptTypeChoice">
-            <option value="file" ${accept === 'file'
-              ? 'selected'
-              : ''}>所有文件</option>
-            <option value="images" ${accept === 'images'
-              ? 'selected'
-              : ''}>图片</option>
-            <option value="audio" ${accept === 'audio'
-              ? 'selected'
-              : ''}>音频</option>
-            <option value="video" ${accept === 'video'
-              ? 'selected'
-              : ''}>视频</option>
+            <option value="file" ${
+              accept === 'file' ? 'selected' : ''
+            }>所有文件</option>
+            <option value="images" ${
+              accept === 'images' ? 'selected' : ''
+            }>图片</option>
+            <option value="audio" ${
+              accept === 'audio' ? 'selected' : ''
+            }>音频</option>
+            <option value="video" ${
+              accept === 'video' ? 'selected' : ''
+            }>视频</option>
           </select>
         </div>
       </li>
       <li class="row fd-config-item">
         <div class="col-xs-24 col-sm-12">
           <label>上传地址(url)</label>
-          <input type="text" class="c-field u-small" data-type="url" value="${url
-            ? url
-            : ''}" />
+          <input type="text" class="c-field u-small" data-type="url" value="${
+            url ? url : ''
+          }" />
         </div>
       </li>
       <li class="row fd-config-item checkbox-config">
         <div class="col-xs-24 col-sm-12">
           <label class="c-field c-field--choice">
-            <input type="checkbox" data-type="multiple" ${multiple
-              ? 'checked'
-              : ''}> 允许多选
+            <input type="checkbox" data-type="multiple" ${
+              multiple ? 'checked' : ''
+            }> 允许多选
           </label>
           <label class="c-field c-field--choice">
-            <input type="checkbox" data-type="required" ${multiple
-              ? 'required'
-              : ''} > 必填项
+            <input type="checkbox" data-type="required" ${
+              multiple ? 'required' : ''
+            } > 必填项
           </label>
         </div>
         <div class="col-xs-24 col-sm-12">
           <label class="c-field c-field--choice">
-            <input type="checkbox" data-type="auto" ${auto
-              ? 'checked'
-              : ''}> 自动上传
+            <input type="checkbox" data-type="auto" ${
+              auto ? 'checked' : ''
+            }> 自动上传
           </label>
           <label class="c-field c-field--choice">
-            <input type="checkbox" data-type="drag" ${drag
-              ? 'checked'
-              : ''}> 拖拽上传
+            <input type="checkbox" data-type="drag" ${
+              drag ? 'checked' : ''
+            }> 拖拽上传
           </label>
         </div>
       </li>

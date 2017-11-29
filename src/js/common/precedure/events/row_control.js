@@ -17,6 +17,9 @@ const rowControl = (row, id) => {
   })
 
   row.find('i').on('click', function() {
+    if ($(`#${id}`).find('.configing').length > 0) {
+      $('#fd-widget-edit-container').empty()
+    }
     store.removeRow(id)
   })
 

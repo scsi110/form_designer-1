@@ -59,7 +59,8 @@ class FormDesigner {
 window.FormDesigner = FormDesigner
 const form = new FormDesigner({
   containerId: 'container-id',
-  serverBaseUrl: 'http://192.168.1.237:8380/platform-base'
+  serverBaseUrl: 'http://192.168.1.237:8380/platform-base',
+  formDescriber: true
 })
 
 // form.getData();
