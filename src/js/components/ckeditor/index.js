@@ -99,16 +99,16 @@ class CKEditor extends WidgetBase {
       rows,
       maxlength,
       height,
-      width
+      width,
+      required
     } = this.config
 
     const formSign = store.getConfig().formDescriber
       ? `<div class="col-xs-24">
-          <label>表单标识</label>
-          <input type="text" class="c-field u-small" data-type="name" value="${name ===
-          undefined
-            ? ''
-            : name}" />
+          <label>标识</label>
+          <input type="text" class="c-field u-small" data-type="name" value="${
+            name === undefined ? '' : name
+          }" />
         </div>`
       : ''
 
@@ -120,20 +120,36 @@ class CKEditor extends WidgetBase {
       <li class="row fd-config-item">
         <div class="col-xs-24">
           <label>标签</label>
-          <input type="text" class="c-field u-small" data-type="label" value="${label}" />
+          <input type="text" class="c-field u-small" data-type="label" value="${
+            label
+          }" />
         </div>
       </li>
       <li class="row fd-config-item">
         <div class="col-xs-24">
           <label>宽度</label>
-          <input type="text" class="c-field u-small" data-type="width" value="${width}" />
+          <input type="text" class="c-field u-small" data-type="width" value="${
+            width
+          }" />
         </div>
         
       </li>
       <li class="row fd-config-item">
         <div class="col-xs-24">
           <label>高度</label>
-          <input type="text" class="c-field u-small" data-type="height" value="${height}" />
+          <input type="text" class="c-field u-small" data-type="height" value="${
+            height
+          }" />
+        </div>
+      </li>
+
+      <li class="row fd-config-item">
+        <div class="col-xs-24">
+          <label class="c-field c-field--choice">
+                <input type="checkbox" data-type="required" ${
+                  required ? 'checked' : ''
+                } > 必填
+              </label>
         </div>
       </li>
     </ul>
@@ -148,9 +164,19 @@ class CKEditor extends WidgetBase {
     const element = $(template)
     const curConfig = this.config
     const inputs = element.find('input')
+    const inputCheckbox = element.find('input:checkbox')
+
     inputs.on('input', function() {
       const attrName = $(this).data('type')
       let value = $(this).val()
+      curConfig[attrName] = value
+      self.emitChange()
+    })
+
+    inputCheckbox.on('change', function(e) {
+      const $this = $(this)
+      const attrName = $this.data('type')
+      let value = $this.is(':checked') ? true : false
       curConfig[attrName] = value
       self.emitChange()
     })
