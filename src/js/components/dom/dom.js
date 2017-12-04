@@ -1,6 +1,6 @@
 const Row = `
   <div class="row fd-row">
-    <div class="row-control" style="width">
+    <div class="row-control">
       <i class="icon remove"></i>
     </div>
   </div>
