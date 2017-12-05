@@ -1,4 +1,7 @@
 {
   "presets": ["env", "stage-1"],
-  "plugins": ["transform-decorators-legacy"]
+  "plugins": [
+    "babel-plugin-object-values-to-object-keys",
+    "transform-decorators-legacy"
+  ]
 }

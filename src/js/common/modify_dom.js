@@ -2,7 +2,6 @@ import { Row, Column, WidgetBox, Label } from '../components/dom/dom'
 import bindColEvent from '../common/precedure/events/col_event'
 import bindModifyEvent from '../common/precedure/events/modify_event'
 import store from '../store/store'
-import debounce from 'lodash.debounce'
 import rowControl from '../common/precedure/events/row_control'
 import { validate } from '../common/utils'
 
@@ -46,6 +45,8 @@ const modify = (fieldId, removePrev) => {
     $widgetBox = bindModifyEvent($widgetBox, containerId)
 
     colContainer.append($widgetBox)
+
+    // console.log(colContainer.parents('.fd-row').children('.fd-col'))
 
     // 判断验证规则
     if (
@@ -148,9 +149,7 @@ const modifyDOM = ({ added, deleted, updated }) => {
     }
   } else if (isDeleted && !isUpdated) {
     // 如果只有 delete ，执行 delete 操作
-    setTimeout(function() {
-      deletedHandler()
-    }, 0)
+    deletedHandler()
   } else if (isUpdated && !isDeleted) {
     // 如果只有 update , 执行 update 操作
     updatedHandler()
@@ -167,10 +166,6 @@ const modifyDOM = ({ added, deleted, updated }) => {
     } else if (canvas && rows) {
       Object.keys(rows).forEach(rowId => {
         $(`#${rowId}`).remove()
-      })
-    } else if (fields && !cols) {
-      Object.keys(fields).forEach(fieldId => {
-        modify.call(this, fieldId, true)
       })
     }
   }

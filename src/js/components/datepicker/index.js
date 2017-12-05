@@ -52,7 +52,9 @@ class DatePicker extends WidgetBase {
                           <i class="calendar icon" style="font-size: 1em;position: absolute;top: 8px;right: 4px;"></i>
                         </div>`)
     pickerBox.append(this.elementRef)
-    $(`#${this.containerId}`).append(pickerBox)
+    $(`#${this.containerId}`)
+      .find('.widget-box')
+      .append(pickerBox)
   }
 
   // 定义元素配置面板的模版，并绑定配置修改事件，在元素配置图标点击时触发（见 modify_event.js 文件）

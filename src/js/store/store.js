@@ -3,7 +3,7 @@ import clonedeep from 'lodash.clonedeep'
 import { detailedDiff } from 'deep-object-diff'
 import modifyDOM from '../common/modify_dom'
 import assignin from 'lodash.assignin'
-import { onRowHeightChange } from '../common/utils'
+import { onRowHeightChange, autoHigher } from '../common/utils'
 
 class Store {
   // 定义可观察的数据结构
@@ -172,10 +172,12 @@ autorun(() => {
   console.log('数据', data)
   setTimeout(() => {
     onRowHeightChange()
+    autoHigher()
   }, 0)
   setTimeout(() => {
     onRowHeightChange()
   }, 300)
+
   store._data = clonedeep(data) // 深复制当前数据后替换原 before 数据，保证每次 DIFF 对比「这一次」和「前一次」
 })
 
