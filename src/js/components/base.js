@@ -4,9 +4,9 @@ import debounce from 'lodash.debounce'
 
 class WidgetBase {
   constructor() {
-    if (new.target === WidgetBase) {
-      throw new Error('WidgetBase 作为基础类型，只能被继承后使用，无法实例化')
-    }
+    // if (new.target === WidgetBase) {
+    //   throw new Error('WidgetBase 作为基础类型，只能被继承后使用，无法实例化')
+    // }
     this.name
     this.id = uuid()
     this.tag
@@ -41,9 +41,9 @@ class WidgetBase {
 
 class RowBase {
   constructor() {
-    if (new.target === WidgetBase) {
-      throw new Error('RowBase 作为基础类型，只能被继承后使用，无法实例化')
-    }
+    // if (new.target === RowBase) {
+    //   throw new Error('RowBase 作为基础类型，只能被继承后使用，无法实例化')
+    // }
     this.name = 'row'
     this.id = uuid()
     this.columns = []
@@ -60,9 +60,9 @@ class RowBase {
 
 class ColumnBase {
   constructor() {
-    if (new.target === WidgetBase) {
-      throw new Error('ColumnBase 作为基础类型，只能被继承后使用，无法实例化')
-    }
+    // if (new.target === ColumnBase) {
+    //   throw new Error('ColumnBase 作为基础类型，只能被继承后使用，无法实例化')
+    // }
     this.name = 'column'
     this.id = uuid()
     this.fields = []

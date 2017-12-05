@@ -11,7 +11,8 @@ const initPage = containerId => {
         </div>
       </div>`
 
-  const widgetPanel = `<div class="fd-panel" id="fd-widget-panel">
+  const widgetPanel = `
+    <div class="fd-panel" id="fd-widget-panel">
       <h2>布局</h2>
       <ul class="widget-panel-menu" id="fd-layout-list">
         <li id="single-column" class="fd-widget" draggable=true data-type='column_one'>单列布局</li>
@@ -31,14 +32,16 @@ const initPage = containerId => {
         : ''}
   */
 
-  const editPanel = `<div id="fd-edit-panel">
+  const editPanel = `
+      <div id="fd-edit-panel">
         <div class="col-xs-24 edit-panel-wrapper widget-edit">
           <h2>组件编辑面板</h2>
           <div id="fd-widget-edit-container"></div>
         </div>
       </div>`
 
-  const canvas = `<div class="col-xs-24 fd-panel canvas-container">
+  const canvas = `
+      <div class="col-xs-24 fd-panel canvas-container">
         <div id="fd-canvas"></div>
       </div>`
 

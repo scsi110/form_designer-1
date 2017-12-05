@@ -27,7 +27,7 @@ const bindColEvent = col => {
     $this.css('border', '1px dashed rgba(128, 128, 128, 0.47)')
 
     let widgetType = event.originalEvent.dataTransfer.getData('type')
-    if (col.children().length > 0) {
+    if (col.children().length > 0 || widgetType.substring(0, 6) === 'column') {
       return
     }
     let pluginInstance = createComponent(widgetType, colId) // 创建 Plugin 的实例

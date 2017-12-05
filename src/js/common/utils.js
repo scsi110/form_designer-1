@@ -247,6 +247,44 @@ const showConfigPanel = widgetId => {
   }, 0)
 }
 
+const autoHigher = () => {
+  const canvas = $('#fd-canvas')
+  const rowNum = canvas.find('.fd-row').length
+  const singleRowHeight = 82
+  const curRowHeight = singleRowHeight * rowNum
+  const curCanvasHeight = $('#fd-canvas').height()
+  // console.log('curCanvasHeight', curCanvasHeight)
+  // console.log('curRowHeight', curRowHeight)
+  const deltaHeight = curCanvasHeight - curRowHeight
+  if (deltaHeight < singleRowHeight * 2) {
+    $('#fd-canvas').height(curRowHeight + singleRowHeight * 3)
+  }
+}
+
+const onRowHeightChange = callback => {
+  console.log('running')
+  let widgetHeightAry = []
+  const $canvas = $('#fd-canvas')
+  $canvas.find('.fd-row').each(function(i, row) {
+    let $row = $(row)
+    let curRowHeight = $row.height() // 扣除2px的边框
+    // console.log('curRowHeight', curRowHeight)
+    let widgets = $row.find('.widget-box')
+    if (widgets.length > 0) {
+      widgets.each(function(i, widget) {
+        let widgetH = $(widget).height() + 2
+        widgetHeightAry.push(widgetH)
+      })
+      let maxHeight = Math.max(...widgetHeightAry)
+      $row.find('.fd-col').css('height', maxHeight)
+      widgetHeightAry.length = 0
+    } else {
+      $row.find('.fd-col').css('min-height', '68px')
+      $row.find('.fd-col').css('height', '68px')
+    }
+  })
+}
+
 export {
   uuid,
   clone,
@@ -254,5 +292,7 @@ export {
   handleCache,
   validate,
   createOptions,
-  showConfigPanel
+  showConfigPanel,
+  autoHigher,
+  onRowHeightChange
 }

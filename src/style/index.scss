@@ -1,5 +1,5 @@
 body {
-  background-color: #272c35 !important;
+  // background-color: #272c35 !important;
   overflow-y: hidden;
   ul,
   li {
@@ -22,12 +22,12 @@ body {
     }
 
     #fd-widget-panel {
-      width: 250px;
+      width: 230px;
       height: 99%;
       overflow: scroll;
       position: fixed;
       z-index: 10000;
-      background-color: #ebeaec;
+      // background-color: #ebeaec;
       h2 {
         padding-left: 10px;
       }
@@ -49,23 +49,18 @@ body {
     }
     .canvas-container {
       background: none;
-      padding-left: 255px;
-      padding-right: 424px;
+      padding-left: 235px;
+      padding-right: 360px;
       overflow-y: scroll;
 
       #fd-canvas {
-        background-color: #ebeaec;
-        // min-height: 2000px;
+        border: 1px dashed #dddddd;
         height: 100%;
-        border-radius: 6px;
-        border: 3px solid #ffffff;
 
         .fd-row {
-          margin-left: 0;
-          margin-right: 0;
-          margin-bottom: 6px;
+          margin: 6px;
           padding: 4px 4px 4px 4px;
-          border: 3px solid rgba(128, 128, 128, 0.47);
+          border: 1px solid rgba(128, 128, 128, 0.47);
           position: relative;
           z-index: 20000;
           .row-control {
@@ -93,6 +88,7 @@ body {
           .fd-col {
             border: 1px dashed rgba(128, 128, 128, 0.47);
             min-height: 68px;
+            overflow-y: scroll;
 
             .widget-box {
               position: relative;
@@ -126,7 +122,7 @@ body {
       }
     }
     #fd-edit-panel {
-      width: 417px;
+      width: 360px;
       height: 99%;
       position: fixed;
       right: 10px;
@@ -134,10 +130,10 @@ body {
       overflow-y: scroll;
       padding: 0;
 
-      .edit-panel-wrapper {
-        background-color: #ebeaec;
-        border-radius: 6px;
-      }
+      // .edit-panel-wrapper {
+      //   background-color: #ebeaec;
+      //   border-radius: 6px;
+      // }
 
       .form-info {
         height: 150px;
@@ -174,5 +170,5 @@ body {
 }
 
 .configing {
-  border: 2px solid rgb(0, 217, 255) !important;
+  border: 1px solid gold !important;
 }
