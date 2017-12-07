@@ -33,6 +33,7 @@ class CheckboxGroup extends WidgetBase {
   }
 
   createDOM = () => {
+    const self = this
     const {
       options,
       defaultValue,
@@ -96,6 +97,7 @@ class CheckboxGroup extends WidgetBase {
               `
           })
           element.append(optionsDOM)
+          self.reborder()
         }
       })
     }

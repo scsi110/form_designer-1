@@ -284,23 +284,21 @@ const onRowHeightChange = callback => {
   })
 }
 
-const colSync = callback => {
+const colSync = row => {
   let widgetHeightAry = []
-  const $canvas = $('#fd-canvas')
-  let $row = $(row)
-  let curRowHeight = $row.height() // 扣除2px的边框
-  let widgets = $row.find('.widget-box')
+  let curRowHeight = row.height() // 扣除2px的边框
+  let widgets = row.find('.widget-box')
   if (widgets.length > 0) {
     widgets.each(function(i, widget) {
       let widgetH = $(widget).height() + 2
       widgetHeightAry.push(widgetH)
     })
     let maxHeight = Math.max(...widgetHeightAry)
-    $row.find('.fd-col').css('height', maxHeight)
+    row.find('.fd-col').css('height', maxHeight)
     widgetHeightAry.length = 0
   } else {
-    $row.find('.fd-col').css('min-height', '68px')
-    $row.find('.fd-col').css('height', '68px')
+    row.find('.fd-col').css('min-height', '68px')
+    row.find('.fd-col').css('height', '68px')
   }
 }
 

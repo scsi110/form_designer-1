@@ -170,13 +170,10 @@ autorun(() => {
   let diffInfo = detailedDiff(_data, data) // 前后数据对比，生成 DIFF 结果
   modifyDOM(diffInfo) // 将 DIFF 结果作为参数传入解析函数生成 DOM
   console.log('数据', data)
+
   setTimeout(() => {
-    onRowHeightChange()
     autoHigher()
   }, 0)
-  setTimeout(() => {
-    onRowHeightChange()
-  }, 300)
 
   store._data = clonedeep(data) // 深复制当前数据后替换原 before 数据，保证每次 DIFF 对比「这一次」和「前一次」
 })

@@ -41,6 +41,7 @@ class CKEditor extends WidgetBase {
 
   // 生命周期函数
   afterCreateDOM = () => {
+    const self = this
     this.elementRef.ckeditor({
       height: this.config.height,
       width: this.config.width,
@@ -86,6 +87,10 @@ class CKEditor extends WidgetBase {
         { name: 'tools', items: ['Maximize'] },
         { name: 'editing', items: ['Scayt'] }
       ]
+    })
+
+    CKEDITOR.on('instanceReady', function() {
+      self.reborder()
     })
   }
 

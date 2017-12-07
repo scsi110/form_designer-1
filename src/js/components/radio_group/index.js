@@ -34,6 +34,7 @@ class RadioGroup extends WidgetBase {
   }
 
   createDOM = () => {
+    const self = this
     const {
       options,
       defaultValue,
@@ -96,6 +97,7 @@ class RadioGroup extends WidgetBase {
               `
           })
           element.append(optionsDOM)
+          self.reborder()
         }
       })
     }

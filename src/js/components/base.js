@@ -37,6 +37,38 @@ class WidgetBase {
   emitChange = debounce(() => {
     store.changeConfig(this.config, this.id)
   }, 300)
+
+  reborder = () => {
+    // 重新绘制col边框，col高度对齐
+    const row = $(`#${this.containerId}`).parents('.fd-row')
+    let widgetHeightAry = []
+    let curRowHeight = row.height()
+    let widgets = row.find('.widget-box')
+    if (widgets.length > 0) {
+      widgets.each(function(i, widget) {
+        let widgetH = $(widget).height() + 2
+        widgetHeightAry.push(widgetH)
+      })
+      let maxHeight = Math.max(...widgetHeightAry)
+      row.find('.fd-col').css('height', maxHeight)
+      widgetHeightAry.length = 0
+    } else {
+      row.find('.fd-col').css('min-height', '68px')
+      row.find('.fd-col').css('height', '68px')
+    }
+
+    // 画布高度计算，自动增加高度
+    const canvas = $('#fd-canvas')
+    const rowNum = canvas.find('.fd-row').length
+    const singleRowHeight = 82
+    const curentRowHeight = singleRowHeight * rowNum
+    const curCanvasHeight = $('#fd-canvas').height()
+    const deltaHeight = curCanvasHeight - curentRowHeight
+    console.log(curentRowHeight, curCanvasHeight)
+    if (deltaHeight < singleRowHeight * 2) {
+      $('#fd-canvas').height(curentRowHeight + singleRowHeight * 3)
+    }
+  }
 }
 
 class RowBase {

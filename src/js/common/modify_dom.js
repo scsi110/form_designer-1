@@ -12,11 +12,14 @@ const modify = (fieldId, removePrev) => {
   const colContainer = $(`#${containerId}`)
 
   setTimeout(function() {
+    const reborder = store.pluginMap[fieldId].reborder
     if (removePrev) {
       $(`#${containerId}`).empty()
     }
     let $widgetBox = $(WidgetBox)
+
     let widget = store.pluginMap[fieldId].createDOM()
+
     let labelVal = field.config.label
     if (labelVal) {
       const $label = $(Label)
@@ -46,7 +49,7 @@ const modify = (fieldId, removePrev) => {
 
     colContainer.append($widgetBox)
 
-    // console.log(colContainer.parents('.fd-row').children('.fd-col'))
+    reborder()
 
     // 判断验证规则
     if (
@@ -74,9 +77,11 @@ const modify = (fieldId, removePrev) => {
         if (!result) {
           $widgetBox.find('.validate-error-msg').show()
           widget.css('border-color', 'red')
+          reborder()
         } else {
           $widgetBox.find('.validate-error-msg').hide()
           widget.css('border-color', '#96a8b2')
+          reborder()
         }
       })
     }
@@ -161,7 +166,11 @@ const modifyDOM = ({ added, deleted, updated }) => {
     if (cols && fields && !canvas) {
       // 同时出现 col 和fields，没有canvas，组件删除的情况
       Object.keys(fields).forEach(fieldId => {
-        $(`#${fieldId}`).remove()
+        const field = $(`#${fieldId}`)
+
+        field.remove()
+
+        store.pluginMap[fieldId].reborder()
       })
     } else if (canvas && rows) {
       Object.keys(rows).forEach(rowId => {
