@@ -3,7 +3,7 @@ import store from '../../store/store'
 const initPage = containerId => {
   // 设置总体布局为 container-fluid
   const mainContainer = $(`#${containerId}`).addClass('container-fluid')
-  const wrapperRow = $('<div class="row fd-wrapper"></div>')
+  const wrapperRow = $('<div class="fd-wrapper"></div>')
   // 生成页面的主体元素
   const header = `<div class="row">
         <div class="col-xs-24">
@@ -34,14 +34,14 @@ const initPage = containerId => {
 
   const editPanel = `
       <div id="fd-edit-panel">
-        <div class="col-xs-24 edit-panel-wrapper widget-edit">
+        <div class="edit-panel-wrapper widget-edit">
           <h2>组件编辑面板</h2>
           <div id="fd-widget-edit-container"></div>
         </div>
       </div>`
 
   const canvas = `
-      <div class="col-xs-24 fd-panel canvas-container">
+      <div class="fd-panel canvas-container">
         <div id="fd-canvas"></div>
       </div>`
 

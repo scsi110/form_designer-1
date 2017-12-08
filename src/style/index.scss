@@ -49,13 +49,16 @@ body {
     }
     .canvas-container {
       background: none;
-      padding-left: 235px;
-      padding-right: 360px;
-      overflow-y: scroll;
+      margin-left: 235px;
+      margin-right: 362px;
+      width: calc(100% - 595px);
+      // overflow-y: scroll;
 
       #fd-canvas {
         border: 1px dashed #dddddd;
         height: 100%;
+        padding-bottom: 200px;
+        overflow-y: scroll;
 
         .fd-row {
           margin: 6px;
@@ -63,24 +66,29 @@ body {
           border: 1px solid rgba(128, 128, 128, 0.47);
           position: relative;
           z-index: 20000;
+          width: calc(100% - 24px);
           .row-control {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             position: absolute;
-            width: 30px;
-            height: auto;
+            width: 16px;
+            height: 20px;
             background-color: #fff;
-            padding: 10px 0 10px 0;
             top: -1px;
-            left: 0;
-            text-align: center;
-            border-top-left-radius: 6px;
-            border-bottom-left-radius: 6px;
+            right: -16px;
+            vertical-align: midlle;
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
             border: 1px solid #b8b8b9;
             cursor: pointer;
-            opacity: 0;
             i {
+              font-size: 14px;
+              font-weight: 100;
               margin: 0;
+              color: rgba(128, 128, 128, 0.47);
               &:hover {
-                color: #4262a8;
+                color: gold;
               }
             }
           }
@@ -122,18 +130,21 @@ body {
       }
     }
     #fd-edit-panel {
+      // width: 360px;
+      // height: 99%;
+      // position: fixed;
+      // right: 10px;
+      // z-index: 10000;
+      // overflow-y: scroll;
+      // padding: 0;
+
       width: 360px;
       height: 99%;
+      overflow: scroll;
       position: fixed;
-      right: 10px;
-      z-index: 10000;
-      overflow-y: scroll;
-      padding: 0;
-
-      // .edit-panel-wrapper {
-      //   background-color: #ebeaec;
-      //   border-radius: 6px;
-      // }
+      z-index: 1;
+      right: 8px;
+      top: 0;
 
       .form-info {
         height: 150px;

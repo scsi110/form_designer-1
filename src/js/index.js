@@ -1,7 +1,7 @@
 import '../style/index.scss'
 import assignin from 'lodash.assignin'
 import defaultConfig from './common/config' // default config
-import { uuid, autoHigher } from './common/utils'
+import { uuid } from './common/utils'
 import { toJS } from 'mobx'
 import store from './store/store' // 引入全局数据结构
 import initPage from './common/precedure/init_page'
@@ -64,14 +64,13 @@ const form = new FormDesigner({
   formDescriber: true
 })
 
-// window.onbeforeunload = function() {
-//   sessionStorage.setItem('formData', form.getData())
-// }
+window.onbeforeunload = function() {
+  sessionStorage.setItem('formData', form.getData())
+}
 
-// window.onload = function() {
-//   const formData = sessionStorage.getItem('formData')
-//   if (formData && form) {
-//     form.createForm(formData)
-//     autoHigher()
-//   }
-// }
+window.onload = function() {
+  const formData = sessionStorage.getItem('formData')
+  if (formData && form) {
+    form.createForm(formData)
+  }
+}

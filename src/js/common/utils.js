@@ -247,20 +247,6 @@ const showConfigPanel = widgetId => {
   }, 0)
 }
 
-const autoHigher = () => {
-  const canvas = $('#fd-canvas')
-  const rowNum = canvas.find('.fd-row').length
-  const singleRowHeight = 82
-  const curRowHeight = singleRowHeight * rowNum
-  const curCanvasHeight = $('#fd-canvas').height()
-  // console.log('curCanvasHeight', curCanvasHeight)
-  // console.log('curRowHeight', curRowHeight)
-  const deltaHeight = curCanvasHeight - curRowHeight
-  if (deltaHeight < singleRowHeight * 2) {
-    $('#fd-canvas').height(curRowHeight + singleRowHeight * 3)
-  }
-}
-
 const onRowHeightChange = callback => {
   let widgetHeightAry = []
   const $canvas = $('#fd-canvas')
@@ -310,7 +296,6 @@ export {
   validate,
   createOptions,
   showConfigPanel,
-  autoHigher,
   onRowHeightChange,
   colSync
 }
