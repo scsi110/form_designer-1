@@ -12,7 +12,7 @@ const initPage = containerId => {
       </div>`
 
   const widgetPanel = `
-    <div class="fd-panel" id="fd-widget-panel">
+    <div class="fd-panel mCustomScrollbar" id="fd-widget-panel" data-mcs-theme="minimal-dark">
       <h2>布局</h2>
       <ul class="widget-panel-menu" id="fd-layout-list">
         <li id="single-column" class="fd-widget" draggable=true data-type='column_one'>单列布局</li>
@@ -34,14 +34,14 @@ const initPage = containerId => {
 
   const editPanel = `
       <div id="fd-edit-panel">
-        <div class="edit-panel-wrapper widget-edit">
+        <div class="edit-panel-wrapper widget-edit mCustomScrollbar" data-mcs-theme="minimal-dark">
           <h2>组件编辑面板</h2>
           <div id="fd-widget-edit-container"></div>
         </div>
       </div>`
 
   const canvas = `
-      <div class="fd-panel canvas-container">
+      <div class="fd-panel canvas-container mCustomScrollbar" data-mcs-theme="minimal-dark">
         <div id="fd-canvas"></div>
       </div>`
 

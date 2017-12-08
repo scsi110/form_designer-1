@@ -17,14 +17,15 @@ body {
   }
 
   .fd-wrapper {
+    overflow-y: hidden;
     .fd-panel {
       border-radius: 6px;
     }
 
     #fd-widget-panel {
+      overflow-y: hidden;
       width: 230px;
       height: 99%;
-      overflow: scroll;
       position: fixed;
       z-index: 10000;
       // background-color: #ebeaec;
@@ -52,15 +53,15 @@ body {
       margin-left: 235px;
       margin-right: 362px;
       width: calc(100% - 595px);
-      // overflow-y: scroll;
 
       #fd-canvas {
         border: 1px dashed #dddddd;
-        height: 100%;
+        min-height: 1000px;
         padding-bottom: 200px;
-        overflow-y: scroll;
+        overflow-y: hidden;
 
         .fd-row {
+          float: right;
           margin: 6px;
           padding: 4px 4px 4px 4px;
           border: 1px solid rgba(128, 128, 128, 0.47);
@@ -76,10 +77,10 @@ body {
             height: 20px;
             background-color: #fff;
             top: -1px;
-            right: -16px;
+            left: -16px;
             vertical-align: midlle;
-            border-top-right-radius: 3px;
-            border-bottom-right-radius: 3px;
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
             border: 1px solid #b8b8b9;
             cursor: pointer;
             i {
@@ -96,7 +97,7 @@ body {
           .fd-col {
             border: 1px dashed rgba(128, 128, 128, 0.47);
             min-height: 68px;
-            // overflow-y: scroll;
+            overflow-y: auto;
 
             .widget-box {
               position: relative;
@@ -130,21 +131,13 @@ body {
       }
     }
     #fd-edit-panel {
-      // width: 360px;
-      // height: 99%;
-      // position: fixed;
-      // right: 10px;
-      // z-index: 10000;
-      // overflow-y: scroll;
-      // padding: 0;
-
       width: 360px;
       height: 99%;
-      overflow: scroll;
       position: fixed;
       z-index: 1;
       right: 8px;
       top: 0;
+      overflow: hidden;
 
       .form-info {
         height: 150px;
@@ -153,7 +146,7 @@ body {
 
       .widget-edit {
         height: 100%;
-        overflow-y: scroll;
+        overflow-y: hidden;
       }
 
       #fd-config-list {

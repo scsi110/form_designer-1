@@ -28,6 +28,7 @@ class FormDesigner {
         })
     }
     loadWidget()
+
     bindRowEvent('fd-widget', 'fd-canvas')
   }
 
@@ -58,19 +59,19 @@ class FormDesigner {
 
 window.FormDesigner = FormDesigner
 
-const form = new FormDesigner({
-  containerId: 'container-id',
-  serverBaseUrl: 'http://192.168.1.237:8380/platform-base',
-  formDescriber: true
-})
+// const form = new FormDesigner({
+//   containerId: 'container-id',
+//   serverBaseUrl: 'http://192.168.1.237:8380/platform-base',
+//   formDescriber: true
+// })
 
-window.onbeforeunload = function() {
-  sessionStorage.setItem('formData', form.getData())
-}
+// window.onbeforeunload = function() {
+//   sessionStorage.setItem('formData', form.getData())
+// }
 
-window.onload = function() {
-  const formData = sessionStorage.getItem('formData')
-  if (formData && form) {
-    form.createForm(formData)
-  }
-}
+// window.onload = function() {
+//   const formData = sessionStorage.getItem('formData')
+//   if (formData && form) {
+//     form.createForm(formData)
+//   }
+// }
