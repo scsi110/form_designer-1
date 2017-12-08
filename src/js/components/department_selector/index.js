@@ -1,18 +1,19 @@
 import { WidgetBase } from '../widgetAPI'
 import store from '../../store/store'
 import { handleCache, createOptions, restoreOptions } from '../../common/utils'
-class PeopleSelector extends WidgetBase {
+
+class DepartmentSelector extends WidgetBase {
   constructor() {
     super()
     this.tag = 'div'
     this.config.name = undefined // 设定文件域的字段名
-    this.config.label = '人员选择器'
+    this.config.label = '科室选择器'
     this.config.required = true
     this.config.multiple = true
     this.config.readonly = false
-    this.config.defaultUser = false // 是否默认选中登录用户
-    this.name = 'peopleSelector'
-    this.type = 'peopleSelector'
+    this.config.defaultDept = false // 默认选中登录用户的主部门
+    this.name = 'departmentSelector'
+    this.type = 'departmentSelector'
   }
 
   createDOM = () => {
@@ -22,7 +23,7 @@ class PeopleSelector extends WidgetBase {
     const element = `
       <${
         tag
-      } style="height:30px;background:#44b1f5;color: #fff;text-align:center;line-height:30px;border-radius:3px;">人员选择器</${
+      } style="height:30px;background:orange;color: #fff;text-align:center;line-height:30px;border-radius:3px;">科室选择器</${
       tag
     }>
     `
@@ -32,7 +33,7 @@ class PeopleSelector extends WidgetBase {
 
   // 定义元素配置面板的模版，并绑定配置修改事件，在元素配置图标点击时触发（见 modify_event.js 文件）
   createConfigPanel = () => {
-    const { readonly, label, required, defaultUser, multiple } = this.config
+    const { readonly, label, required, defaultDept, multiple } = this.config
 
     // 解析选项生成配置模版
     const formSign = store.getConfig().formDescriber
@@ -68,12 +69,12 @@ class PeopleSelector extends WidgetBase {
               <label class="c-field c-field--choice">
                 <input type="checkbox" data-type="multiple" ${
                   multiple ? 'checked' : ''
-                } > 选择多人
+                } > 选择多个科室
               </label>
               <label class="c-field c-field--choice">
-                <input type="checkbox" data-type="defaultUser" ${
-                  defaultUser ? 'checked' : ''
-                } > 默认选中登录用户
+                <input type="checkbox" data-type="defaultDept" ${
+                  defaultDept ? 'checked' : ''
+                } > 默认选中登录用户的主部门
               </label>
             </div>  
       </li>
@@ -206,9 +207,9 @@ class PeopleSelector extends WidgetBase {
   }
 }
 
-PeopleSelector.info = {
-  name: 'peopleSelector',
-  displayName: '人员选择器'
+DepartmentSelector.info = {
+  name: 'departmentSelector',
+  displayName: '科室选择器'
 }
 
-export default PeopleSelector
+export default DepartmentSelector

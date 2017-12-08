@@ -8,6 +8,8 @@ import CheckboxGroup from './checkbox_group'
 import RadioGroup from './radio_group'
 import HiddenInput from './hidden_input'
 import Paragraph from './paragraph'
+import PeopleSelector from './people_selector'
+import DepartmentSelector from './department_selector'
 import AddRow from './layout/layout'
 import store from '../store/store'
 
@@ -21,7 +23,9 @@ const PLUGINS = {
   select: Select,
   datepicker: DatePicker,
   fileUpload: FileUpload,
-  paragraph: Paragraph
+  paragraph: Paragraph,
+  peopleSelector: PeopleSelector,
+  departmentSelector: DepartmentSelector
 }
 
 const createComponent = (type, containerId) => {
