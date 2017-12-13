@@ -20,11 +20,7 @@ class PeopleSelector extends WidgetBase {
     const { tag } = this
 
     const element = `
-      <${
-        tag
-      } style="height:30px;background:#44b1f5;color: #fff;text-align:center;line-height:30px;border-radius:3px;">人员选择器</${
-      tag
-    }>
+      <${tag} style="height:30px;background:#44b1f5;color: #fff;text-align:center;line-height:30px;border-radius:3px;">人员选择器</${tag}>
     `
 
     return element
@@ -146,9 +142,7 @@ class PeopleSelector extends WidgetBase {
           case 1:
             const { dictTypeCode, dictTypeName } = self.config
             if (dictTypeCode && dictTypeName) {
-              tabContent = `<option value=${dictTypeCode} selected="selected">${
-                dictTypeName
-              }</option>`
+              tabContent = `<option value=${dictTypeCode} selected="selected">${dictTypeName}</option>`
               self.configPanelRef
                 .find('.layui-show select')
                 .empty()
@@ -208,7 +202,8 @@ class PeopleSelector extends WidgetBase {
 
 PeopleSelector.info = {
   name: 'peopleSelector',
-  displayName: '人员选择器'
+  displayName: '人员选择器',
+  icon: '<i class="user icon"></i>'
 }
 
 export default PeopleSelector

@@ -14,7 +14,7 @@ const bindRowEvent = (widgetClass, canvasId) => {
   canvas.on('dragover', function(event) {
     event.preventDefault()
     event.stopPropagation()
-    canvas.css('border', '1px dashed gold')
+    canvas.css('border', '1px dashed #2196f3')
   })
 
   canvas.on('dragleave', function(event) {

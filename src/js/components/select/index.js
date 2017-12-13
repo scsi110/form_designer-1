@@ -92,9 +92,7 @@ class Select extends WidgetBase {
       const { serverBaseUrl } = store.getConfig()
       let url =
         dataFetchMethod === 'defaultQuery'
-          ? `${
-              serverBaseUrl
-            }/dynamicform/api/getDataDicts.action?dictTypeCode=${
+          ? `${serverBaseUrl}/dynamicform/api/getDataDicts.action?dictTypeCode=${
               this.config.dictTypeCode
             }`
           : `${serverBaseUrl}/dynamicform/api/getSqlDictData.action?sql=${
@@ -153,9 +151,7 @@ class Select extends WidgetBase {
     const { serverBaseUrl } = store.getConfig()
     const { dictTypeCode, dictTypeName, customerQuery } = this.config
     if (dictTypeCode && dictTypeName) {
-      defaultQueryOption = `<option value=${dictTypeCode} selected="selected">${
-        dictTypeName
-      }</option>`
+      defaultQueryOption = `<option value=${dictTypeCode} selected="selected">${dictTypeName}</option>`
     } else if (customerQuery) {
       defaultSQL = customerQuery
       console.log(defaultSQL)
@@ -181,9 +177,7 @@ class Select extends WidgetBase {
       <li class="row fd-config-item simple-config">
           <div class="col-xs-24">
             <label>标签:</label>
-            <input type="text" class="c-field u-xsmall" data-type="label" value="${
-              formLabel
-            }" />
+            <input type="text" class="c-field u-xsmall" data-type="label" value="${formLabel}" />
           </div>
       </li>
       <li class="fd-config-item complex-config">
@@ -237,9 +231,7 @@ class Select extends WidgetBase {
                  : '<div class="layui-tab-item">'
              }
               <div class="col-xs-24 select-custom-sql-fetch">
-                <textarea class="c-field" placeholder="请输入自定义 SQL 语句" rows="4">${
-                  defaultSQL
-                }</textarea>
+                <textarea class="c-field" placeholder="请输入自定义 SQL 语句" rows="4">${defaultSQL}</textarea>
                 <button type="button" class="c-button c-button--info u-large" style="float:right;margin-top:10px;width:100px;">
                   查询
                 </button>
@@ -398,18 +390,12 @@ class Select extends WidgetBase {
           }" name="optionsRadios" data-type="selected" data-index=${id} />
           <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
             <div class="o-field">
-              <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value=${
-                label
-              } data-index=${id} />
+              <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value=${label} data-index=${id} />
             </div>
             <div class="o-field">
-              <input class="c-field u-xsmall" placeholder="选项值" data-type="value" value=${
-                value
-              } data-index=${id} />
+              <input class="c-field u-xsmall" placeholder="选项值" data-type="value" value=${value} data-index=${id} />
             </div>
-            <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${
-              id
-            }></i>
+            <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${id}></i>
           </div>
         </div>
       `
@@ -460,9 +446,7 @@ class Select extends WidgetBase {
           case 1:
             const { dictTypeCode, dictTypeName } = self.config
             if (dictTypeCode && dictTypeName) {
-              tabContent = `<option value=${dictTypeCode} selected="selected">${
-                dictTypeName
-              }</option>`
+              tabContent = `<option value=${dictTypeCode} selected="selected">${dictTypeName}</option>`
               self.configPanelRef
                 .find('.layui-show select')
                 .empty()
@@ -522,7 +506,8 @@ class Select extends WidgetBase {
 
 Select.info = {
   name: 'select',
-  displayName: '下拉选择器'
+  displayName: '下拉选择器',
+  icon: '<i class="toggle down icon"></i>'
 }
 
 export default Select

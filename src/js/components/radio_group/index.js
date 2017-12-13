@@ -70,12 +70,8 @@ class RadioGroup extends WidgetBase {
 
       let url =
         dataFetchMethod === 'defaultQuery'
-          ? `${
-              serverBaseUrl
-            }/dynamicform/api/getDataDicts.action?dictTypeCode=${dictTypeCode}`
-          : `${serverBaseUrl}/dynamicform/api/getSqlDictData.action?sql=${
-              customerQuery
-            }`
+          ? `${serverBaseUrl}/dynamicform/api/getDataDicts.action?dictTypeCode=${dictTypeCode}`
+          : `${serverBaseUrl}/dynamicform/api/getSqlDictData.action?sql=${customerQuery}`
 
       $.ajax({
         url,
@@ -129,9 +125,7 @@ class RadioGroup extends WidgetBase {
     const { serverBaseUrl } = store.getConfig()
     const { dictTypeCode, dictTypeName, customerQuery } = this.config
     if (dictTypeCode && dictTypeName) {
-      defaultQueryOption = `<option value=${dictTypeCode} selected="selected">${
-        dictTypeName
-      }</option>`
+      defaultQueryOption = `<option value=${dictTypeCode} selected="selected">${dictTypeName}</option>`
     } else if (customerQuery) {
       defaultSQL = customerQuery
     }
@@ -223,9 +217,7 @@ class RadioGroup extends WidgetBase {
              }
              <fieldset class="o-fieldset">
               <div class="col-xs-24 radio-custom-sql-fetch">
-                <textarea class="c-field" placeholder="请输入自定义 SQL 语句" rows="4">${
-                  defaultSQL
-                }</textarea>
+                <textarea class="c-field" placeholder="请输入自定义 SQL 语句" rows="4">${defaultSQL}</textarea>
                 <button type="button" class="c-button c-button--info u-large" style="float:right;margin-top:10px;width:100px;">
                   查询
                 </button>
@@ -333,9 +325,7 @@ class RadioGroup extends WidgetBase {
                 value ? value : ''
               }" data-index=${id} />
             </div>
-            <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${
-              id
-            }></i>
+            <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${id}></i>
           </div>
         </div>
       `
@@ -386,9 +376,7 @@ class RadioGroup extends WidgetBase {
           case 1:
             const { dictTypeCode, dictTypeName } = self.config
             if (dictTypeCode && dictTypeName) {
-              tabContent = `<option value=${dictTypeCode} selected="selected">${
-                dictTypeName
-              }</option>`
+              tabContent = `<option value=${dictTypeCode} selected="selected">${dictTypeName}</option>`
               self.configPanelRef
                 .find('.layui-show select')
                 .empty()
@@ -451,7 +439,8 @@ class RadioGroup extends WidgetBase {
 
 RadioGroup.info = {
   name: 'radio',
-  displayName: '单选组合（radio）'
+  displayName: '单选组合(radio)',
+  icon: '<i class="selected radio icon" />'
 }
 
 export default RadioGroup

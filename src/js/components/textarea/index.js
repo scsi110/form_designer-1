@@ -25,9 +25,9 @@ class Textarea extends WidgetBase {
   createDOM = () => {
     let { tag, config, attrs } = this
     let element = $(
-      `<${tag} class="c-field" ${this.config.readonly ? 'readonly' : ''}></${
-        tag
-      }>`
+      `<${tag} class="c-field" ${
+        this.config.readonly ? 'readonly' : ''
+      }></${tag}>`
     )
 
     Object.keys(attrs).forEach(attr => {
@@ -94,17 +94,13 @@ class Textarea extends WidgetBase {
       <li class="row fd-config-item">
         <div class="col-xs-24 col-sm-24">
           <label>标签</label>
-          <input type="text" class="c-field u-small" data-type="label" value="${
-            label
-          }" />
+          <input type="text" class="c-field u-small" data-type="label" value="${label}" />
         </div>
       </li>
       <li class="row fd-config-item">
         <div class="col-xs-24 col-sm-12">
               <label>文字占位</label>
-              <input type="text" class="c-field u-small" data-type="placeholder" value='${
-                placeholder
-              }' />
+              <input type="text" class="c-field u-small" data-type="placeholder" value='${placeholder}' />
             </div>
         <div class="col-xs-24 col-sm-12">
           <label>默认值</label>
@@ -116,9 +112,7 @@ class Textarea extends WidgetBase {
       <li class="row fd-config-item">
         <div class="col-xs-24 col-sm-12">
           <label>行数(文本框宽度)</label>
-          <input type="text" class="c-field u-small" data-type="rows" value="${
-            rows
-          }" />
+          <input type="text" class="c-field u-small" data-type="rows" value="${rows}" />
         </div>
         <div class="col-xs-24 col-sm-12">
           <label>最大字数限制</label>
@@ -187,7 +181,9 @@ class Textarea extends WidgetBase {
           </div>
       </li>
 
-      <li class="fd-config-item row input_customer_reg" style="display:${validate.rule === 'customerRule' ? 'block' : 'none'}">
+      <li class="fd-config-item row input_customer_reg" style="display:${
+        validate.rule === 'customerRule' ? 'block' : 'none'
+      }">
           <div class="col-xs-24 col-sm-24">
             <label>自定义规则</label>
             <input type="text" class="c-field u-small" placeholder="请输入自定义的正则表达式" />
@@ -261,7 +257,7 @@ class Textarea extends WidgetBase {
       self.emitChange()
     })
 
-    input_customer_reg.on('input','input',function() {
+    input_customer_reg.on('input', 'input', function() {
       const $this = $(this)
       const rule = $this.val()
       curConfig.validate.customer = rule
@@ -279,7 +275,8 @@ class Textarea extends WidgetBase {
 
 Textarea.info = {
   name: 'Textarea',
-  displayName: '多行文本框'
+  displayName: '多行文本框',
+  icon: '<i class="file text outline icon"></i>'
 }
 
 export default Textarea

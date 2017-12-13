@@ -10,7 +10,7 @@ const bindColEvent = col => {
     if (col.children().length > 0) {
       return
     }
-    $(this).css('border', '1px solid gold')
+    $(this).css('border', '1px solid #2196f3')
   })
 
   col.on('dragleave', function(event) {

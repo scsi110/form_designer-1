@@ -78,17 +78,13 @@ class DatePicker extends WidgetBase {
       <li class="row fd-config-item">
         <div class="col-xs-24">
           <label>文字占位</label>
-          <input type="text" class="c-field u-small" data-type="placeholder" value='${
-            placeholder
-          }' />
+          <input type="text" class="c-field u-small" data-type="placeholder" value='${placeholder}' />
         </div>
       </li>
       <li class="row fd-config-item">
         <div class="col-xs-24">
           <label>标签</label>
-          <input type="text" class="c-field u-small" data-type="label" value="${
-            label
-          }" />
+          <input type="text" class="c-field u-small" data-type="label" value="${label}" />
         </div>
       </li>
       <li class="row fd-config-item">
@@ -102,9 +98,7 @@ class DatePicker extends WidgetBase {
       <li class="row fd-config-item">
         <div class="col-xs-24">
           <label>选择器类型</label>
-          <select type="text" class="c-field" data-type="pickerType" value="${
-            label
-          }" id="datePickerTypeChoice">
+          <select type="text" class="c-field" data-type="pickerType" value="${label}" id="datePickerTypeChoice">
             <option value="date">日期选择器</option>
             <option value="year">年选择器</option>
             <option value="month">月选择器</option>
@@ -169,7 +163,8 @@ class DatePicker extends WidgetBase {
 
 DatePicker.info = {
   name: 'datepicker',
-  displayName: '日期选择器'
+  displayName: '日期选择器',
+  icon: '<i class="calendar icon"></i>'
 }
 
 export default DatePicker

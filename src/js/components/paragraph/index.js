@@ -40,9 +40,7 @@ class Paragraph extends WidgetBase {
       <li class="row fd-config-item">
             <div class="col-xs-24 col-sm-24">
               <label>文本内容</label>
-              <textarea class="c-field" rows="5" placeholder="请输入文字">${
-                content
-              }</textarea>
+              <textarea class="c-field" rows="5" placeholder="请输入文字">${content}</textarea>
             </div>
       </li>
       <li class="row fd-config-item paragraph-text-color">
@@ -110,7 +108,8 @@ class Paragraph extends WidgetBase {
 
 Paragraph.info = {
   name: 'paragraph',
-  displayName: '文字段落'
+  displayName: '文字段落',
+  icon: '<i class="paragraph icon"></i>'
 }
 
 export default Paragraph

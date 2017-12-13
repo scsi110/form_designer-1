@@ -22,6 +22,15 @@ body {
       border-radius: 6px;
     }
 
+    .fd-panel-title {
+      margin-top: 0;
+      padding: 10px;
+      margin-left: 0;
+      background: #2196f3;
+      color: #fff;
+      font-family: 'Microsoft YaHei';
+    }
+
     #fd-widget-panel {
       overflow-y: hidden;
       width: 230px;
@@ -89,7 +98,7 @@ body {
               margin: 0;
               color: rgba(128, 128, 128, 0.47);
               &:hover {
-                color: gold;
+                color: #2196f3;
               }
             }
           }
@@ -97,7 +106,7 @@ body {
           .fd-col {
             border: 1px dashed rgba(128, 128, 128, 0.47);
             min-height: 68px;
-            overflow-y: auto;
+            overflow-y: hidden;
 
             .widget-box {
               position: relative;
@@ -139,6 +148,10 @@ body {
       top: 0;
       overflow: hidden;
 
+      h2 {
+        margin-top: 8px;
+      }
+
       .form-info {
         height: 150px;
         margin-bottom: 10px;
@@ -179,5 +192,5 @@ body {
 }
 
 .configing {
-  border: 1px solid gold !important;
+  border: 1px solid #2196f3 !important;
 }

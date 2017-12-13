@@ -73,17 +73,13 @@ class Text extends WidgetBase {
         <li class="fd-config-item">
           <div class="ui form field">
             <label>标签</label>
-            <input type="text" class="c-field base-input" data-type="label" value="${
-              label
-            }" />
+            <input type="text" class="c-field base-input" data-type="label" value="${label}" />
           </div>
         </li>
         <li class="fd-config-item row">
           <div class="ui form field">
             <label>文字占位</label>
-            <input type="text" class="c-field base-input" data-type="placeholder" value='${
-              placeholder
-            }' />
+            <input type="text" class="c-field base-input" data-type="placeholder" value='${placeholder}' />
           </div>
         </li>
 
@@ -149,8 +145,8 @@ class Text extends WidgetBase {
         </li>
 
         <li class="fd-config-item input_customer_reg" style="display:${
-              validate.rule === 'customerRule' ? 'block' : 'none'
-            }">
+          validate.rule === 'customerRule' ? 'block' : 'none'
+        }">
           <div class="ui form field">
             <label>自定义规则</label>
             <input type="text" class="c-field" placeholder="请输入自定义的正则表达式" />
@@ -234,7 +230,7 @@ class Text extends WidgetBase {
       self.emitChange()
     })
 
-    input_customer_reg.on('input','input',function() {
+    input_customer_reg.on('input', 'input', function() {
       const $this = $(this)
       const rule = $this.val()
       curConfig.validate.customer = rule
@@ -252,7 +248,8 @@ class Text extends WidgetBase {
 
 Text.info = {
   name: 'text',
-  displayName: '单行文本框'
+  displayName: '单行文本框',
+  icon: '<i class="terminal icon"></i>'
 }
 
 export default Text

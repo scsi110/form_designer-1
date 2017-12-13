@@ -70,12 +70,8 @@ class CheckboxGroup extends WidgetBase {
 
       let url =
         dataFetchMethod === 'defaultQuery'
-          ? `${
-              serverBaseUrl
-            }/dynamicform/api/getDataDicts.action?dictTypeCode=${dictTypeCode}`
-          : `${serverBaseUrl}/dynamicform/api/getSqlDictData.action?sql=${
-              customerQuery
-            }`
+          ? `${serverBaseUrl}/dynamicform/api/getDataDicts.action?dictTypeCode=${dictTypeCode}`
+          : `${serverBaseUrl}/dynamicform/api/getSqlDictData.action?sql=${customerQuery}`
 
       $.ajax({
         url,
@@ -119,9 +115,7 @@ class CheckboxGroup extends WidgetBase {
     const { serverBaseUrl } = store.getConfig()
     const { dictTypeCode, dictTypeName, customerQuery } = this.config
     if (dictTypeCode && dictTypeName) {
-      defaultQueryOption = `<option value=${dictTypeCode} selected="selected">${
-        dictTypeName
-      }</option>`
+      defaultQueryOption = `<option value=${dictTypeCode} selected="selected">${dictTypeName}</option>`
     } else if (customerQuery) {
       defaultSQL = customerQuery
     }
@@ -210,9 +204,7 @@ class CheckboxGroup extends WidgetBase {
                  : '<div class="layui-tab-item">'
              }
               <div class="col-xs-24 checkbox-custom-sql-fetch">
-                <textarea class="c-field" placeholder="请输入自定义 SQL 语句" rows="4">${
-                  defaultSQL
-                }</textarea>
+                <textarea class="c-field" placeholder="请输入自定义 SQL 语句" rows="4">${defaultSQL}</textarea>
                 <button type="button" class="c-button c-button--info u-large" style="float:right;margin-top:10px;width:100px;">
                   查询
                 </button>
@@ -315,9 +307,7 @@ class CheckboxGroup extends WidgetBase {
       let { value, label, id } = option
       const newOption = `
         <div class="optionsContainer">
-          <input type="checkbox" name="optionscheckbox" data-type="selected" data-index=${
-            id
-          } />
+          <input type="checkbox" name="optionscheckbox" data-type="selected" data-index=${id} />
           <div class="c-input-group" style="width: calc(100% - 30px);display: inline-flex;">
             <div class="o-field">
               <input class="c-field u-xsmall" placeholder="选项名" data-type="label" value="${
@@ -329,9 +319,7 @@ class CheckboxGroup extends WidgetBase {
                 value ? value : ''
               }" data-index=${id} />
             </div>
-            <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${
-              id
-            }></i>
+            <i class="close icon" style="cursor:pointer;line-height:31px;color:red;" data-index=${id}></i>
           </div>
         </div>
       `
@@ -382,9 +370,7 @@ class CheckboxGroup extends WidgetBase {
           case 1:
             const { dictTypeCode, dictTypeName } = self.config
             if (dictTypeCode && dictTypeName) {
-              tabContent = `<option value=${dictTypeCode} selected="selected">${
-                dictTypeName
-              }</option>`
+              tabContent = `<option value=${dictTypeCode} selected="selected">${dictTypeName}</option>`
               self.configPanelRef
                 .find('.layui-show select')
                 .empty()
@@ -444,7 +430,8 @@ class CheckboxGroup extends WidgetBase {
 
 CheckboxGroup.info = {
   name: 'checkbox',
-  displayName: '多选组合（checkbox）'
+  displayName: '多选组合(checkbox)',
+  icon: '<i class="checkmark box icon"></i>'
 }
 
 export default CheckboxGroup

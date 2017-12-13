@@ -47,19 +47,17 @@ class HiddenInput extends WidgetBase {
     <li class="fd-config-item">
           <div class="ui form field">
             <label>标识</label>
-            <input type="text" class="c-field" data-type="name" value="${name ===
-            undefined
-              ? ''
-              : name}" />
+            <input type="text" class="c-field" data-type="name" value="${
+              name === undefined ? '' : name
+            }" />
           </div>
         </li>
         <li class="fd-config-item">
           <div class="ui form field">
             <label>值</label>
-            <input type="text" class="c-field" data-type="defaultValue" value="${defaultValue ===
-            undefined
-              ? ''
-              : defaultValue}" />
+            <input type="text" class="c-field" data-type="defaultValue" value="${
+              defaultValue === undefined ? '' : defaultValue
+            }" />
           </div>
         </li>      
     </ul>
@@ -86,7 +84,8 @@ class HiddenInput extends WidgetBase {
 
 HiddenInput.info = {
   name: 'hiddenInput',
-  displayName: '隐藏域'
+  displayName: '隐藏域',
+  icon: '<i class="hide icon"></i>'
 }
 
 export default HiddenInput

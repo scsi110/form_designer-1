@@ -13,14 +13,14 @@ const initPage = containerId => {
 
   const widgetPanel = `
     <div class="fd-panel mCustomScrollbar" id="fd-widget-panel" data-mcs-theme="minimal-dark">
-      <h2>布局</h2>
+      <h2 class="fd-panel-title">布局</h2>
       <ul class="widget-panel-menu" id="fd-layout-list">
         <li id="single-column" class="fd-widget" draggable=true data-type='column_one'>单列布局</li>
         <li id="two-collumn" class="fd-widget" draggable=true data-type="column_two">双列布局</li>
         <li id="three-column" class="fd-widget" draggable=true data-type="column_three">三列布局</li>
         <li id="four-column" class="fd-widget" draggable=true data-type="column_four">四列布局</li>
       </ul>
-      <h2>组件</h2>
+      <h2 class="fd-panel-title">组件</h2>
       <ul class="widget-panel-menu" id="fd-widget-list">
       </ul>     
     </div>`
@@ -35,7 +35,7 @@ const initPage = containerId => {
   const editPanel = `
       <div id="fd-edit-panel">
         <div class="edit-panel-wrapper widget-edit mCustomScrollbar" data-mcs-theme="minimal-dark">
-          <h2>组件编辑面板</h2>
+          <h2 class="fd-panel-title">编辑面板</h2>
           <div id="fd-widget-edit-container"></div>
         </div>
       </div>`

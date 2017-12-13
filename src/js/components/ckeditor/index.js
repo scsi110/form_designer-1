@@ -125,26 +125,20 @@ class CKEditor extends WidgetBase {
       <li class="row fd-config-item">
         <div class="col-xs-24">
           <label>标签</label>
-          <input type="text" class="c-field u-small" data-type="label" value="${
-            label
-          }" />
+          <input type="text" class="c-field u-small" data-type="label" value="${label}" />
         </div>
       </li>
       <li class="row fd-config-item">
         <div class="col-xs-24">
           <label>宽度</label>
-          <input type="text" class="c-field u-small" data-type="width" value="${
-            width
-          }" />
+          <input type="text" class="c-field u-small" data-type="width" value="${width}" />
         </div>
         
       </li>
       <li class="row fd-config-item">
         <div class="col-xs-24">
           <label>高度</label>
-          <input type="text" class="c-field u-small" data-type="height" value="${
-            height
-          }" />
+          <input type="text" class="c-field u-small" data-type="height" value="${height}" />
         </div>
       </li>
 
@@ -192,7 +186,8 @@ class CKEditor extends WidgetBase {
 
 CKEditor.info = {
   name: 'ckeditor',
-  displayName: '富文本编辑器'
+  displayName: '富文本编辑器',
+  icon: '<i class="file word outline icon"></i>'
 }
 
 export default CKEditor

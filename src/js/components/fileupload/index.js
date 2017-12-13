@@ -83,9 +83,7 @@ class FileUpload extends WidgetBase {
       <li class="row fd-config-item">
             <div class="col-xs-24 col-sm-24">
               <label>文本占位</label>
-              <input type="text" class="c-field u-small" data-type="placeholder" value="${
-                placeholder
-              }" />
+              <input type="text" class="c-field u-small" data-type="placeholder" value="${placeholder}" />
             </div>
       </li>
       <li class="row fd-config-item">
@@ -195,7 +193,8 @@ class FileUpload extends WidgetBase {
 
 FileUpload.info = {
   name: 'fileUpload',
-  displayName: '文件上传器'
+  displayName: '文件上传器',
+  icon: '<i class="upload icon"></i>'
 }
 
 export default FileUpload
