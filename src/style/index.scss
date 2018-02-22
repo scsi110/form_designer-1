@@ -26,9 +26,12 @@ body {
       margin-top: 0;
       padding: 10px;
       margin-left: 0;
-      background: #2196f3;
-      color: #fff;
-      font-family: 'Microsoft YaHei';
+      background: #eee;
+      color: #484545;
+      font-family: 'Helvetica Neue For Number', -apple-system,
+        BlinkMacSystemFont, 'Segoe UI', Roboto, 'PingFang SC',
+        'Hiragino Sans GB', 'Microsoft YaHei', 'Helvetica Neue', Helvetica,
+        Arial, sans-serif;
     }
 
     #fd-widget-panel {
@@ -70,6 +73,7 @@ body {
         overflow-y: hidden;
 
         .fd-row {
+          box-shadow: 1px 1px 5px #eee;
           float: right;
           margin: 6px;
           padding: 4px 4px 4px 4px;
@@ -192,5 +196,5 @@ body {
 }
 
 .configing {
-  border: 1px solid #2196f3 !important;
+  border: 1px solid #0179d0 !important;
 }

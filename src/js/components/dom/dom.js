@@ -7,7 +7,7 @@ const Row = `
 `
 
 const Column = `
-  <div class="fd-col"div>
+  <div class="fd-col"></div>
 `
 
 const Label = `

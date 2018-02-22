@@ -65,13 +65,13 @@ const form = new FormDesigner({
   formDescriber: true
 })
 
-// window.onbeforeunload = function() {
-//   sessionStorage.setItem('formData', form.getData())
-// }
+window.onbeforeunload = function() {
+  sessionStorage.setItem('formData', form.getData())
+}
 
-// window.onload = function() {
-//   const formData = sessionStorage.getItem('formData')
-//   if (formData && form) {
-//     form.createForm(formData)
-//   }
-// }
+window.onload = function() {
+  const formData = sessionStorage.getItem('formData')
+  if (formData && form) {
+    form.createForm(formData)
+  }
+}
